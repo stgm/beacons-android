@@ -1,7 +1,7 @@
 beacons-android
 ===============
 
-Android(4.3+) app that uses Estimote beacons for teaching assistance.
+Android app that uses Estimote beacons for teaching assistance.
 Minimum required API level is 18 (Android 4.3+). The app requires Bluetooth Low Energy support.
 This project is built with Android Studio
 
