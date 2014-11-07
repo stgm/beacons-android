@@ -26,6 +26,9 @@ import com.estimote.sdk.utils.L;
 
 import java.util.List;
 
+import nl.uva.beacons.api.BeaconApi;
+import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
 import nl.uva.beacons.fragments.OverviewFragment;
 
@@ -34,7 +37,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     BeaconManager.RangingListener, BeaconManager.MonitoringListener {
 
   /* TODO: which proximity UUID? */
-  private static final String ESTIMOTE_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+  private static final String ESTIMOTE_PROXIMITY_UUID = "EBEFD083-70A2-47C8-9837-E7B5634DF524";
   private static final Region ALL_ESTIMOTE_BEACONS = new Region("minprog", ESTIMOTE_PROXIMITY_UUID, null, null);
   private static final int REQUEST_ENABLE_BT = 1234;
 
@@ -50,7 +53,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.inflateMenu(R.menu.main);
     setSupportActionBar(toolbar);
@@ -137,10 +139,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   public void onNavigationDrawerItemSelected(int position) {
     /* update the main content by replacing fragments */
     FragmentManager fragmentManager = getFragmentManager();
-    OverviewFragment overviewFragment = new OverviewFragment();
-    Bundle args = new Bundle();
-    args.putInt("POSITION", position);
-    overviewFragment.setArguments(args);
+    LoginFragment overviewFragment = new LoginFragment();
+    //OverviewFragment overviewFragment = new OverviewFragment();
+    //Bundle args = new Bundle();
+    //args.putInt("POSITION", position);
+    //overviewFragment.setArguments(args);
     fragmentManager.beginTransaction()
         .replace(R.id.container, overviewFragment)
         .commit();
