@@ -6,43 +6,50 @@
 package nl.uva.beacons;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.estimote.sdk.Beacon;
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Region;
-import com.estimote.sdk.utils.L;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
 
-import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
 
-import nl.uva.beacons.api.BeaconApi;
 import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.fragments.AssistantListFragment;
+import nl.uva.beacons.fragments.HelpFragment;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
-import nl.uva.beacons.fragments.OverviewFragment;
+import nl.uva.beacons.fragments.SettingsFragment;
+import nl.uva.beacons.fragments.StudentListFragment;
 
-/* Main activity that uses the Estimote SDK for Android (https://github.com/Estimote/Android-SDK) */
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-    BeaconManager.RangingListener, BeaconManager.MonitoringListener {
+    BeaconConsumer, LoginFragment.LoginListener {
 
-  /* TODO: which proximity UUID? */
-  private static final String ESTIMOTE_PROXIMITY_UUID = "EBEFD083-70A2-47C8-9837-E7B5634DF524";
-  private static final Region ALL_ESTIMOTE_BEACONS = new Region("minprog", ESTIMOTE_PROXIMITY_UUID, null, null);
+  public static final String KEY_SHARED_PREFS = "key_shared_prefs";
+
   private static final int REQUEST_ENABLE_BT = 1234;
-
   private static final String TAG = MainActivity.class.getSimpleName();
-  private BeaconManager mBeaconManager;
+  private BeaconManager mBeaconManager = BeaconManager.getInstanceForApplication(this);
+  private BeaconTracker mBeaconTracker;
+
+  private static final int PAGE_ASSISTANT_LIST = 0;
+  private static final int PAGE_STUDENT_LIST = 1;
+  private static final int PAGE_HELP = 2;
+  private static final int PAGE_QUESTIONS = 3;
 
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -53,99 +60,102 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    toolbar.inflateMenu(R.menu.main);
-    setSupportActionBar(toolbar);
 
     mNavigationDrawerFragment = (NavigationDrawerFragment)
-        getFragmentManager().findFragmentById(R.id.navigation_drawer);
+       getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-    /* Set up the navigation drawer. */
-    mNavigationDrawerFragment.setUp(
-        R.id.navigation_drawer,
-        (DrawerLayout) findViewById(R.id.drawer_layout),
-        toolbar);
-
-    /* Set up the beacon manager */
-    L.enableDebugLogging(true);
-    mBeaconManager = new BeaconManager(this);
-    mBeaconManager.setRangingListener(this);
-    mBeaconManager.setMonitoringListener(this);
+    DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    Log.d(TAG, "onCreate...");
+    if (isLoggedIn()) {
+      Log.d(TAG, "Logged in");
+      onLoginSuccess();
+    } else {
+      Log.d(TAG, "Not logged in");
+      mNavigationDrawerFragment.setDrawerEnabled(drawerLayout, false);
+      addFragment(LoginFragment.newInstance(this));
+    }
   }
 
-  @Override
-  public void onBeaconsDiscovered(Region region, List<Beacon> beacons) {
-    Log.d(TAG, "onBeaconsDiscovered: " + beacons);
+  private void checkBluetoothSupport() {
+    if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+      Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_LONG).show();
+      return;
+    }
+
+    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    if (mBluetoothAdapter != null) {
+      if (!mBluetoothAdapter.isEnabled()) {
+        /* Bluetooth is not enabled
+         * Ask user to enable bluetooth
+         */
+        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+      }
+    }
   }
 
-  @Override
-  public void onEnteredRegion(Region region, List<Beacon> beacons) {
-    Log.d(TAG, "onEnteredRegion: " + region.toString());
-  }
-
-  @Override
-  public void onExitedRegion(Region region) {
-    Log.d(TAG, "onExitedRegion: " + region.toString());
+  public void setDrawerBackButton(boolean enabled) {
+    getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
   }
 
   @Override
   protected void onStart() {
     super.onStart();
-    /* Check if device supports Bluetooth Low Energy. */
-    if (!mBeaconManager.hasBluetooth()) {
-      Toast.makeText(this, "Device does not have Bluetooth Low Energy", Toast.LENGTH_LONG).show();
-      return;
-    }
-
-    /* If Bluetooth is not enabled, let user enable it. */
-    if (!mBeaconManager.isBluetoothEnabled()) {
-      startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
-    } else {
-      connectBeaconManager();
-    }
-
-  }
-
-  @Override
-  protected void onStop() {
-    try {
-      mBeaconManager.stopRanging(ALL_ESTIMOTE_BEACONS);
-    } catch (RemoteException e) {
-      Log.e(TAG, "Cannot stop but it does not matter now", e);
-    }
-
-    super.onStop();
+    checkBluetoothSupport();
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == REQUEST_ENABLE_BT) {
-      if (resultCode == Activity.RESULT_OK) {
-        connectBeaconManager();
-      } else {
+      if (resultCode != Activity.RESULT_OK) {
         Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
       }
+    } else if(resultCode == SettingsFragment.RESULT_LOG_OUT) {
+      recreate();
     }
     super.onActivityResult(requestCode, resultCode, data);
   }
 
   @Override
   protected void onDestroy() {
-    mBeaconManager.disconnect();
+    mBeaconManager.unbind(this);
     super.onDestroy();
   }
 
   @Override
   public void onNavigationDrawerItemSelected(int position) {
-    /* update the main content by replacing fragments */
+    /* Update the main content by replacing fragments */
+    if(isLoggedIn()) {
+      Log.d(TAG, "Selected drawer item at position: " + position);
+      switch (position) {
+        case PAGE_ASSISTANT_LIST:
+          replaceFragment(new AssistantListFragment());
+          break;
+        case PAGE_STUDENT_LIST:
+          replaceFragment(new StudentListFragment());
+          break;
+        case PAGE_HELP:
+          replaceFragment(new HelpFragment());
+          break;
+      }
+    }
+  }
+
+  private boolean isLoggedIn() {
+    return getSharedPreferences(KEY_SHARED_PREFS, Context.MODE_PRIVATE).contains(getString(R.string.pref_key_user_token));
+  }
+
+  private void replaceFragment(Fragment fragment) {
     FragmentManager fragmentManager = getFragmentManager();
-    LoginFragment overviewFragment = new LoginFragment();
-    //OverviewFragment overviewFragment = new OverviewFragment();
-    //Bundle args = new Bundle();
-    //args.putInt("POSITION", position);
-    //overviewFragment.setArguments(args);
     fragmentManager.beginTransaction()
-        .replace(R.id.container, overviewFragment)
+        .replace(R.id.container, fragment)
+        .commit();
+  }
+
+  private void addFragment(Fragment fragment) {
+    FragmentManager fragmentManager = getFragmentManager();
+    fragmentManager.beginTransaction()
+        .add(R.id.container, fragment)
         .commit();
   }
 
@@ -157,20 +167,49 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    return super.onOptionsItemSelected(item);
+    Log.d(TAG, "Options item clicked");
+
+    if (item.getItemId() == R.id.action_settings) {
+      Intent intent = new Intent(this, SettingsActivity.class);
+      startActivityForResult(intent, 0);
+      return true;
+    }
+    return false;
   }
 
-  private void connectBeaconManager() {
-    mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-      @Override
-      public void onServiceReady() {
-        try {
-          mBeaconManager.startRanging(ALL_ESTIMOTE_BEACONS);
-        } catch (RemoteException e) {
-          Log.e(TAG, "Cannot start ranging", e);
-        }
-      }
-    });
+  @Override
+  public void onBackPressed() {
+    if (getFragmentManager().getBackStackEntryCount() == 0) {
+      super.onBackPressed();
+    } else getFragmentManager().popBackStack();
+  }
+
+  @Override
+  public void onBeaconServiceConnect() {
+    mBeaconTracker = new BeaconTracker(mBeaconManager, this);
+    mBeaconTracker.startTracking();
+  }
+
+  @Override
+  public void onLoginSuccess() {
+    getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    BeaconApiClient.init(this);
+
+    mNavigationDrawerFragment.setUp(
+        R.id.navigation_drawer,
+        (DrawerLayout) findViewById(R.id.drawer_layout));
+
+    /* Set up the beacon manager */
+    mBeaconManager.bind(this);
+
+    onNavigationDrawerItemSelected(0);
+  }
+
+  @Override
+  public void onLoginFailure() {
+
   }
 
 }

@@ -1,4 +1,8 @@
 package nl.uva.beacons.api;
+import org.json.JSONArray;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,21 +21,25 @@ public interface BeaconApi {
   @POST("/tracking/register")
   void registerUser(@Field("code") String code, Callback<Map<String, String>> callback);
 
-  /* Response list or map?:
-   * [["Martijn Stegeman",1,2,true,"2014-10-09T17:21:29.954+02:00"]]
-   * attributes: name, major, minor, needs_help, last_seen
-   */
+/* returns one of:
+ * role: 'assistant'
+ * role: 'student'
+ */
   @FormUrlEncoded
   @POST("/tracking/tokenized/identify")
   void identifyUser(@Field("token") String token, Callback<Map<String, String>> callback);
 
+  /* Response list or map?:
+ * [["Martijn Stegeman",1,2,true,"2014-10-09T17:21:29.954+02:00"]]
+ * attributes: name, major, minor, needs_help, last_seen
+ */
   @FormUrlEncoded
   @POST("/tracking/tokenized/list_students")
-  void getStudentList(@Field("token") String token, List<List<String>> callback);
+  void getStudentList(@Field("token") String token, CancelableCallback<JSONArray> callback);
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/list_assistants")
-  void getAssistantList(@Field("token") String token, List<List<String>> callback);
+  void getAssistantList(@Field("token") String token, CancelableCallback<JSONArray> callback);
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/ping")

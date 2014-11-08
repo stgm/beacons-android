@@ -2,13 +2,40 @@
 <resources>
 
     <string name="app_name">Beacons</string>
+
+    <!-- Navigation drawer -->
     <string name="title_section_help">Vraag om hulp</string>
     <string name="title_section_students_list">Studentenlijst</string>
     <string name="title_section_assistents_list">Assistentenlijst</string>
     <string name="title_section_questions">Vragenoverzicht</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- General -->
+    <string name="log_in_title">Inloggen met pairing code</string>
+    <string name="log_in_hint">4-cijferige code</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_busy">Bezig met inloggen&#8230;</string>
+    <string name="log_in_failed">Inloggen is mislukt</string>
+
+    <string name="ble_not_supported">Dit device ondersteunt geen Bluetooth Low Energy</string>
     <string name="action_example">Refresh</string>
     <string name="action_settings">Settings</string>
 
+    <!-- (Shared) Preferences -->
+    <string name="pref_title_category_scanning">Beacons scannen</string>
+    <string name="pref_title_checkbox_bg_scanning">Scannen op achtergrond</string>
+    <string name="pref_checkbox_bg_scanning_description">Laat deze app in de achtergrond naar beacons scannen</string>
+    <string name="pref_title_scan_interval">Scaninterval</string>
+    <string name="pref_key_user_token">pref_key_user_token</string>
+    <string name="pref_key_user_role">pref_key_user_role</string>
+    <string name="pref_key_proximity_uuid">pref_key_proximity_uuid</string>
+    <string name="pref_key_endpoint_url">pref_key_endpoint_url</string>
+
+    <string name="pref_title_log_out">Uitloggen</string>
+    <string name="pref_log_out_description">Klik hier om uit te loggen</string>
+
+    <!-- Endpoint URLs -->
+    <string name="url_apps_mprog">http://apps.mprog.nl</string>
+    <string name="url_prog2_mprog">http://prog2.mprog.nl</string>
 </resources>

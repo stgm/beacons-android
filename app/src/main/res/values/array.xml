@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="preferences_scan_interval">
+        <item>1 sec</item>
+        <item>5 sec</item>
+        <item>10 sec</item>
+        <item>20 sec</item>
+        <item>1 min</item>
+        <item>5 min</item>
+    </string-array>
+
+    <string-array name="preferences_scan_interval_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>60</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="spinner_course_names">
+        <item>Programmeren 2</item>
+        <item>App Studio</item>
+    </string-array>
+
+    <string-array name="spinner_course_url_values">
+        <item>@string/url_prog2_mprog</item>
+        <item>@string/url_apps_mprog</item>
+    </string-array>
+</resources>

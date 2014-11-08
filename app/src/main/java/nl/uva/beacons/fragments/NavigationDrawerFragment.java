@@ -14,9 +14,12 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -98,8 +101,8 @@ public class NavigationDrawerFragment extends Fragment {
         android.R.layout.simple_list_item_activated_1,
         android.R.id.text1,
         new String[]{
-            getString(R.string.title_section_students_list),
             getString(R.string.title_section_assistents_list),
+            getString(R.string.title_section_students_list),
             getString(R.string.title_section_help),
             getString(R.string.title_section_questions)
         }));
@@ -111,26 +114,37 @@ public class NavigationDrawerFragment extends Fragment {
     return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
   }
 
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
+  }
+
   /**
    * Users of this fragment must call this method to set up the navigation drawer interactions.
    *
    * @param fragmentId   The android:id of this fragment in its activity's layout.
    * @param drawerLayout The DrawerLayout containing this fragment's UI.
    */
-  public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
+  public void setUp(int fragmentId, DrawerLayout drawerLayout) {
     mFragmentContainerView = getActivity().findViewById(fragmentId);
     mDrawerLayout = drawerLayout;
+
+    setDrawerEnabled(drawerLayout, true);
 
     // set a custom shadow that overlays the main content when the drawer opens
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
     // set up the drawer's list view with items and click listener
+
+    //ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+    //actionBar.setDisplayHomeAsUpEnabled(true);
+    //actionBar.setHomeButtonEnabled(true);
 
     // ActionBarDrawerToggle ties together the the proper interactions
     // between the navigation drawer and the action bar app icon.
     mDrawerToggle = new ActionBarDrawerToggle(
         getActivity(),                    /* host Activity */
         mDrawerLayout,                    /* DrawerLayout object */
-        toolbar,             /* nav drawer image to replace 'Up' caret */
         R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
         R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
     ) {
@@ -204,10 +218,24 @@ public class NavigationDrawerFragment extends Fragment {
     }
   }
 
+  public void setDrawerEnabled(DrawerLayout drawerLayout, boolean enabled) {
+    if(enabled) {
+      drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    } else {
+      drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+  }
+
   @Override
   public void onDetach() {
     super.onDetach();
     mCallbacks = null;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    return mDrawerLayout.getDrawerLockMode(Gravity.START) == DrawerLayout.LOCK_MODE_LOCKED_CLOSED ||
+        mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }
 
   @Override

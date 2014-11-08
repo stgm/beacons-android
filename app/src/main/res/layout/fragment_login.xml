@@ -3,23 +3,36 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
+              android:gravity="top"
               android:layout_marginLeft="20dp"
-              android:layout_marginRight="20dp">
+              android:layout_marginRight="20dp"
+              android:layout_marginTop="30dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Minor programmeren"
+        android:text="@string/log_in_title"
         android:textSize="25sp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/material_primary_indigo"/>
+
+
+    <Spinner
+        android:id="@+id/spinner_select_course"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:entries="@array/spinner_course_names"
+        android:entryValues="@array/spinner_course_url_values"
         android:layout_marginBottom="50dp"
-        android:textColor="@android:color/holo_blue_dark"/>
+        >
+    </Spinner>
+
 
     <EditText
         android:id="@+id/pinInput"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:hint="4 cijferige code"
+        android:hint="@string/log_in_hint"
         android:inputType="numberDecimal"
         android:layout_marginBottom="5dp"/>
 
@@ -27,7 +40,7 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log in"
-        android:textColor="@android:color/holo_blue_dark"/>
+        android:text="@string/log_in"
+        android:textColor="@color/material_primary_indigo"/>
 
 </LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="@string/pref_title_checkbox_bg_scanning"
+        android:title="@string/pref_title_category_scanning"
+        android:checked="true"
+        android:summary="@string/pref_checkbox_bg_scanning_description" />
+
+    <ListPreference
+        android:key="@string/pref_title_scan_interval"
+        android:title="@string/pref_title_scan_interval"
+        android:entries="@array/preferences_scan_interval"
+        android:entryValues="@array/preferences_scan_interval_values"
+        android:dialogTitle="@string/pref_title_scan_interval" />
+
+    <Preference
+        android:key="@string/pref_title_log_out"
+        android:title="@string/pref_title_log_out"
+        android:summary="@string/pref_log_out_description">
+
+    </Preference>
+
+</PreferenceScreen>

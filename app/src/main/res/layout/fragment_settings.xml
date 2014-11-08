@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp">
+
+    <LinearLayout
+        android:id="@+id/pref_scan_beacons_switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:clickable="true">
+        <TextView
+            android:text="@string/pref_title_category_scanning"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="?attr/listPreferredItemHeight"
+            />
+
+        <Switch
+            android:id="@+id/pref_scan_beacons_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/listPreferredItemHeight"
+            android:text="@string/pref_title_scan_interval"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            />
+        <Spinner
+            android:id="@+id/interval_spinner"
+            android:layout_width="match_parent"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:text="@string/pref_title_scan_interval"
+            android:layout_height="?attr/listPreferredItemHeight"
+            android:entries="@array/preferences_scan_interval"
+            android:entryValues="@array/preferences_scan_interval_values"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/preference_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:textSize="16sp"
+        android:text="@string/pref_title_log_out"
+        android:textColor="@android:color/black"
+        android:gravity="center_vertical"
+        android:clickable="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/listPreferredItemHeight"
+            />
+    </LinearLayout>
+
+</LinearLayout>
