@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import nl.uva.beacons.R;
-import nl.uva.beacons.adapters.AssistantListAdapter;
-import nl.uva.beacons.adapters.BeaconListAdapter;
 import nl.uva.beacons.adapters.StudentListAdapter;
+import nl.uva.beacons.adapters.BeaconListAdapter;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
@@ -29,8 +29,9 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/7/14.
  */
-public class StudentListFragment extends Fragment {
+public class StudentListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
   private static final String TAG = StudentListFragment.class.getSimpleName();
+  private SwipeRefreshLayout mSwipeRefreshLayout;
   private StudentListAdapter mAdapter;
 
   @Nullable
@@ -39,12 +40,21 @@ public class StudentListFragment extends Fragment {
     setHasOptionsMenu(true);
     View v = inflater.inflate(R.layout.fragment_student_list, container, false);
 
-    ListView assistantListView = (ListView) v.findViewById(R.id.fragment_student_list_view);
-    assistantListView.setEmptyView(v.findViewById(R.id.students_empty_view));
+    ListView studentListView = (ListView) v.findViewById(R.id.fragment_student_list_view);
+    studentListView.setEmptyView(v.findViewById(R.id.students_empty_view));
 
     mAdapter = new StudentListAdapter(getActivity());
-    assistantListView.setAdapter(mAdapter);
+    studentListView.setAdapter(mAdapter);
 
+    mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
+    mSwipeRefreshLayout.setOnRefreshListener(this);
+    mSwipeRefreshLayout.setColorSchemeResources(R.color.material_dark_indigo, R.color.material_primary_indigo, R.color.material_light_indigo);
+    loadStudents();
+
+    return v;
+  }
+
+  private void loadStudents() {
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     BeaconApiClient.get().getStudentList(sharedPreferences.getString(getString(R.string.pref_key_user_token), ""),
         new CancelableCallback<List<Map<String, String>>>(this) {
@@ -53,13 +63,19 @@ public class StudentListFragment extends Fragment {
             Log.d(TAG, "onSuccess: " + studentList.toString());
             mAdapter.clear();
             mAdapter.addAll(studentList);
+            mSwipeRefreshLayout.setRefreshing(false);
           }
 
           @Override
           public void onFailure(RetrofitError error) {
             Log.d(TAG, "onFailure: " + error.getMessage());
+            mSwipeRefreshLayout.setRefreshing(false);
           }
         });
-    return v;
+  }
+
+  @Override
+  public void onRefresh() {
+    loadStudents();
   }
 }
