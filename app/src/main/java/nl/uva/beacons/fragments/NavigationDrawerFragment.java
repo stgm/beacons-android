@@ -8,14 +8,12 @@ package nl.uva.beacons.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,6 +32,12 @@ import nl.uva.beacons.R;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
+
+  public static final int PAGE_ASSISTANT_LIST = 0;
+  public static final int PAGE_STUDENT_LIST = 1;
+  public static final int PAGE_HELP = 2;
+  public static final int PAGE_QUESTIONS = 3;
+  public static final int PAGE_SCAN_BEACONS = 4;
 
   /**
    * Remember the position of the selected item.
@@ -104,7 +108,8 @@ public class NavigationDrawerFragment extends Fragment {
             getString(R.string.title_section_assistents_list),
             getString(R.string.title_section_students_list),
             getString(R.string.title_section_help),
-            getString(R.string.title_section_questions)
+            getString(R.string.title_section_questions),
+            getString(R.string.title_section_scan_beacons)
         }));
     mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
     return mDrawerListView;
@@ -219,7 +224,7 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
   public void setDrawerEnabled(DrawerLayout drawerLayout, boolean enabled) {
-    if(enabled) {
+    if (enabled) {
       drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     } else {
       drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);

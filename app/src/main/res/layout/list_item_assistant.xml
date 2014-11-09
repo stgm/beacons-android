@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="?attr/listPreferredItemHeightLarge"
+              android:gravity="center_vertical"
+              android:paddingLeft="@dimen/list_item_horizontal_margin"
+              android:paddingRight="@dimen/list_item_horizontal_margin">
+    <ImageView
+        android:id="@+id/assistant_image"
+        android:src="@drawable/person_placeholder"
+        tools:text="1.0"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="15dp"/>
+
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="?attr/listPreferredItemHeightLarge"
+                  android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/assistant_name"
+            tools:text="Assistant name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:textSize="@dimen/list_item_title_size"
+            android:textColor="@color/material_dark_indigo"
+            />
+
+        <TextView
+            android:id="@+id/assistant_details"
+            tools:text="Last seen or other info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_item_subtitle_size"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -3,15 +3,13 @@
  * Copyright (c) 2014 Sander Lijbrink
  */
 
-package nl.uva.beacons;
+package nl.uva.beacons.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,36 +18,30 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 
-import java.util.prefs.PreferenceChangeEvent;
-
+import nl.uva.beacons.tracking.BeaconTracker;
+import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.fragments.AssistantListFragment;
+import nl.uva.beacons.fragments.BeaconListFragment;
 import nl.uva.beacons.fragments.HelpFragment;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
+import nl.uva.beacons.fragments.QuestionsFragment;
 import nl.uva.beacons.fragments.SettingsFragment;
 import nl.uva.beacons.fragments.StudentListFragment;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
     BeaconConsumer, LoginFragment.LoginListener {
 
-  public static final String KEY_SHARED_PREFS = "key_shared_prefs";
-
   private static final int REQUEST_ENABLE_BT = 1234;
   private static final String TAG = MainActivity.class.getSimpleName();
   private BeaconManager mBeaconManager = BeaconManager.getInstanceForApplication(this);
   private BeaconTracker mBeaconTracker;
-
-  private static final int PAGE_ASSISTANT_LIST = 0;
-  private static final int PAGE_STUDENT_LIST = 1;
-  private static final int PAGE_HELP = 2;
-  private static final int PAGE_QUESTIONS = 3;
 
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -62,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     setContentView(R.layout.activity_main);
 
     mNavigationDrawerFragment = (NavigationDrawerFragment)
-       getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
     DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     Log.d(TAG, "onCreate...");
@@ -110,10 +102,21 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
       if (resultCode != Activity.RESULT_OK) {
         Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
       }
-    } else if(resultCode == SettingsFragment.RESULT_LOG_OUT) {
-      recreate();
+    } else if (resultCode == SettingsFragment.RESULT_LOG_OUT) {
+      Log.d(TAG, "Restarting mainActivity...");
+      restartActivity();
     }
     super.onActivityResult(requestCode, resultCode, data);
+  }
+
+  private void restartActivity() {
+    Intent intent = getIntent();
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    finish();
+    overridePendingTransition(0, 0);
+
+    startActivity(intent);
+    overridePendingTransition(0, 0);
   }
 
   @Override
@@ -125,37 +128,50 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   @Override
   public void onNavigationDrawerItemSelected(int position) {
     /* Update the main content by replacing fragments */
-    if(isLoggedIn()) {
+    if (isLoggedIn()) {
       Log.d(TAG, "Selected drawer item at position: " + position);
       switch (position) {
-        case PAGE_ASSISTANT_LIST:
+        case NavigationDrawerFragment.PAGE_ASSISTANT_LIST:
           replaceFragment(new AssistantListFragment());
           break;
-        case PAGE_STUDENT_LIST:
+        case NavigationDrawerFragment.PAGE_STUDENT_LIST:
           replaceFragment(new StudentListFragment());
           break;
-        case PAGE_HELP:
+        case NavigationDrawerFragment.PAGE_HELP:
           replaceFragment(new HelpFragment());
+          break;
+        case NavigationDrawerFragment.PAGE_SCAN_BEACONS:
+          replaceFragment(new BeaconListFragment());
+          break;
+        case NavigationDrawerFragment.PAGE_QUESTIONS:
+          replaceFragment(new QuestionsFragment());
           break;
       }
     }
   }
 
   private boolean isLoggedIn() {
-    return getSharedPreferences(KEY_SHARED_PREFS, Context.MODE_PRIVATE).contains(getString(R.string.pref_key_user_token));
+    return PreferenceManager.getDefaultSharedPreferences(this).contains(getString(R.string.pref_key_user_token));
   }
 
   private void replaceFragment(Fragment fragment) {
     FragmentManager fragmentManager = getFragmentManager();
+
+    String fragmentClassNameAsTag = fragment.getClass().getName();
+    Fragment f = fragmentManager.findFragmentByTag(fragmentClassNameAsTag);
+    if(f != null && f.isAdded()) {
+      /* This fragment is already active, do nothing */
+      return;
+    }
     fragmentManager.beginTransaction()
-        .replace(R.id.container, fragment)
+        .replace(R.id.container, fragment,fragmentClassNameAsTag)
         .commit();
   }
 
   private void addFragment(Fragment fragment) {
     FragmentManager fragmentManager = getFragmentManager();
     fragmentManager.beginTransaction()
-        .add(R.id.container, fragment)
+        .add(R.id.container, fragment, fragment.getClass().getName())
         .commit();
   }
 
@@ -212,4 +228,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
   }
 
+  public BeaconTracker getBeaconTracker() {
+    return mBeaconTracker;
+  }
 }

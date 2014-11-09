@@ -1,4 +1,5 @@
 package nl.uva.beacons.api;
+
 import android.app.Fragment;
 import android.util.Log;
 
@@ -23,10 +24,12 @@ public abstract class CancelableCallback<T> implements Callback<T> {
       this.fragment = new WeakReference<Fragment>(fragment);
     }
   }
+
   protected CancelableCallback() {
   }
 
   public abstract void onSuccess(T t, Response response);
+
   public abstract void onFailure(RetrofitError error);
 
   @Override

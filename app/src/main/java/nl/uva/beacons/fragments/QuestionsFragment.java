@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import nl.uva.beacons.MainActivity;
-
 /**
  * Created by sander on 11/7/14.
  */

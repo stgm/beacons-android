@@ -6,13 +6,13 @@
     >
 
     <ListView
-        android:id="@+id/fragment_assistant_list_view"
+        android:id="@+id/fragment_beacons_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
 
     <LinearLayout
-        android:id="@+id/assistants_empty_view"
+        android:id="@+id/beacons_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -26,7 +26,7 @@
             style="@style/Widget.AppCompat.ProgressBar"/>
         <TextView
             android:gravity="center"
-            android:text="Bezig met laden van assistenten&#8230;"
+            android:text="Bezig met scannen&#8230;"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

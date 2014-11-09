@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginRight="@dimen/activity_horizontal_margin"
+              android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+    <Button
+        android:id="@+id/button_ask_help"
+        android:text="@string/title_section_help"
+        android:textColor="@color/material_dark_indigo"
+        android:layout_width="match_parent"
+        android:layout_margin="30dp"
+        android:layout_height="60dp"/>
+</LinearLayout>

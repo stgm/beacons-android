@@ -1,8 +1,8 @@
 package nl.uva.beacons.api;
-import org.json.JSONArray;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
-import retrofit.http.Path;
 
 /**
  * Created by sander on 11/6/14.
@@ -21,10 +20,10 @@ public interface BeaconApi {
   @POST("/tracking/register")
   void registerUser(@Field("code") String code, Callback<Map<String, String>> callback);
 
-/* returns one of:
- * role: 'assistant'
- * role: 'student'
- */
+  /* returns one of:
+   * role: 'assistant'
+   * role: 'student'
+   */
   @FormUrlEncoded
   @POST("/tracking/tokenized/identify")
   void identifyUser(@Field("token") String token, Callback<Map<String, String>> callback);
@@ -35,22 +34,22 @@ public interface BeaconApi {
  */
   @FormUrlEncoded
   @POST("/tracking/tokenized/list_students")
-  void getStudentList(@Field("token") String token, CancelableCallback<JSONArray> callback);
+  void getStudentList(@Field("token") String token, CancelableCallback<List<Map<String, String>>> callback);
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/list_assistants")
-  void getAssistantList(@Field("token") String token, CancelableCallback<JSONArray> callback);
+  void getAssistantList(@Field("token") String token, CancelableCallback<List<Map<String, String>>> callback);
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/ping")
-  void submitLocation(@Field("token") String token, @Field("loca") int major,  @Field("locb") int minor);
+  void submitLocation(@Field("token") String token, @Field("loca") int major, @Field("locb") int minor, Callback<JsonElement> callback);
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/gone")
-  void submitGone(@Field("token") String token);
+  void submitGone(@Field("token") String token, Callback<JsonElement> callback);
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/help")
-  void askHelp(@Field("token") String token, @Field("help") boolean help);
+  void askHelp(@Field("token") String token, @Field("help") boolean help, Callback<JsonElement> callback);
 
 }

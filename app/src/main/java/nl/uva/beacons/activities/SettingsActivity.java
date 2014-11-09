@@ -1,9 +1,10 @@
-package nl.uva.beacons;
+package nl.uva.beacons.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import nl.uva.beacons.R;
 import nl.uva.beacons.fragments.SettingsFragment;
 
 /**

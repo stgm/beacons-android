@@ -2,7 +2,6 @@ package nl.uva.beacons.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,7 +21,6 @@ import android.widget.Spinner;
 
 import java.util.Map;
 
-import nl.uva.beacons.MainActivity;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.api.CancelableCallback;
@@ -34,9 +32,9 @@ import retrofit.client.Response;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
   private static final int PAIR_CODE_LENGTH = 4;
+  private static final String TAG = LoginFragment.class.getSimpleName();
   private EditText mPinInput;
   private Button mLoginButton;
-  private static final String TAG = LoginFragment.class.getSimpleName();
   private LoginListener mLoginListener;
   private Spinner mCourseSpinner;
   private String[] mUrlEntries;
@@ -50,19 +48,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
-    ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+    ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
     mUrlEntries = getResources().getStringArray(R.array.spinner_course_url_values);
 
     View v = inflater.inflate(R.layout.fragment_login, container, false);
-    mCourseSpinner = (Spinner)v.findViewById(R.id.spinner_select_course);
+    mCourseSpinner = (Spinner) v.findViewById(R.id.spinner_select_course);
     mCourseSpinner.setSelection(0);
     mCourseSpinner.setOnItemSelectedListener(this);
 
     mLoginButton = (Button) v.findViewById(R.id.login_button);
     mLoginButton.setOnClickListener(this);
-    mPinInput = (EditText)v.findViewById(R.id.pinInput);
+    mPinInput = (EditText) v.findViewById(R.id.pinInput);
     return v;
   }
 
@@ -84,7 +82,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
 
     /* Login button clicked. Try to register the user with the entered pin. */
     final String pin = mPinInput.getText().toString();
-    if(pin != null && pin.length() == PAIR_CODE_LENGTH) {
+    if (pin != null && pin.length() == PAIR_CODE_LENGTH) {
       ((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))
           .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 
@@ -98,10 +96,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
           Log.d(TAG, "onSuccess: " + responseMap.toString() + ", url = " + response.getUrl());
           String userRole = responseMap.get("role");
 
-          if(userRole != null && !userRole.isEmpty()) {
+          if (userRole != null && !userRole.isEmpty()) {
             Log.d(TAG, "Saving response, role: " + responseMap.get("role"));
             Log.d(TAG, "Login success!");
-            SharedPreferences.Editor editor = getActivity().getSharedPreferences(MainActivity.KEY_SHARED_PREFS, Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
             editor.putString(getString(R.string.pref_key_user_role), userRole).apply();
             mLoginListener.onLoginSuccess();
           } else {
@@ -124,10 +122,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
           String userIdToken = responseMap.get("token");
           String beaconUuid = responseMap.get("beacon_id");
 
-          if(userIdToken != null && !userIdToken.isEmpty() && beaconUuid != null && !beaconUuid.isEmpty()) {
+          if (userIdToken != null && !userIdToken.isEmpty() && beaconUuid != null && !beaconUuid.isEmpty()) {
             Log.d(TAG, "Saving response token: " + userIdToken);
             Log.d(TAG, "Saving response beacon UUID: " + beaconUuid);
-            SharedPreferences.Editor editor = getActivity().getSharedPreferences(MainActivity.KEY_SHARED_PREFS, Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
             editor.putString(getString(R.string.pref_key_user_token), userIdToken).apply();
             editor.putString(getString(R.string.pref_key_proximity_uuid), beaconUuid).apply();
             BeaconApiClient.get().identifyUser(userIdToken, identifyCallback);
@@ -164,7 +162,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     Log.d(TAG, "onItemSelected: " + i);
     Log.d(TAG, mUrlEntries[i]);
-    SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.KEY_SHARED_PREFS, Context.MODE_PRIVATE);
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
     sp.edit().putString(getString(R.string.pref_key_endpoint_url), mUrlEntries[i]).apply();
   }
 
@@ -175,6 +173,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
 
   public interface LoginListener {
     void onLoginSuccess();
+
     void onLoginFailure();
   }
 
