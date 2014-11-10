@@ -36,4 +36,4 @@ Note: this may change at any time during development.
   * `CancelableCallback`
 
 ### UI
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_log_in.png" alt"Login" style="width:300px;">
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_log_in.png" alt"Login" style="width:300px;height:400px;">
