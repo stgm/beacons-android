@@ -1,0 +1,1 @@
+# Design document for the beacons Android app
