@@ -18,3 +18,5 @@ De app zou grofweg de volgende functionaliteiten moeten hebben:
 
 ### Features voor assistenten:
 * Een **studentenoverzicht**: lijst van alle studenten die aanwezig zijn en de beacon die het dichts bij de student is. Ook staat hier de tijd geregistreerd waarop de student is binnengekomen. Assistenten kunnen hier zien welke student hulp nodig heeft en kunnen dit afvinken.
+
+### [Technical design document](https://github.com/sander-m/beacons-android/blob/master/doc/design.md)
