@@ -5,11 +5,8 @@ Android app that uses Estimote beacons for teaching assistance.
 Minimum required API level is 18 (Android 4.3+). The app requires Bluetooth Low Energy support.
 This project is built with Android Studio
 
-##### Android Studio:
-https://developer.android.com/sdk/installing/studio.html
-
-##### Estimote SDK for Android:
-https://github.com/Estimote/Android-SDK
+##### [Android Studio](https://developer.android.com/sdk/installing/studio.html)
+##### [android-beacon-library](https://github.com/AltBeacon/android-beacon-library) ([How to setup](http://altbeacon.github.io/android-beacon-library/configure.html)). Used to interact with beacons. 
 
 ### Het concept
 De app is gebaseerd op een voorstel van de Minor Programmeren om een app te maken die het makkelijker maakt voor studenten om assistentie te krijgen bij practicum en waarbij de aanwezigheid van studenten kan worden geregistreerd. De app scant naar iBeacons en stuurt de beaconinformatie door naar een server. De app is door zowel assistenten als studenten te gebruiken, met een andere feature-set.
