@@ -36,6 +36,7 @@ Note: this may change at any time during development.
   * `CancelableCallback`
 
 ### UI
+Login  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_log_in.png" alt"Login" width="300px">  
 
 Navigation menu  
