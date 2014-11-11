@@ -11,13 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Map;
 
@@ -30,14 +30,12 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/5/14.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class LoginFragment extends Fragment implements View.OnClickListener {
   private static final int PAIR_CODE_LENGTH = 4;
   private static final String TAG = LoginFragment.class.getSimpleName();
   private EditText mPinInput;
   private Button mLoginButton;
   private LoginListener mLoginListener;
-  private Spinner mCourseSpinner;
-  private String[] mUrlEntries;
 
   public static LoginFragment newInstance(LoginListener loginListener) {
     LoginFragment loginFragment = new LoginFragment();
@@ -45,18 +43,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
     return loginFragment;
   }
 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    Log.d(TAG, "onOptionsItemSelected");
+    getFragmentManager().popBackStack();
+    return true;
+  }
+
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
-    ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-    mUrlEntries = getResources().getStringArray(R.array.spinner_course_url_values);
+    ActionBarActivity activity = ((ActionBarActivity) getActivity());
+    activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     View v = inflater.inflate(R.layout.fragment_login, container, false);
-    mCourseSpinner = (Spinner) v.findViewById(R.id.spinner_select_course);
-    mCourseSpinner.setSelection(0);
-    mCourseSpinner.setOnItemSelectedListener(this);
+    TextView textView = (TextView) v.findViewById(R.id.login_chosen_course_name);
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
+    textView.setText(sp.getString(getString(R.string.pref_key_course_name), ""));
 
     mLoginButton = (Button) v.findViewById(R.id.login_button);
     mLoginButton.setOnClickListener(this);
@@ -158,18 +162,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Ada
     mLoginListener = loginListener;
   }
 
-  @Override
-  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-    Log.d(TAG, "onItemSelected: " + i);
-    Log.d(TAG, mUrlEntries[i]);
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    sp.edit().putString(getString(R.string.pref_key_endpoint_url), mUrlEntries[i]).apply();
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> adapterView) {
-
-  }
 
   public interface LoginListener {
     void onLoginSuccess();

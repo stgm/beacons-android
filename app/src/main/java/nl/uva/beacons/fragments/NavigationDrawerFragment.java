@@ -239,6 +239,9 @@ public class NavigationDrawerFragment extends Fragment {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if (mDrawerLayout == null) {
+      return false;
+    }
     return mDrawerLayout.getDrawerLockMode(Gravity.START) == DrawerLayout.LOCK_MODE_LOCKED_CLOSED ||
         mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }

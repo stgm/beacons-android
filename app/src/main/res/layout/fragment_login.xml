@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -16,19 +17,15 @@
         android:layout_marginBottom="10dp"
         android:textColor="@color/material_primary_indigo"/>
 
-
-    <Spinner
-        android:id="@+id/spinner_select_course"
+    <TextView
+        android:id="@+id/login_chosen_course_name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:entries="@array/spinner_course_names"
-        android:entryValues="@array/spinner_course_url_values"
-        android:layout_marginBottom="50dp"
-        >
-    </Spinner>
-
+        android:layout_height="wrap_content"
+        android:textColor="@color/material_primary_indigo"
+        tools:text="App Studio"/>
 
     <EditText
+        android:layout_marginTop="20dp"
         android:id="@+id/pinInput"
         android:layout_width="match_parent"
         android:layout_height="40dp"

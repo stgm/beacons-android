@@ -4,13 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Map;
+
 import nl.uva.beacons.R;
+import retrofit.Callback;
 import retrofit.RestAdapter;
 
 /**
  * Created by sander on 11/6/14.
  */
 public class BeaconApiClient {
+  private static final String MOBILE_URL = "http://mobile.mprog.nl/";
+  private static final MobileApi mobileApi = new RestAdapter.Builder()
+      .setEndpoint(MOBILE_URL).build().create(MobileApi.class);
+
   private static final String FALLBACK_URL = "http://apps.mprog.nl/";
   private static BeaconApi api;
 
@@ -27,10 +34,8 @@ public class BeaconApiClient {
     return api;
   }
 
-  public static final String ATTRIBUTE_NAME = "name";
-  public static final String ATTRIBUTE_LOC_A = "loca";
-  public static final String ATTRIBUTE_LOC_B = "locb";
-  public static final String ATTRIBUTE_HELP = "help";
-  public static final String ATTRIBUTE_UPDATED = "updated";
+  public static void getCourses(Callback<Map<String, String>> callback) {
+    mobileApi.getCourses(callback);
+  }
 
 }

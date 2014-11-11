@@ -43,4 +43,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/student_help_icon"
+        android:clickable="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="H"
+        android:background="@drawable/circle"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="32sp"/>
+
 </LinearLayout>

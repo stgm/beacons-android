@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.Map;
 
 import nl.uva.beacons.R;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.BeaconApi;
 
 /**
  * Created by sander on 11/8/14.
@@ -40,10 +40,11 @@ public class AssistantListAdapter extends ArrayAdapter<Map<String, String>> {
       subTitle = (TextView) convertView.getTag(R.id.assistant_details);
     }
 
+
     Map<String, String> assistantInfo = getItem(position);
-    title.setText(assistantInfo.get(BeaconApiClient.ATTRIBUTE_NAME));
-    subTitle.setText("Major " + assistantInfo.get(BeaconApiClient.ATTRIBUTE_LOC_A) + ", Minor "
-        + assistantInfo.get(BeaconApiClient.ATTRIBUTE_LOC_B) + ", help: " + assistantInfo.get(BeaconApiClient.ATTRIBUTE_HELP));
+    title.setText(assistantInfo.get(BeaconApi.ATTR_NAME));
+    subTitle.setText("Major " + assistantInfo.get(BeaconApi.ATTR_LOC_A) + ", Minor "
+        + assistantInfo.get(BeaconApi.ATTR_LOC_B) + ", help: " + assistantInfo.get(BeaconApi.ATTR_HELP));
     return convertView;
   }
 }

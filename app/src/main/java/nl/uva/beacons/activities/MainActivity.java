@@ -8,6 +8,7 @@ package nl.uva.beacons.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +24,6 @@ import android.widget.Toast;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 
-import nl.uva.beacons.tracking.BeaconTracker;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.fragments.AssistantListFragment;
@@ -32,8 +32,10 @@ import nl.uva.beacons.fragments.HelpFragment;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
 import nl.uva.beacons.fragments.QuestionsFragment;
+import nl.uva.beacons.fragments.SelectCourseFragment;
 import nl.uva.beacons.fragments.SettingsFragment;
 import nl.uva.beacons.fragments.StudentListFragment;
+import nl.uva.beacons.tracking.BeaconTracker;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
     BeaconConsumer, LoginFragment.LoginListener {
@@ -42,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   private static final String TAG = MainActivity.class.getSimpleName();
   private BeaconManager mBeaconManager = BeaconManager.getInstanceForApplication(this);
   private BeaconTracker mBeaconTracker;
+  private boolean shouldRestoreFragments = true;
 
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -57,6 +60,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
     DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mBeaconTracker= new BeaconTracker(mBeaconManager, this);
+
+    shouldRestoreFragments = savedInstanceState == null;
     Log.d(TAG, "onCreate...");
     if (isLoggedIn()) {
       Log.d(TAG, "Logged in");
@@ -64,7 +70,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     } else {
       Log.d(TAG, "Not logged in");
       mNavigationDrawerFragment.setDrawerEnabled(drawerLayout, false);
-      addFragment(LoginFragment.newInstance(this));
+      if(shouldRestoreFragments) {
+        replaceFragment(new SelectCourseFragment());
+      }
     }
   }
 
@@ -159,20 +167,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     String fragmentClassNameAsTag = fragment.getClass().getName();
     Fragment f = fragmentManager.findFragmentByTag(fragmentClassNameAsTag);
-    if(f != null && f.isAdded()) {
+    if (f != null && f.isAdded()) {
       /* This fragment is already active, do nothing */
       return;
     }
-    fragmentManager.beginTransaction()
-        .replace(R.id.container, fragment,fragmentClassNameAsTag)
+    fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        .replace(R.id.container, fragment, fragmentClassNameAsTag)
         .commit();
   }
 
   private void addFragment(Fragment fragment) {
     FragmentManager fragmentManager = getFragmentManager();
-    fragmentManager.beginTransaction()
+    fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         .add(R.id.container, fragment, fragment.getClass().getName())
         .commit();
+  }
+
+  public void showLogin() {
+    getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
+        .replace(R.id.container, LoginFragment.newInstance(this)).commit();
   }
 
   @Override
@@ -202,12 +215,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
   @Override
   public void onBeaconServiceConnect() {
-    mBeaconTracker = new BeaconTracker(mBeaconManager, this);
     mBeaconTracker.startTracking();
   }
 
   @Override
   public void onLoginSuccess() {
+    if(shouldRestoreFragments) {
+      getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -220,7 +236,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     /* Set up the beacon manager */
     mBeaconManager.bind(this);
 
-    onNavigationDrawerItemSelected(0);
+    if(shouldRestoreFragments) {
+      onNavigationDrawerItemSelected(0);
+    }
   }
 
   @Override

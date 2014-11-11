@@ -12,15 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.google.gson.JsonArray;
-
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.StudentListAdapter;
-import nl.uva.beacons.adapters.BeaconListAdapter;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
@@ -78,4 +74,6 @@ public class StudentListFragment extends Fragment implements SwipeRefreshLayout.
   public void onRefresh() {
     loadStudents();
   }
+
+
 }

@@ -45,7 +45,7 @@ public class SettingsFragment extends PreferenceFragment {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sp.edit().clear().commit();
+        sp.edit().clear().apply();
         getActivity().setResult(RESULT_LOG_OUT);
         getActivity().finish();
         return true;

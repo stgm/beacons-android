@@ -1,5 +1,6 @@
 package nl.uva.beacons.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +13,10 @@ import org.altbeacon.beacon.Beacon;
 
 import java.util.List;
 
-import nl.uva.beacons.tracking.BeaconTracker;
-import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.R;
+import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.BeaconListAdapter;
+import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
  * Created by sander on 11/8/14.
