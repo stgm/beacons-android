@@ -34,9 +34,9 @@ import retrofit.client.Response;
  */
 public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   private static final String TAG = BeaconTracker.class.getSimpleName();
-  private static final String REGION_ALIAS = "minprog";
-  private static final String FALLBACK_UUID = "EBEFD083-70A2-47C8-9837-E7B5634DF524";
-  private static final BeaconParser IBEACON_PARSER = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
+  public static final String REGION_ALIAS = "minprog";
+  public static final String FALLBACK_UUID = "EBEFD083-70A2-47C8-9837-E7B5634DF524";
+  public static final BeaconParser IBEACON_PARSER = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
 
   private HashMap<String, Beacon> mRecentBeacons = new HashMap<String, Beacon>();
   private List<Beacon> mDetectedBeacons = new ArrayList<Beacon>();

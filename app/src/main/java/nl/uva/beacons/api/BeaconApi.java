@@ -64,6 +64,6 @@ public interface BeaconApi {
                Callback<JsonElement> callback);
 
   @POST("/tracking/tokenized/clear/{id}")
-  void clearHelp(@Path("id") String id, Callback<JsonElement> callback);
+  void clearHelp(@Field(FIELD_TOKEN) String token, @Path("id") String id, Callback<JsonElement> callback);
 
 }

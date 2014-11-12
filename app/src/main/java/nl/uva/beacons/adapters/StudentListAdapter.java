@@ -1,6 +1,8 @@
 package nl.uva.beacons.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +28,13 @@ import retrofit.client.Response;
 public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
   private static final String TAG = StudentListAdapter.class.getSimpleName();
   private LayoutInflater mInflater;
+  private String mUserToken;
 
   public StudentListAdapter(Context context) {
     super(context, 0);
     mInflater = LayoutInflater.from(context);
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+    mUserToken = sp.getString(context.getString(R.string.pref_key_user_token), "");
   }
 
   @Override
@@ -64,7 +69,7 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
       public void onClick(View view) {
         helpIcon.setBackgroundResource(R.drawable.circle);
         helpIcon.refreshDrawableState();
-        BeaconApiClient.get().clearHelp(studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
+        BeaconApiClient.get().clearHelp(mUserToken, studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
           @Override
           public void onSuccess(JsonElement jsonElement, Response response) {
             Log.d(TAG, "Cleared help at position + " + position + ", studentid = " + studentInfo.get(BeaconApi.ATTR_STUDENT_ID));

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.Map;
 
+import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.api.CancelableCallback;
@@ -105,6 +106,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             Log.d(TAG, "Login success!");
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
             editor.putString(getString(R.string.pref_key_user_role), userRole).apply();
+            ((BeaconsApplication)getActivity().getApplication()).initBackgroundScanning();
             mLoginListener.onLoginSuccess();
           } else {
             handleLoginFailure();
