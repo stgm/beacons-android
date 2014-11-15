@@ -15,6 +15,7 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.Map;
 
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.StudentListAdapter;
 import nl.uva.beacons.api.BeaconApiClient;
@@ -51,8 +52,8 @@ public class StudentListFragment extends Fragment implements SwipeRefreshLayout.
   }
 
   private void loadStudents() {
-    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    BeaconApiClient.get().getStudentList(sharedPreferences.getString(getString(R.string.pref_key_user_token), ""),
+    String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
+    BeaconApiClient.get().getStudentList(userToken,
         new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> studentList, Response response) {

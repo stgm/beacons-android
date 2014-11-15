@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.Map;
 
 import nl.uva.beacons.BeaconsApplication;
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.api.CancelableCallback;
@@ -37,6 +38,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
   private EditText mPinInput;
   private Button mLoginButton;
   private LoginListener mLoginListener;
+  private LoginManager.CourseLoginEntry mLoginEntry = new LoginManager.CourseLoginEntry();
 
   public static LoginFragment newInstance(LoginListener loginListener) {
     LoginFragment loginFragment = new LoginFragment();
@@ -51,9 +53,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     return true;
   }
 
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    outState.putSerializable("LOGIN", mLoginEntry);
+    super.onSaveInstanceState(outState);
+  }
+
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    if(savedInstanceState != null) {
+      if(savedInstanceState.getSerializable("LOGIN") != null) {
+        mLoginEntry = (LoginManager.CourseLoginEntry) savedInstanceState.getSerializable("LOGIN");
+      }
+    }
+
     ActionBarActivity activity = ((ActionBarActivity) getActivity());
     activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
     activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,7 +75,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     View v = inflater.inflate(R.layout.fragment_login, container, false);
     TextView textView = (TextView) v.findViewById(R.id.login_chosen_course_name);
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-    textView.setText(sp.getString(getString(R.string.pref_key_course_name), ""));
+    String courseName = sp.getString(getString(R.string.pref_key_course_name), "");
+    textView.setText(courseName);
+    mLoginEntry.courseName = courseName;
+    mLoginEntry.url = sp.getString(getString(R.string.pref_key_endpoint_url), "");
 
     mLoginButton = (Button) v.findViewById(R.id.login_button);
     mLoginButton.setOnClickListener(this);
@@ -104,8 +121,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
           if (userRole != null && !userRole.isEmpty()) {
             Log.d(TAG, "Saving response, role: " + responseMap.get("role"));
             Log.d(TAG, "Login success!");
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-            editor.putString(getString(R.string.pref_key_user_role), userRole).apply();
+            //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+            //editor.putString(getString(R.string.pref_key_user_role), userRole).apply();
+            mLoginEntry.userRole = userRole;
+
+            /* All data received. Finally add login entry */
+            LoginManager.addLoginEntry(getActivity(), mLoginEntry);
             ((BeaconsApplication)getActivity().getApplication()).initBackgroundScanning();
             mLoginListener.onLoginSuccess();
           } else {
@@ -131,9 +152,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
           if (userIdToken != null && !userIdToken.isEmpty() && beaconUuid != null && !beaconUuid.isEmpty()) {
             Log.d(TAG, "Saving response token: " + userIdToken);
             Log.d(TAG, "Saving response beacon UUID: " + beaconUuid);
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-            editor.putString(getString(R.string.pref_key_user_token), userIdToken).apply();
-            editor.putString(getString(R.string.pref_key_proximity_uuid), beaconUuid).apply();
+            //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+            //editor.putString(getString(R.string.pref_key_user_token), userIdToken).apply();
+            //editor.putString(getString(R.string.pref_key_proximity_uuid), beaconUuid).apply();
+            mLoginEntry.userToken = userIdToken;
+            mLoginEntry.uuid = beaconUuid;
+
             BeaconApiClient.get().identifyUser(userIdToken, identifyCallback);
           } else {
             handleLoginFailure();

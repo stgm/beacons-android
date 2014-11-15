@@ -1,6 +1,8 @@
 package nl.uva.beacons.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
@@ -11,6 +13,13 @@ import nl.uva.beacons.fragments.SettingsFragment;
  * Created by sander on 11/8/14.
  */
 public class SettingsActivity extends ActionBarActivity {
+  /* Stored in SharedPreferences course that the user is logged in,
+   * saved as key-value pairs:
+   * "key_course_uuid_set" -> set of UUIDs
+   * uuid -> identifier
+   * uuid+"url" => url
+   */
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

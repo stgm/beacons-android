@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import java.util.Map;
 
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -18,15 +19,17 @@ public class BeaconApiClient {
   private static final MobileApi mobileApi = new RestAdapter.Builder()
       .setEndpoint(MOBILE_URL).build().create(MobileApi.class);
 
-  private static final String FALLBACK_URL = "http://apps.mprog.nl/";
+  private static final String FALLBACK_URL = "http://prog2.mprog.nl/";
   private static BeaconApi api;
 
   private BeaconApiClient() {
   }
 
   public static void init(Context context) {
-    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-    String endpointUrl = sharedPreferences.getString(context.getString(R.string.pref_key_endpoint_url), FALLBACK_URL);
+    String endpointUrl = LoginManager.getCurrentEndpointUrl(context);
+    if(endpointUrl == null || endpointUrl.isEmpty()) {
+      endpointUrl = FALLBACK_URL;
+    }
     api = new RestAdapter.Builder().setEndpoint(endpointUrl).build().create(BeaconApi.class);
   }
 

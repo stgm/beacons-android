@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,7 +24,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 
 /**
@@ -33,11 +38,11 @@ import nl.uva.beacons.R;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-  public static final int PAGE_ASSISTANT_LIST = 0;
-  public static final int PAGE_STUDENT_LIST = 1;
-  public static final int PAGE_HELP = 2;
-  public static final int PAGE_QUESTIONS = 3;
-  public static final int PAGE_SCAN_BEACONS = 4;
+  public static final int PAGE_ASSISTANT_LIST = 1;
+  public static final int PAGE_STUDENT_LIST = 2;
+  public static final int PAGE_HELP = 3;
+  public static final int PAGE_QUESTIONS = 4;
+  public static final int PAGE_SCAN_BEACONS = 5;
 
   /**
    * Remember the position of the selected item.
@@ -63,8 +68,9 @@ public class NavigationDrawerFragment extends Fragment {
   private DrawerLayout mDrawerLayout;
   private ListView mDrawerListView;
   private View mFragmentContainerView;
+  private LayoutInflater mInflater;
 
-  private int mCurrentSelectedPosition = 0;
+  private int mCurrentSelectedPosition = PAGE_ASSISTANT_LIST;
   private boolean mFromSavedInstanceState;
   private boolean mUserLearnedDrawer;
 
@@ -85,13 +91,14 @@ public class NavigationDrawerFragment extends Fragment {
       mFromSavedInstanceState = true;
     }
 
-    // Select either the default item (0) or the last selected item.
+    // Select either the default item (1) or the last selected item.
     selectItem(mCurrentSelectedPosition);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+    mInflater = inflater;
     mDrawerListView = (ListView) inflater.inflate(
         R.layout.fragment_navigation_drawer, container, false);
     mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,18 +107,7 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(position);
       }
     });
-    mDrawerListView.setAdapter(new ArrayAdapter<String>(
-        getActivity(),
-        android.R.layout.simple_list_item_activated_1,
-        android.R.id.text1,
-        new String[]{
-            getString(R.string.title_section_assistents_list),
-            getString(R.string.title_section_students_list),
-            getString(R.string.title_section_help),
-            getString(R.string.title_section_questions),
-            getString(R.string.title_section_scan_beacons)
-        }));
-    mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
     return mDrawerListView;
   }
 
@@ -125,13 +121,52 @@ public class NavigationDrawerFragment extends Fragment {
     setHasOptionsMenu(true);
   }
 
+
+  private void setupHeaderView() {
+    View header = mInflater.inflate(R.layout.list_header_navigation, mDrawerListView, false);
+    TextView role = (TextView)header.findViewById(R.id.list_header_login_role);
+
+    ArrayList<LoginManager.CourseLoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
+
+    if(loginEntries.size() > 0) {
+      role.setText("Ingelogd als " + loginEntries.get(0).userRole);
+    } else {
+      role.setText("Niet ingelogd");
+    }
+
+    header.setClickable(true);
+    header.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Log.d("Header", "onClick");
+      }
+    });
+    mDrawerListView.addHeaderView(header);
+  }
+
   /**
    * Users of this fragment must call this method to set up the navigation drawer interactions.
    *
    * @param fragmentId   The android:id of this fragment in its activity's layout.
    * @param drawerLayout The DrawerLayout containing this fragment's UI.
    */
+
   public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+    setupHeaderView();
+
+    mDrawerListView.setAdapter(new ArrayAdapter<String>(
+        getActivity(),
+        android.R.layout.simple_list_item_activated_1,
+        android.R.id.text1,
+        new String[]{
+            getString(R.string.title_section_assistents_list),
+            getString(R.string.title_section_students_list),
+            getString(R.string.title_section_help),
+            getString(R.string.title_section_questions),
+            getString(R.string.title_section_scan_beacons)
+        }));
+    mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
     mFragmentContainerView = getActivity().findViewById(fragmentId);
     mDrawerLayout = drawerLayout;
 

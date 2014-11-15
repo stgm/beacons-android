@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="100dp"
+             >
+
+    <ImageView
+        android:id="@+id/list_header_login_image"
+        android:src="@drawable/person_placeholder"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="10dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/list_header_login_role"
+            android:text="Ingelogd als"
+            android:textSize="@dimen/list_item_title_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/primary_dark_material_dark"/>
+    </LinearLayout>
+
+</LinearLayout>

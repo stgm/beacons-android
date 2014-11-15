@@ -1,6 +1,7 @@
 package nl.uva.beacons;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -14,6 +15,9 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.tracking.BeaconTracker;
 
@@ -25,7 +29,6 @@ public class BeaconsApplication extends Application implements BootstrapNotifier
   private BackgroundPowerSaver mBackgroundPowerSaver;
   private RegionBootstrap mRegionBootstrap;
   private BeaconManager mBeaconManager;
-
 
   @Override
   public void onCreate() {
@@ -60,5 +63,9 @@ public class BeaconsApplication extends Application implements BootstrapNotifier
     Region region = new Region(BeaconTracker.REGION_ALIAS, mUuid, null , null);
     mRegionBootstrap = new RegionBootstrap(this, region);
   }
+
+
+
+
 
 }

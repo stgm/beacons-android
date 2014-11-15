@@ -15,6 +15,7 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.Map;
 
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.AssistantListAdapter;
 import nl.uva.beacons.api.BeaconApiClient;
@@ -51,8 +52,8 @@ public class AssistantListFragment extends Fragment implements SwipeRefreshLayou
   }
 
   private void loadStudents() {
-    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    BeaconApiClient.get().getAssistantList(sharedPreferences.getString(getString(R.string.pref_key_user_token), ""),
+    String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
+    BeaconApiClient.get().getAssistantList(userToken,
         new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> assistantList, Response response) {

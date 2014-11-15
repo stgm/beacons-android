@@ -24,6 +24,7 @@ import android.widget.Toast;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
 import nl.uva.beacons.fragments.AssistantListFragment;
@@ -64,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     shouldRestoreFragments = savedInstanceState == null;
     Log.d(TAG, "onCreate...");
-    if (isLoggedIn()) {
+    if (LoginManager.isLoggedIn(this)) {
       Log.d(TAG, "Logged in");
       onLoginSuccess();
     } else {
@@ -136,7 +137,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   @Override
   public void onNavigationDrawerItemSelected(int position) {
     /* Update the main content by replacing fragments */
-    if (isLoggedIn()) {
+    if (LoginManager.isLoggedIn(this)) {
       Log.d(TAG, "Selected drawer item at position: " + position);
       switch (position) {
         case NavigationDrawerFragment.PAGE_ASSISTANT_LIST:
@@ -156,10 +157,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
           break;
       }
     }
-  }
-
-  private boolean isLoggedIn() {
-    return PreferenceManager.getDefaultSharedPreferences(this).contains(getString(R.string.pref_key_user_token));
   }
 
   private void replaceFragment(Fragment fragment) {
@@ -237,7 +234,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     mBeaconManager.bind(this);
 
     if(shouldRestoreFragments) {
-      onNavigationDrawerItemSelected(0);
+      onNavigationDrawerItemSelected(NavigationDrawerFragment.PAGE_ASSISTANT_LIST);
     }
   }
 
