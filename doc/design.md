@@ -23,17 +23,22 @@ Note: this may change at any time during development.
   * `StudentListFragment`
   * `BeaconListFragment`
   * `HelpFragment`
-  * `ChooseCourseFragment`
+  * `SelectCourseFragment`
   * `LoginFragment`
+  * `LoginManagerFragment`
+  * `NavigationDrawerFragment`
 * Adapters
   * `AssistantListAdapter`
   * `StudentListAdapter`
   * `BeaconListAdapter`
+  * `CourseListAdapter`
 * Other classes
   * `BeaconTracker`
   * `BeaconApi`
   * `BeaconApiClient`
   * `CancelableCallback`
+  * `LoginManager`
+  * `BeaconApplication`
 
 ### UI
 Select course  
