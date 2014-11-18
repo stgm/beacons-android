@@ -1,8 +1,6 @@
 package nl.uva.beacons.adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,7 @@ import com.google.gson.JsonElement;
 import java.util.Comparator;
 import java.util.Map;
 
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApi;
 import nl.uva.beacons.api.BeaconApiClient;
@@ -33,8 +32,8 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
   public StudentListAdapter(Context context) {
     super(context, 0);
     mInflater = LayoutInflater.from(context);
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    mUserToken = sp.getString(context.getString(R.string.pref_key_user_token), "");
+    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(context);
+    mUserToken = loginEntry.userToken;
   }
 
   @Override
@@ -90,6 +89,11 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
     boolean needsHelp = Boolean.parseBoolean(studentInfo.get(BeaconApi.ATTR_HELP));
     int helpRes = needsHelp ? R.drawable.circle_dark : R.drawable.circle;
     helpIcon.setBackgroundResource(helpRes);
+    if (needsHelp) {
+      helpIcon.setClickable(true);
+    } else {
+      helpIcon.setClickable(false);
+    }
 
     return convertView;
   }

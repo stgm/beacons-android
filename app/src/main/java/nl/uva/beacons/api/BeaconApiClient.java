@@ -1,13 +1,10 @@
 package nl.uva.beacons.api;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import java.util.Map;
 
 import nl.uva.beacons.LoginManager;
-import nl.uva.beacons.R;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 
@@ -27,7 +24,7 @@ public class BeaconApiClient {
 
   public static void init(Context context) {
     String endpointUrl = LoginManager.getCurrentEndpointUrl(context);
-    if(endpointUrl == null || endpointUrl.isEmpty()) {
+    if (endpointUrl == null || endpointUrl.isEmpty()) {
       endpointUrl = FALLBACK_URL;
     }
     api = new RestAdapter.Builder().setEndpoint(endpointUrl).build().create(BeaconApi.class);

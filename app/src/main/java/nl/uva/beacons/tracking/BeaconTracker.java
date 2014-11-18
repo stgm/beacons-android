@@ -1,9 +1,7 @@
 package nl.uva.beacons.tracking;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -23,7 +21,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import nl.uva.beacons.R;
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.api.BeaconApiClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -48,9 +46,14 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   public BeaconTracker(BeaconManager beaconManager, Context context) {
     mBeaconManager = beaconManager;
 
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    mUserToken = sp.getString(context.getString(R.string.pref_key_user_token), "");
-    mUuid = Identifier.parse(sp.getString(context.getString(R.string.pref_key_proximity_uuid), FALLBACK_UUID));
+    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(context);
+    mUserToken = loginEntry.userToken;
+
+    if (loginEntry.uuid == null || loginEntry.uuid.isEmpty()) {
+      loginEntry.uuid = FALLBACK_UUID;
+    }
+
+    mUuid = Identifier.parse(loginEntry.uuid);
     Log.d(TAG, "uuid = " + mUuid);
   }
 
@@ -61,7 +64,6 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
     mBeaconManager.getBeaconParsers().add(IBEACON_PARSER);
     mBeaconManager.setMonitorNotifier(this);
     mBeaconManager.setRangeNotifier(this);
-
     Region beaconRegion = new Region(REGION_ALIAS, mUuid, null, null);
 
     try {
@@ -133,7 +135,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
 
             @Override
             public void failure(RetrofitError error) {
-
+              Log.d(TAG, "Error submitting location: " + error.getMessage());
             }
           });
     }

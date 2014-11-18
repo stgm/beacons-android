@@ -62,8 +62,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    if(savedInstanceState != null) {
-      if(savedInstanceState.getSerializable("LOGIN") != null) {
+    if (savedInstanceState != null) {
+      if (savedInstanceState.getSerializable("LOGIN") != null) {
         mLoginEntry = (LoginManager.CourseLoginEntry) savedInstanceState.getSerializable("LOGIN");
       }
     }
@@ -74,7 +74,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     View v = inflater.inflate(R.layout.fragment_login, container, false);
     TextView textView = (TextView) v.findViewById(R.id.login_chosen_course_name);
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
+
+
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
     String courseName = sp.getString(getString(R.string.pref_key_course_name), "");
     textView.setText(courseName);
     mLoginEntry.courseName = courseName;
@@ -127,7 +130,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             /* All data received. Finally add login entry */
             LoginManager.addLoginEntry(getActivity(), mLoginEntry);
-            ((BeaconsApplication)getActivity().getApplication()).initBackgroundScanning();
+            ((BeaconsApplication) getActivity().getApplication()).initBackgroundScanning();
             mLoginListener.onLoginSuccess();
           } else {
             handleLoginFailure();

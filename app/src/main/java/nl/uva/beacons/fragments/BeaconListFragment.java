@@ -1,6 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

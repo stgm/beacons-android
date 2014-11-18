@@ -1,22 +1,15 @@
 package nl.uva.beacons;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.Identifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.tracking.BeaconTracker;
@@ -58,14 +51,14 @@ public class BeaconsApplication extends Application implements BootstrapNotifier
 
   public void initBackgroundScanning() {
     Log.d(TAG, "initBackgroundScanning");
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-    Identifier mUuid = Identifier.parse(sp.getString(getString(R.string.pref_key_proximity_uuid), BeaconTracker.FALLBACK_UUID));
-    Region region = new Region(BeaconTracker.REGION_ALIAS, mUuid, null , null);
-    mRegionBootstrap = new RegionBootstrap(this, region);
+    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(this);
+    if (loginEntry != null) {
+      if (loginEntry.uuid == null || loginEntry.uuid.isEmpty()) {
+        loginEntry.uuid = BeaconTracker.FALLBACK_UUID;
+      }
+      Identifier mUuid = Identifier.parse(loginEntry.uuid);
+      Region region = new Region(BeaconTracker.REGION_ALIAS, mUuid, null, null);
+      mRegionBootstrap = new RegionBootstrap(this, region);
+    }
   }
-
-
-
-
-
 }

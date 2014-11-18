@@ -124,11 +124,11 @@ public class NavigationDrawerFragment extends Fragment {
 
   private void setupHeaderView() {
     View header = mInflater.inflate(R.layout.list_header_navigation, mDrawerListView, false);
-    TextView role = (TextView)header.findViewById(R.id.list_header_login_role);
+    TextView role = (TextView) header.findViewById(R.id.list_header_login_role);
 
     ArrayList<LoginManager.CourseLoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
 
-    if(loginEntries.size() > 0) {
+    if (loginEntries.size() > 0) {
       role.setText("Ingelogd als " + loginEntries.get(0).userRole);
     } else {
       role.setText("Niet ingelogd");

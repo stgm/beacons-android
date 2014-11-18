@@ -50,6 +50,7 @@ public interface BeaconApi {
   @POST("/tracking/tokenized/list_assistants")
   void getAssistantList(@Field(FIELD_TOKEN) String token, Callback<List<Map<String, String>>> callback);
 
+  @FormUrlEncoded
   @POST("/tracking/tokenized/ping")
   void submitLocation(@Field(FIELD_TOKEN) String token, @Field(ATTR_LOC_A) int major,
                       @Field(ATTR_LOC_B) int minor, Callback<JsonElement> callback);
@@ -60,8 +61,9 @@ public interface BeaconApi {
 
   @FormUrlEncoded
   @POST("/tracking/tokenized/help")
-  void askHelp(@Field(FIELD_TOKEN) String token, @Field(ATTR_HELP) boolean help,
+  void askHelp(@Field(FIELD_TOKEN) String token, @Field(ATTR_HELP) boolean help, @Field("help_question") String helpQuestion,
                Callback<JsonElement> callback);
+
   @FormUrlEncoded
   @POST("/tracking/tokenized/clear/{id}")
   void clearHelp(@Field(FIELD_TOKEN) String token, @Path("id") String id, Callback<JsonElement> callback);

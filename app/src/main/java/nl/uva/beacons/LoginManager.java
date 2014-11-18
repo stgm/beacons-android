@@ -44,11 +44,11 @@ public class LoginManager {
     ArrayList<CourseLoginEntry> courseEntries = new ArrayList<CourseLoginEntry>();
     Set<String> uuids = sp.getStringSet(KEY_UUID_SET, null);
 
-    if(uuids == null) {
+    if (uuids == null) {
       return courseEntries;
     }
 
-    for (String uuid: uuids) {
+    for (String uuid : uuids) {
       CourseLoginEntry courseLoginEntry = new CourseLoginEntry();
       courseLoginEntry.uuid = uuid;
       courseLoginEntry.courseName = sp.getString(KEY_UUID_TO_NAME + uuid, null);
@@ -70,7 +70,7 @@ public class LoginManager {
     edit.remove(KEY_UUID_TO_TOKEN + uuid);
     edit.remove(KEY_UUID_TO_URL + uuid);
     edit.remove(KEY_UUID_TO_ROLE + uuid);
-    if(sp.getString(KEY_CURRENT_UUID, "").equals(uuid)) {
+    if (sp.getString(KEY_CURRENT_UUID, "").equals(uuid)) {
       edit.remove(KEY_CURRENT_UUID + uuid);
     }
     edit.putStringSet(KEY_UUID_SET, loginUuids);
@@ -130,7 +130,7 @@ public class LoginManager {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     Set<String> uuidSet = sp.getStringSet(KEY_UUID_SET, null);
     HashSet<String> returnSet;
-    if(uuidSet == null) {
+    if (uuidSet == null) {
       returnSet = new HashSet<String>();
     } else {
       returnSet = new HashSet<String>(uuidSet);

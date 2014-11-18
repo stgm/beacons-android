@@ -13,7 +13,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -61,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
     DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    mBeaconTracker= new BeaconTracker(mBeaconManager, this);
+    mBeaconTracker = new BeaconTracker(mBeaconManager, this);
 
     shouldRestoreFragments = savedInstanceState == null;
     Log.d(TAG, "onCreate...");
@@ -71,7 +70,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     } else {
       Log.d(TAG, "Not logged in");
       mNavigationDrawerFragment.setDrawerEnabled(drawerLayout, false);
-      if(shouldRestoreFragments) {
+      if (shouldRestoreFragments) {
         replaceFragment(new SelectCourseFragment());
       }
     }
@@ -217,7 +216,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
   @Override
   public void onLoginSuccess() {
-    if(shouldRestoreFragments) {
+    if (shouldRestoreFragments) {
       getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
@@ -233,7 +232,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     /* Set up the beacon manager */
     mBeaconManager.bind(this);
 
-    if(shouldRestoreFragments) {
+    if (shouldRestoreFragments) {
       onNavigationDrawerItemSelected(NavigationDrawerFragment.PAGE_ASSISTANT_LIST);
     }
   }
