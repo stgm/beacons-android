@@ -31,10 +31,9 @@ public class HelpFragment extends Fragment {
     View v = inflater.inflate(R.layout.fragment_ask_help, container, false);
 
     final EditText editText = (EditText) v.findViewById(R.id.input_ask_help_text);
-
     final String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
-
     final Button helpButton = (Button) v.findViewById(R.id.button_ask_help);
+
     helpButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {

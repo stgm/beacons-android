@@ -12,6 +12,7 @@ import org.altbeacon.beacon.Beacon;
 
 import java.util.List;
 
+import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.BeaconListAdapter;
@@ -40,12 +41,12 @@ public class BeaconListFragment extends Fragment implements BeaconTracker.Beacon
   @Override
   public void onStart() {
     super.onStart();
-    ((MainActivity) getActivity()).getBeaconTracker().setBeaconListener(this);
+    ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(this);
   }
 
   @Override
   public void onStop() {
-    ((MainActivity) getActivity()).getBeaconTracker().setBeaconListener(null);
+    ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(null);
     super.onStop();
   }
 

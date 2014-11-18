@@ -26,8 +26,6 @@
 
     <!-- (Shared) Preferences -->
     <string name="pref_title_category_scanning">Beacons scannen</string>
-    <string name="pref_title_checkbox_bg_scanning">Scannen op achtergrond</string>
-    <string name="pref_checkbox_bg_scanning_description">Laat deze app in de achtergrond naar beacons scannen</string>
     <string name="pref_title_scan_interval">Scaninterval</string>
     <string name="pref_key_user_token">pref_key_user_token</string>
     <string name="pref_key_user_role">pref_key_user_role</string>

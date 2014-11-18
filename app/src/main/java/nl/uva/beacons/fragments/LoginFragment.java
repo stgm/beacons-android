@@ -37,18 +37,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
   private static final String TAG = LoginFragment.class.getSimpleName();
   private EditText mPinInput;
   private Button mLoginButton;
-  private LoginListener mLoginListener;
   private LoginManager.CourseLoginEntry mLoginEntry = new LoginManager.CourseLoginEntry();
-
-  public static LoginFragment newInstance(LoginListener loginListener) {
-    LoginFragment loginFragment = new LoginFragment();
-    loginFragment.setLoginListener(loginListener);
-    return loginFragment;
-  }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    Log.d(TAG, "onOptionsItemSelected");
     getFragmentManager().popBackStack();
     return true;
   }
@@ -82,7 +74,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     textView.setText(courseName);
     mLoginEntry.courseName = courseName;
     mLoginEntry.url = sp.getString(getString(R.string.pref_key_endpoint_url), "");
-
     mLoginButton = (Button) v.findViewById(R.id.login_button);
     mLoginButton.setOnClickListener(this);
     mPinInput = (EditText) v.findViewById(R.id.pinInput);
@@ -124,14 +115,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
           if (userRole != null && !userRole.isEmpty()) {
             Log.d(TAG, "Saving response, role: " + responseMap.get("role"));
             Log.d(TAG, "Login success!");
-            //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-            //editor.putString(getString(R.string.pref_key_user_role), userRole).apply();
             mLoginEntry.userRole = userRole;
 
             /* All data received. Finally add login entry */
             LoginManager.addLoginEntry(getActivity(), mLoginEntry);
-            ((BeaconsApplication) getActivity().getApplication()).initBackgroundScanning();
-            mLoginListener.onLoginSuccess();
+            ((LoginListener)getActivity()).onLoginSuccess(true);
           } else {
             handleLoginFailure();
           }
@@ -155,9 +143,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
           if (userIdToken != null && !userIdToken.isEmpty() && beaconUuid != null && !beaconUuid.isEmpty()) {
             Log.d(TAG, "Saving response token: " + userIdToken);
             Log.d(TAG, "Saving response beacon UUID: " + beaconUuid);
-            //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-            //editor.putString(getString(R.string.pref_key_user_token), userIdToken).apply();
-            //editor.putString(getString(R.string.pref_key_proximity_uuid), beaconUuid).apply();
             mLoginEntry.userToken = userIdToken;
             mLoginEntry.uuid = beaconUuid;
 
@@ -184,17 +169,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
   private void handleLoginFailure() {
     mLoginButton.setEnabled(true);
     mLoginButton.setText(R.string.log_in);
-    mLoginListener.onLoginFailure();
+    ((LoginListener)getActivity()).onLoginFailure();
   }
-
-  public void setLoginListener(LoginListener loginListener) {
-    mLoginListener = loginListener;
-  }
-
 
   public interface LoginListener {
-    void onLoginSuccess();
-
+    void onLoginSuccess(boolean startUp);
     void onLoginFailure();
   }
 

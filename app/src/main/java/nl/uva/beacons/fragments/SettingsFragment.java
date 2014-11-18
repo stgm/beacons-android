@@ -7,8 +7,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 
+import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 
 /**
@@ -16,23 +16,6 @@ import nl.uva.beacons.R;
  */
 public class SettingsFragment extends PreferenceFragment {
   public static final int RESULT_LOG_OUT = 321;
-
-  @Override
-  public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-
-    getPreferenceScreen().setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-      @Override
-      public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference.getKey().equals(getString(R.string.pref_title_checkbox_bg_scanning))) {
-          // todo
-        } else if (preference.getKey().equals(getString(R.string.pref_title_scan_interval))) {
-          // todo
-        }
-        return true;
-      }
-    });
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +27,21 @@ public class SettingsFragment extends PreferenceFragment {
     findPreference(getString(R.string.pref_title_log_out)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
+        ((BeaconsApplication)getActivity().getApplication()).stopTracking();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sp.edit().clear().apply();
         getActivity().setResult(RESULT_LOG_OUT);
         getActivity().finish();
+        return true;
+      }
+    });
+
+    findPreference(getString(R.string.pref_title_scan_interval)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+      @Override
+      public boolean onPreferenceChange(Preference preference, Object o) {
+        BeaconsApplication app = (BeaconsApplication)getActivity().getApplication();
+        String value = (String)o;
+        app.setScanPeriod(Long.parseLong(value));
         return true;
       }
     });

@@ -2,12 +2,15 @@ package nl.uva.beacons;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.Identifier;
 import org.altbeacon.beacon.Region;
-import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
@@ -17,18 +20,38 @@ import nl.uva.beacons.tracking.BeaconTracker;
 /**
  * Created by sander on 11/12/14.
  */
-public class BeaconsApplication extends Application implements BootstrapNotifier {
+public class BeaconsApplication extends Application implements BootstrapNotifier, BeaconConsumer {
   private static final String TAG = BeaconsApplication.class.getSimpleName();
-  private BackgroundPowerSaver mBackgroundPowerSaver;
   private RegionBootstrap mRegionBootstrap;
-  private BeaconManager mBeaconManager;
+  private BeaconManager mBeaconManager = BeaconManager.getInstanceForApplication(this);
+  private BeaconTracker mBeaconTracker;
+  private boolean mStarted = false;
 
   @Override
   public void onCreate() {
     super.onCreate();
-    mBackgroundPowerSaver = new BackgroundPowerSaver(this);
     mBeaconManager = BeaconManager.getInstanceForApplication(this);
     mBeaconManager.getBeaconParsers().add(BeaconTracker.IBEACON_PARSER);
+  }
+
+  public void enableBackgroundRegionDetection() {
+    Log.d(TAG, "enableBackgroundRegionDetection");
+    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(this);
+    if (loginEntry != null) {
+      if (loginEntry.uuid == null || loginEntry.uuid.isEmpty()) {
+        loginEntry.uuid = BeaconTracker.FALLBACK_UUID;
+      }
+      Identifier mUuid = Identifier.parse(loginEntry.uuid);
+      Region region = new Region(BeaconTracker.REGION_ALIAS, mUuid, null, null);
+      mRegionBootstrap = new RegionBootstrap(this, region);
+    }
+  }
+
+  private void initDefaultSettings() {
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+    long scanPeriod = Long.parseLong(sp.getString(getString(R.string.pref_title_scan_interval), "5000"));
+    Log.d(TAG, "initDefaultSettings, scanPeriod = " + scanPeriod);
+    setScanPeriod(scanPeriod);
   }
 
   @Override
@@ -49,16 +72,44 @@ public class BeaconsApplication extends Application implements BootstrapNotifier
 
   }
 
-  public void initBackgroundScanning() {
-    Log.d(TAG, "initBackgroundScanning");
-    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(this);
-    if (loginEntry != null) {
-      if (loginEntry.uuid == null || loginEntry.uuid.isEmpty()) {
-        loginEntry.uuid = BeaconTracker.FALLBACK_UUID;
-      }
-      Identifier mUuid = Identifier.parse(loginEntry.uuid);
-      Region region = new Region(BeaconTracker.REGION_ALIAS, mUuid, null, null);
-      mRegionBootstrap = new RegionBootstrap(this, region);
+  public void setScanPeriod(long period) {
+    Log.d(TAG, "Set scan period: " + period);
+    mBeaconManager.setBackgroundScanPeriod(period);
+    mBeaconManager.setForegroundScanPeriod(period);
+    try {
+      mBeaconManager.updateScanPeriods();
+    } catch (RemoteException e) {
+      e.printStackTrace();
     }
   }
+
+  public void startTracking() {
+    if(!mBeaconManager.isBound(this)) {
+      mBeaconManager.bind(this);
+    } else {
+      mBeaconTracker.start();
+    }
+  }
+
+  public void stopTracking() {
+    if(mBeaconTracker != null) {
+      mBeaconTracker.stop();
+    }
+  }
+
+  public BeaconTracker getBeaconTracker() {
+    return mBeaconTracker;
+  }
+
+  @Override
+  public void onBeaconServiceConnect() {
+    if(!mStarted) {
+      mStarted = true;
+      initDefaultSettings();
+      mBeaconTracker = new BeaconTracker(mBeaconManager, this);
+      enableBackgroundRegionDetection();
+    }
+    mBeaconTracker.start();
+  }
+
 }

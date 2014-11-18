@@ -33,11 +33,11 @@ import retrofit.client.Response;
 public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   private static final String TAG = BeaconTracker.class.getSimpleName();
   public static final String REGION_ALIAS = "minprog";
+  public static final long FOREGROUND_SCAN_PERIOD = 5000;
   public static final String FALLBACK_UUID = "EBEFD083-70A2-47C8-9837-E7B5634DF524";
   public static final BeaconParser IBEACON_PARSER = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
 
   private HashMap<String, Beacon> mRecentBeacons = new HashMap<String, Beacon>();
-  private List<Beacon> mDetectedBeacons = new ArrayList<Beacon>();
   private String mUserToken;
   private Identifier mUuid;
   private BeaconManager mBeaconManager;
@@ -48,20 +48,15 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
 
     LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(context);
     mUserToken = loginEntry.userToken;
-
-    if (loginEntry.uuid == null || loginEntry.uuid.isEmpty()) {
-      loginEntry.uuid = FALLBACK_UUID;
-    }
-
     mUuid = Identifier.parse(loginEntry.uuid);
     Log.d(TAG, "uuid = " + mUuid);
   }
 
-  public void startTracking() {
-    Log.d(TAG, "startTracking...");
-    mBeaconManager.setForegroundScanPeriod(5000);
+  public void start() {
+    Log.d(TAG, "start...");
     mBeaconManager.getBeaconParsers().remove(IBEACON_PARSER);
     mBeaconManager.getBeaconParsers().add(IBEACON_PARSER);
+
     mBeaconManager.setMonitorNotifier(this);
     mBeaconManager.setRangeNotifier(this);
     Region beaconRegion = new Region(REGION_ALIAS, mUuid, null, null);
@@ -76,6 +71,16 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
       mBeaconManager.startRangingBeaconsInRegion(beaconRegion);
     } catch (RemoteException e) {
       Log.e(TAG, "Remote exception: " + e.getMessage());
+    }
+  }
+
+  public void stop() {
+    Region beaconRegion = new Region(REGION_ALIAS, mUuid, null, null);
+    try {
+      mBeaconManager.stopMonitoringBeaconsInRegion(beaconRegion);
+      mBeaconManager.stopRangingBeaconsInRegion(beaconRegion);
+    } catch (RemoteException e) {
+      e.printStackTrace();
     }
   }
 
@@ -116,8 +121,8 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
         mRecentBeacons.put(beacon.getBluetoothAddress(), beacon);
       }
 
-      mDetectedBeacons = getSortedBeaconList(beacons);
-      Log.i(TAG, "I just detected " + mDetectedBeacons.size() + " beacons!");
+      List<Beacon> detectedBeacons = getSortedBeaconList(beacons);
+      Log.i(TAG, "I just detected " + detectedBeacons.size() + " beacons!");
 
       if (mBeaconListener != null) {
         Log.i(TAG, "Sending onBeaconRanged to listener");
@@ -125,7 +130,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
       }
 
       Log.d(TAG, "Submitting location...");
-      Beacon mostNearbyBeacon = mDetectedBeacons.get(0);
+      Beacon mostNearbyBeacon = detectedBeacons.get(0);
       BeaconApiClient.get().submitLocation(mUserToken, mostNearbyBeacon.getId2().toInt(), mostNearbyBeacon.getId3().toInt(),
           new Callback<JsonElement>() {
             @Override

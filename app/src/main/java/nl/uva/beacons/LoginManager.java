@@ -102,6 +102,7 @@ public class LoginManager {
     courseLoginEntry.url = sp.getString(KEY_UUID_TO_URL + uuid, null);
     courseLoginEntry.userToken = sp.getString(KEY_UUID_TO_TOKEN + uuid, null);
     courseLoginEntry.userRole = sp.getString(KEY_UUID_TO_ROLE + uuid, null);
+
     return courseLoginEntry;
   }
 

@@ -20,9 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-
+import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApiClient;
@@ -31,19 +29,15 @@ import nl.uva.beacons.fragments.BeaconListFragment;
 import nl.uva.beacons.fragments.HelpFragment;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
-import nl.uva.beacons.fragments.QuestionsFragment;
+import nl.uva.beacons.fragments.StudentDetailFragment;
 import nl.uva.beacons.fragments.SelectCourseFragment;
 import nl.uva.beacons.fragments.SettingsFragment;
 import nl.uva.beacons.fragments.StudentListFragment;
-import nl.uva.beacons.tracking.BeaconTracker;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-    BeaconConsumer, LoginFragment.LoginListener {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, LoginFragment.LoginListener {
 
   private static final int REQUEST_ENABLE_BT = 1234;
   private static final String TAG = MainActivity.class.getSimpleName();
-  private BeaconManager mBeaconManager = BeaconManager.getInstanceForApplication(this);
-  private BeaconTracker mBeaconTracker;
   private boolean shouldRestoreFragments = true;
 
   /**
@@ -60,13 +54,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
     DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    mBeaconTracker = new BeaconTracker(mBeaconManager, this);
 
     shouldRestoreFragments = savedInstanceState == null;
     Log.d(TAG, "onCreate...");
     if (LoginManager.isLoggedIn(this)) {
       Log.d(TAG, "Logged in");
-      onLoginSuccess();
+      onLoginSuccess(false);
     } else {
       Log.d(TAG, "Not logged in");
       mNavigationDrawerFragment.setDrawerEnabled(drawerLayout, false);
@@ -128,12 +121,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   }
 
   @Override
-  protected void onDestroy() {
-    mBeaconManager.unbind(this);
-    super.onDestroy();
-  }
-
-  @Override
   public void onNavigationDrawerItemSelected(int position) {
     /* Update the main content by replacing fragments */
     if (LoginManager.isLoggedIn(this)) {
@@ -152,7 +139,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
           replaceFragment(new BeaconListFragment());
           break;
         case NavigationDrawerFragment.PAGE_QUESTIONS:
-          replaceFragment(new QuestionsFragment());
+          replaceFragment(new StudentDetailFragment());
           break;
       }
     }
@@ -172,16 +159,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         .commit();
   }
 
-  private void addFragment(Fragment fragment) {
-    FragmentManager fragmentManager = getFragmentManager();
-    fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        .add(R.id.container, fragment, fragment.getClass().getName())
-        .commit();
-  }
-
   public void showLogin() {
     getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
-        .replace(R.id.container, LoginFragment.newInstance(this)).commit();
+        .replace(R.id.container, new LoginFragment()).commit();
   }
 
   @Override
@@ -209,30 +189,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     } else getFragmentManager().popBackStack();
   }
 
-  @Override
-  public void onBeaconServiceConnect() {
-    mBeaconTracker.startTracking();
-  }
 
   @Override
-  public void onLoginSuccess() {
-    if (shouldRestoreFragments) {
-      getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    }
+  public void onLoginSuccess(boolean firstStart) {
+    Log.d(TAG, "onLoginSuccess");
+    getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    /* Set up the beacon manager */
     BeaconApiClient.init(this);
+    ((BeaconsApplication)getApplication()).startTracking();
 
     mNavigationDrawerFragment.setUp(
         R.id.navigation_drawer,
         (DrawerLayout) findViewById(R.id.drawer_layout));
 
-    /* Set up the beacon manager */
-    mBeaconManager.bind(this);
-
-    if (shouldRestoreFragments) {
+    if (firstStart || shouldRestoreFragments) {
+      Log.d(TAG, "shouldRestoreFragments: " + shouldRestoreFragments);
       onNavigationDrawerItemSelected(NavigationDrawerFragment.PAGE_ASSISTANT_LIST);
     }
   }
@@ -240,9 +215,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   @Override
   public void onLoginFailure() {
 
-  }
-
-  public BeaconTracker getBeaconTracker() {
-    return mBeaconTracker;
   }
 }
