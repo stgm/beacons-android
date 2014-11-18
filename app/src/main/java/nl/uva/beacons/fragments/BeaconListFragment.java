@@ -21,7 +21,7 @@ import nl.uva.beacons.tracking.BeaconTracker;
 /**
  * Created by sander on 11/8/14.
  */
-public class BeaconListFragment extends Fragment implements BeaconTracker.BeaconListener {
+public class BeaconListFragment extends BaseFragment implements BeaconTracker.BeaconListener {
   private BeaconListAdapter mAdapter;
   private ListView mBeaconList;
 
@@ -59,5 +59,15 @@ public class BeaconListFragment extends Fragment implements BeaconTracker.Beacon
         mAdapter.addAll(detectedBeacons);
       }
     });
+  }
+
+  @Override
+  protected String getActionBarTitle() {
+    return getString(R.string.title_section_scan_beacons);
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return 0;
   }
 }

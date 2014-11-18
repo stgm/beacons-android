@@ -1,6 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -14,7 +13,7 @@ import com.google.gson.JsonElement;
 
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -22,7 +21,7 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/7/14.
  */
-public class HelpFragment extends Fragment {
+public class HelpFragment extends BaseFragment {
   private static final String TAG = HelpFragment.class.getSimpleName();
 
   @Nullable
@@ -40,7 +39,7 @@ public class HelpFragment extends Fragment {
         Log.d(TAG, "Asking for help...");
         helpButton.setEnabled(false);
         String message = editText.getText().toString();
-        BeaconApiClient.get().askHelp(userToken, true, message, new Callback<JsonElement>() {
+        ApiClient.askHelp(userToken, true, message, new Callback<JsonElement>() {
           @Override
           public void success(JsonElement jsonElement, Response response) {
             Log.d(TAG, "Asked help!");
@@ -56,5 +55,15 @@ public class HelpFragment extends Fragment {
       }
     });
     return v;
+  }
+
+  @Override
+  protected String getActionBarTitle() {
+    return getString(R.string.title_section_help);
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return 0;
   }
 }

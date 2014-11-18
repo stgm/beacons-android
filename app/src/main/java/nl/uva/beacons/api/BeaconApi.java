@@ -25,23 +25,6 @@ public interface BeaconApi {
   static final String ATTR_STUDENT_ID = "id";
   static final String FIELD_TOKEN = "token";
 
-  /* Response a map of 'role' : student/assistant */
-  @FormUrlEncoded
-  @POST("/tracking/register")
-  void registerUser(@Field("code") String code, Callback<Map<String, String>> callback);
-
-  /* returns one of:
-   * role: 'assistant'
-   * role: 'student'
-   */
-  @FormUrlEncoded
-  @POST("/tracking/tokenized/identify")
-  void identifyUser(@Field(FIELD_TOKEN) String token, Callback<Map<String, String>> callback);
-
-  /* Response list or map?:
- * [["Martijn Stegeman",1,2,true,"2014-10-09T17:21:29.954+02:00"]]
- * attributes: name, major, minor, needs_help, last_seen
- */
   @FormUrlEncoded
   @POST("/tracking/tokenized/list_students")
   void getStudentList(@Field(FIELD_TOKEN) String token, Callback<List<Map<String, String>>> callback);

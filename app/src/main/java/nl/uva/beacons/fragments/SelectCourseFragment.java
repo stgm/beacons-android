@@ -20,7 +20,7 @@ import java.util.Map;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.CourseListAdapter;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -28,7 +28,7 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/11/14.
  */
-public class SelectCourseFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class SelectCourseFragment extends BaseFragment implements AdapterView.OnItemClickListener {
   private static final String TAG = SelectCourseFragment.class.getSimpleName();
   private CourseListAdapter mAdapter;
 
@@ -45,7 +45,7 @@ public class SelectCourseFragment extends Fragment implements AdapterView.OnItem
     courseList.setAdapter(mAdapter);
     courseList.setOnItemClickListener(this);
 
-    BeaconApiClient.getCourses(new CancelableCallback<Map<String, String>>(this) {
+    ApiClient.getCourses(new CancelableCallback<Map<String, String>>(this) {
       @Override
       public void onSuccess(Map<String, String> coursesMap, Response response) {
         Log.d(TAG, "onSuccess: " + coursesMap);
@@ -67,11 +67,11 @@ public class SelectCourseFragment extends Fragment implements AdapterView.OnItem
     Map.Entry<String, String> courseEntry = mAdapter.getItem(i);
     Log.d(TAG, "Course selected: " + courseEntry.getKey() + ", " + courseEntry.getValue());
 
-    MainActivity mainActivity = (MainActivity) getActivity();
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+    CourseSelectedListener listener = (CourseSelectedListener) getActivity();
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
     sp.edit().putString(getString(R.string.pref_key_course_name), courseEntry.getKey())
         .putString(getString(R.string.pref_key_endpoint_url), courseEntry.getValue()).apply();
-    mainActivity.showLogin();
+    listener.onCourseSelected();
   }
 
   @Override
@@ -82,9 +82,23 @@ public class SelectCourseFragment extends Fragment implements AdapterView.OnItem
   }
 
   @Override
+  protected String getActionBarTitle() {
+    return getString(R.string.app_name);
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return 0;
+  }
+
+  @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
+  }
+
+  public interface CourseSelectedListener {
+    void onCourseSelected();
   }
 
 }

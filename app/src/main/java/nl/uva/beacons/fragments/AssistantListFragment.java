@@ -1,6 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,7 +15,7 @@ import java.util.Map;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.AssistantListAdapter;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,7 +23,7 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/7/14.
  */
-public class AssistantListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AssistantListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
   private static final String TAG = AssistantListFragment.class.getSimpleName();
   private SwipeRefreshLayout mSwipeRefreshLayout;
   private AssistantListAdapter mAdapter;
@@ -51,7 +50,7 @@ public class AssistantListFragment extends Fragment implements SwipeRefreshLayou
 
   private void loadStudents() {
     String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
-    BeaconApiClient.get().getAssistantList(userToken,
+    ApiClient.getAssistantList(userToken,
         new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> assistantList, Response response) {
@@ -72,5 +71,15 @@ public class AssistantListFragment extends Fragment implements SwipeRefreshLayou
   @Override
   public void onRefresh() {
     loadStudents();
+  }
+
+  @Override
+  protected String getActionBarTitle() {
+    return getString(R.string.title_section_assistents_list);
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return 0;
   }
 }

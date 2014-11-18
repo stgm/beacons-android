@@ -10,9 +10,19 @@ import android.view.ViewGroup;
 /**
  * Created by sander on 11/7/14.
  */
-public class StudentDetailFragment extends Fragment {
+public class StudentDetailFragment extends BaseFragment {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     return super.onCreateView(inflater, container, savedInstanceState);
+  }
+
+  @Override
+  protected String getActionBarTitle() {
+    return "Details";
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return 0;
   }
 }

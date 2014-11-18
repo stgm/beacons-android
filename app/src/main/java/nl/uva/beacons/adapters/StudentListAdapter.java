@@ -16,7 +16,7 @@ import java.util.Map;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApi;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -68,7 +68,7 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
       public void onClick(View view) {
         helpIcon.setBackgroundResource(R.drawable.circle);
         helpIcon.refreshDrawableState();
-        BeaconApiClient.get().clearHelp(mUserToken, studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
+        ApiClient.clearHelp(mUserToken, studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
           @Override
           public void onSuccess(JsonElement jsonElement, Response response) {
             Log.d(TAG, "Cleared help at position + " + position + ", studentid = " + studentInfo.get(BeaconApi.ATTR_STUDENT_ID));

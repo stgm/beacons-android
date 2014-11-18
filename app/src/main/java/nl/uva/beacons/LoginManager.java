@@ -110,7 +110,10 @@ public class LoginManager {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     SharedPreferences.Editor editor = sp.edit();
     Set<String> loginUuids = getLoginUuids(context);
+    Log.d(TAG, "addLoginEntry, old size: " + loginUuids.size());
+    Log.d(TAG, loginUuids.toString());
 
+    Log.d(TAG, "adding uuid: " + courseLoginEntry.uuid  + ", url: " + courseLoginEntry.url);
     loginUuids.add(courseLoginEntry.uuid);
     /* TEMP, probably */
     editor.putString(KEY_CURRENT_UUID, courseLoginEntry.uuid);
@@ -121,8 +124,6 @@ public class LoginManager {
     editor.putString(KEY_UUID_TO_ROLE + courseLoginEntry.uuid, courseLoginEntry.userRole);
     editor.putStringSet(KEY_UUID_SET, loginUuids);
     editor.apply();
-
-    Log.d(TAG, "Added login entry: " + courseLoginEntry);
   }
 
   /* Return set of (Beacon) UUIDs, one UUID for each course that the user is logged in to.

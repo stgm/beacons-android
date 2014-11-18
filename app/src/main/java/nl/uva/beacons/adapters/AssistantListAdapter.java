@@ -40,11 +40,11 @@ public class AssistantListAdapter extends ArrayAdapter<Map<String, String>> {
       subTitle = (TextView) convertView.getTag(R.id.assistant_details);
     }
 
-
     Map<String, String> assistantInfo = getItem(position);
     title.setText(assistantInfo.get(BeaconApi.ATTR_NAME));
     subTitle.setText("Major " + assistantInfo.get(BeaconApi.ATTR_LOC_A) + ", Minor "
         + assistantInfo.get(BeaconApi.ATTR_LOC_B) + ", help: " + assistantInfo.get(BeaconApi.ATTR_HELP));
     return convertView;
   }
+
 }

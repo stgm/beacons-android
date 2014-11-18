@@ -8,6 +8,7 @@ package nl.uva.beacons.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
+import nl.uva.beacons.activities.SettingsActivity;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -139,6 +141,9 @@ public class NavigationDrawerFragment extends Fragment {
       @Override
       public void onClick(View view) {
         Log.d("Header", "onClick");
+        Intent intent = new Intent(getActivity(), SettingsActivity.class);
+        intent.putExtra(SettingsActivity.KEY_MANAGE_LOGIN, true);
+        startActivity(intent);
       }
     });
     mDrawerListView.addHeaderView(header);

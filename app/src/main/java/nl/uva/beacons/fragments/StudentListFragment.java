@@ -1,6 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,7 +15,7 @@ import java.util.Map;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.StudentListAdapter;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,7 +23,7 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/7/14.
  */
-public class StudentListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class StudentListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
   private static final String TAG = StudentListFragment.class.getSimpleName();
   private SwipeRefreshLayout mSwipeRefreshLayout;
   private StudentListAdapter mAdapter;
@@ -51,7 +50,7 @@ public class StudentListFragment extends Fragment implements SwipeRefreshLayout.
 
   private void loadStudents() {
     String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
-    BeaconApiClient.get().getStudentList(userToken,
+    ApiClient.getStudentList(userToken,
         new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> studentList, Response response) {
@@ -75,4 +74,13 @@ public class StudentListFragment extends Fragment implements SwipeRefreshLayout.
   }
 
 
+  @Override
+  protected String getActionBarTitle() {
+    return getString(R.string.title_section_students_list);
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return 0;
+  }
 }

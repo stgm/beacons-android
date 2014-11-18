@@ -6,7 +6,6 @@
 package nl.uva.beacons.activities;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
@@ -14,7 +13,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +21,7 @@ import android.widget.Toast;
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.fragments.AssistantListFragment;
 import nl.uva.beacons.fragments.BeaconListFragment;
 import nl.uva.beacons.fragments.HelpFragment;
@@ -31,10 +29,10 @@ import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
 import nl.uva.beacons.fragments.StudentDetailFragment;
 import nl.uva.beacons.fragments.SelectCourseFragment;
-import nl.uva.beacons.fragments.SettingsFragment;
 import nl.uva.beacons.fragments.StudentListFragment;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, LoginFragment.LoginListener {
+public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+    LoginFragment.LoginListener, SelectCourseFragment.CourseSelectedListener {
 
   private static final int REQUEST_ENABLE_BT = 1234;
   private static final String TAG = MainActivity.class.getSimpleName();
@@ -103,7 +101,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
       if (resultCode != Activity.RESULT_OK) {
         Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
       }
-    } else if (resultCode == SettingsFragment.RESULT_LOG_OUT) {
+    } else if (resultCode == SettingsActivity.RESULT_LOG_OUT) {
       Log.d(TAG, "Restarting mainActivity...");
       restartActivity();
     }
@@ -145,19 +143,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
   }
 
-  private void replaceFragment(Fragment fragment) {
-    FragmentManager fragmentManager = getFragmentManager();
 
-    String fragmentClassNameAsTag = fragment.getClass().getName();
-    Fragment f = fragmentManager.findFragmentByTag(fragmentClassNameAsTag);
-    if (f != null && f.isAdded()) {
-      /* This fragment is already active, do nothing */
-      return;
-    }
-    fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        .replace(R.id.container, fragment, fragmentClassNameAsTag)
-        .commit();
-  }
 
   public void showLogin() {
     getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
@@ -199,7 +185,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     /* Set up the beacon manager */
-    BeaconApiClient.init(this);
+    ApiClient.init(this);
     ((BeaconsApplication)getApplication()).startTracking();
 
     mNavigationDrawerFragment.setUp(
@@ -215,5 +201,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
   @Override
   public void onLoginFailure() {
 
+  }
+
+  @Override
+  public void onCourseSelected() {
+    showLogin();
   }
 }

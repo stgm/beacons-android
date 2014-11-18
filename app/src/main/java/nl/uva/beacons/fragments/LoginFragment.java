@@ -21,10 +21,11 @@ import android.widget.TextView;
 
 import java.util.Map;
 
-import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.activities.BaseActivity;
+import nl.uva.beacons.api.ApiClient;
+import nl.uva.beacons.api.BeaconApi;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -32,7 +33,7 @@ import retrofit.client.Response;
 /**
  * Created by sander on 11/5/14.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends BaseFragment implements View.OnClickListener {
   private static final int PAIR_CODE_LENGTH = 4;
   private static final String TAG = LoginFragment.class.getSimpleName();
   private EditText mPinInput;
@@ -67,9 +68,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     View v = inflater.inflate(R.layout.fragment_login, container, false);
     TextView textView = (TextView) v.findViewById(R.id.login_chosen_course_name);
 
-
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
     String courseName = sp.getString(getString(R.string.pref_key_course_name), "");
     textView.setText(courseName);
     mLoginEntry.courseName = courseName;
@@ -85,6 +84,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     super.onCreateOptionsMenu(menu, inflater);
     menu.clear();
     inflater.inflate(R.menu.global, menu);
+  }
+
+  @Override
+  protected String getActionBarTitle() {
+    return getString(R.string.log_in);
+  }
+
+  @Override
+  protected int getHomeButtonMode() {
+    return BaseFragment.HOME_BUTTON_BACK;
   }
 
   @Override
@@ -105,6 +114,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
       Log.d(TAG, "Registering user, pin: " + pin);
       mLoginButton.setEnabled(false);
       mLoginButton.setText(R.string.log_in_busy);
+      ApiClient.init(getActivity());
 
       final CancelableCallback<Map<String, String>> identifyCallback = new CancelableCallback<Map<String, String>>(this) {
         @Override
@@ -118,6 +128,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             mLoginEntry.userRole = userRole;
 
             /* All data received. Finally add login entry */
+            // TEMP - FOR TESTING PURPOSES
+            // TODO
+            if(!mLoginEntry.url.equals("https://prog2.mprog.nl/")) {
+              mLoginEntry.uuid += "blabla";
+            }
+
             LoginManager.addLoginEntry(getActivity(), mLoginEntry);
             ((LoginListener)getActivity()).onLoginSuccess(true);
           } else {
@@ -146,7 +162,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             mLoginEntry.userToken = userIdToken;
             mLoginEntry.uuid = beaconUuid;
 
-            BeaconApiClient.get().identifyUser(userIdToken, identifyCallback);
+            ApiClient.identifyUser(mLoginEntry.url, userIdToken, identifyCallback);
           } else {
             handleLoginFailure();
           }
@@ -158,8 +174,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
           handleLoginFailure();
         }
       };
-      BeaconApiClient.init(getActivity());
-      BeaconApiClient.get().registerUser(pin, registerCallback);
+      ApiClient.init(getActivity());
+      ApiClient.registerUser(mLoginEntry.url, pin, registerCallback);
 
     } else {
       // Show input validation error

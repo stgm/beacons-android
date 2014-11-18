@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nl.uva.beacons.LoginManager;
-import nl.uva.beacons.api.BeaconApiClient;
+import nl.uva.beacons.api.ApiClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -92,7 +92,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   @Override
   public void didExitRegion(Region region) {
     Log.i(TAG, "didExitRegion: submitting...");
-    BeaconApiClient.get().submitGone(mUserToken, new Callback<JsonElement>() {
+    ApiClient.submitGone(mUserToken, new Callback<JsonElement>() {
       @Override
       public void success(JsonElement jsonElement, Response response) {
         Log.d(TAG, "Submit didExitRegion: success");
@@ -131,7 +131,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
 
       Log.d(TAG, "Submitting location...");
       Beacon mostNearbyBeacon = detectedBeacons.get(0);
-      BeaconApiClient.get().submitLocation(mUserToken, mostNearbyBeacon.getId2().toInt(), mostNearbyBeacon.getId3().toInt(),
+      ApiClient.submitLocation(mUserToken, mostNearbyBeacon.getId2().toInt(), mostNearbyBeacon.getId3().toInt(),
           new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
