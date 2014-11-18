@@ -23,21 +23,29 @@ Note: this may change at any time during development.
   * `StudentListFragment`
   * `BeaconListFragment`
   * `HelpFragment`
-  * `ChooseCourseFragment`
+  * `SelectCourseFragment`
   * `LoginFragment`
+  * `LoginManagerFragment`
+  * `NavigationDrawerFragment`
 * Adapters
   * `AssistantListAdapter`
   * `StudentListAdapter`
   * `BeaconListAdapter`
+  * `CourseListAdapter`
 * Other classes
   * `BeaconTracker`
   * `BeaconApi`
   * `BeaconApiClient`
   * `CancelableCallback`
+  * `LoginManager`
+  * `BeaconApplication`
 
 ### UI
-Login  
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_log_in.png" alt"Login" width="300px">  
+Select course  
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_select_course.png" alt"Login" width="300px">  
+
+Enter corresponding pairing code  
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_pairing_code.png" alt"Login" width="300px"> 
 
 Navigation menu  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_nav_drawer.png" alt"Navigation menu/drawer" width="300px">  
