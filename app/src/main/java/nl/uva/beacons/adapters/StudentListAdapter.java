@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import java.util.Comparator;
 import java.util.Map;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApi;
@@ -27,13 +28,10 @@ import retrofit.client.Response;
 public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
   private static final String TAG = StudentListAdapter.class.getSimpleName();
   private LayoutInflater mInflater;
-  private String mUserToken;
 
   public StudentListAdapter(Context context) {
     super(context, 0);
     mInflater = LayoutInflater.from(context);
-    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(context);
-    mUserToken = loginEntry.userToken;
   }
 
   @Override
@@ -68,7 +66,7 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
       public void onClick(View view) {
         helpIcon.setBackgroundResource(R.drawable.circle);
         helpIcon.refreshDrawableState();
-        ApiClient.clearHelp(mUserToken, studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
+        ApiClient.clearHelp(studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
           @Override
           public void onSuccess(JsonElement jsonElement, Response response) {
             Log.d(TAG, "Cleared help at position + " + position + ", studentid = " + studentInfo.get(BeaconApi.ATTR_STUDENT_ID));

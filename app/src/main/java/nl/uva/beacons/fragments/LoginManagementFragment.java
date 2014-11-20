@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.MainActivity;
@@ -31,7 +32,7 @@ public class LoginManagementFragment extends BaseFragment {
     View v = inflater.inflate(R.layout.fragment_login_management, container, false);
 
     ListView listView = (ListView) v.findViewById(R.id.manage_login_entry_list);
-    ArrayList<LoginManager.CourseLoginEntry> courseLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
+    ArrayList<LoginEntry> courseLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
     TextView textRole = (TextView)v.findViewById(R.id.login_management_role);
     TextView textNumberCourses = (TextView)v.findViewById(R.id.login_management_number_courses);
     textNumberCourses.setText("Momenteel ingelogd bij " + courseLoginEntries.size() + " vakken");

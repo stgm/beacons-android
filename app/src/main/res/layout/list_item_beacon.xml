@@ -36,10 +36,10 @@
 
     <TextView
         android:id="@+id/beacon_estimated_distance"
-        tools:text="1.0"
+        tools:text="1.0m"
         android:gravity="center"
         android:textSize="22sp"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="50dp"/>
 
 </LinearLayout>

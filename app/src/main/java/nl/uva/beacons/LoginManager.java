@@ -23,14 +23,6 @@ public class LoginManager {
   public static final String KEY_UUID_SET = "key_uuid_set";
   public static final String KEY_CURRENT_UUID = "key_current_uuid";
 
-  public static class CourseLoginEntry implements Serializable {
-    public String courseName;
-    public String url;
-    public String uuid;
-    public String userToken;
-    public String userRole;
-  }
-
   public static boolean isLoggedIn(Context context) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     Set<String> uuids = sp.getStringSet(KEY_UUID_SET, null);
@@ -39,9 +31,9 @@ public class LoginManager {
     return loggedIn;
   }
 
-  public static ArrayList<CourseLoginEntry> getCourseLoginEntries(Context context) {
+  public static ArrayList<LoginEntry> getCourseLoginEntries(Context context) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    ArrayList<CourseLoginEntry> courseEntries = new ArrayList<CourseLoginEntry>();
+    ArrayList<LoginEntry> courseEntries = new ArrayList<LoginEntry>();
     Set<String> uuids = sp.getStringSet(KEY_UUID_SET, null);
 
     if (uuids == null) {
@@ -49,7 +41,7 @@ public class LoginManager {
     }
 
     for (String uuid : uuids) {
-      CourseLoginEntry courseLoginEntry = new CourseLoginEntry();
+      LoginEntry courseLoginEntry = new LoginEntry();
       courseLoginEntry.uuid = uuid;
       courseLoginEntry.courseName = sp.getString(KEY_UUID_TO_NAME + uuid, null);
       courseLoginEntry.url = sp.getString(KEY_UUID_TO_URL + uuid, null);
@@ -77,26 +69,9 @@ public class LoginManager {
     edit.apply();
   }
 
-  public static void setCurrentUuid(Context context, String uuid) {
-    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-    editor.putString(KEY_CURRENT_UUID, uuid).apply();
-  }
-
-  public static String getCurrentUuid(Context context) {
+  public static LoginEntry getEntryForUuid(Context context, String uuid) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    return sp.getString(KEY_CURRENT_UUID, null);
-  }
-
-  public static String getCurrentEndpointUrl(Context context) {
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    String currentUuid = getCurrentUuid(context);
-    return sp.getString(KEY_UUID_TO_URL + currentUuid, null);
-  }
-
-  public static CourseLoginEntry getCurrentEntry(Context context) {
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    String uuid = getCurrentUuid(context);
-    CourseLoginEntry courseLoginEntry = new CourseLoginEntry();
+    LoginEntry courseLoginEntry = new LoginEntry();
     courseLoginEntry.uuid = uuid;
     courseLoginEntry.courseName = sp.getString(KEY_UUID_TO_NAME + uuid, null);
     courseLoginEntry.url = sp.getString(KEY_UUID_TO_URL + uuid, null);
@@ -106,7 +81,7 @@ public class LoginManager {
     return courseLoginEntry;
   }
 
-  public static void addLoginEntry(Context context, CourseLoginEntry courseLoginEntry) {
+  public static void addLoginEntry(Context context, LoginEntry courseLoginEntry) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     SharedPreferences.Editor editor = sp.edit();
     Set<String> loginUuids = getLoginUuids(context);
@@ -115,9 +90,6 @@ public class LoginManager {
 
     Log.d(TAG, "adding uuid: " + courseLoginEntry.uuid  + ", url: " + courseLoginEntry.url);
     loginUuids.add(courseLoginEntry.uuid);
-    /* TEMP, probably */
-    editor.putString(KEY_CURRENT_UUID, courseLoginEntry.uuid);
-
     editor.putString(KEY_UUID_TO_URL + courseLoginEntry.uuid, courseLoginEntry.url);
     editor.putString(KEY_UUID_TO_TOKEN + courseLoginEntry.uuid, courseLoginEntry.userToken);
     editor.putString(KEY_UUID_TO_NAME + courseLoginEntry.uuid, courseLoginEntry.courseName);
@@ -128,7 +100,7 @@ public class LoginManager {
 
   /* Return set of (Beacon) UUIDs, one UUID for each course that the user is logged in to.
    */
-  public static HashSet<String> getLoginUuids(Context context) {
+  private static HashSet<String> getLoginUuids(Context context) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     Set<String> uuidSet = sp.getStringSet(KEY_UUID_SET, null);
     HashSet<String> returnSet;

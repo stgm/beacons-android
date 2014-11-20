@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.api.ApiClient;
 import retrofit.Callback;
@@ -38,71 +39,84 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   public static final BeaconParser IBEACON_PARSER = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
 
   private HashMap<String, Beacon> mRecentBeacons = new HashMap<String, Beacon>();
-  private String mUserToken;
-  private Identifier mUuid;
   private BeaconManager mBeaconManager;
   private BeaconListener mBeaconListener;
+  private Context mContext;
+  private ArrayList<Region> mTrackedRegions = new ArrayList<Region>();
 
   public BeaconTracker(BeaconManager beaconManager, Context context) {
     mBeaconManager = beaconManager;
-
-    LoginManager.CourseLoginEntry loginEntry = LoginManager.getCurrentEntry(context);
-    mUserToken = loginEntry.userToken;
-    mUuid = Identifier.parse(loginEntry.uuid);
-    Log.d(TAG, "uuid = " + mUuid);
+    mContext = context;
   }
 
   public void start() {
     Log.d(TAG, "start...");
     mBeaconManager.getBeaconParsers().remove(IBEACON_PARSER);
     mBeaconManager.getBeaconParsers().add(IBEACON_PARSER);
-
     mBeaconManager.setMonitorNotifier(this);
     mBeaconManager.setRangeNotifier(this);
-    Region beaconRegion = new Region(REGION_ALIAS, mUuid, null, null);
-
-    try {
-      mBeaconManager.startMonitoringBeaconsInRegion(beaconRegion);
-    } catch (RemoteException e) {
-      Log.e(TAG, "Remote exception: " + e.getMessage());
-    }
-
-    try {
-      mBeaconManager.startRangingBeaconsInRegion(beaconRegion);
-    } catch (RemoteException e) {
-      Log.e(TAG, "Remote exception: " + e.getMessage());
-    }
+    initRegions();
   }
 
   public void stop() {
-    Region beaconRegion = new Region(REGION_ALIAS, mUuid, null, null);
-    try {
-      mBeaconManager.stopMonitoringBeaconsInRegion(beaconRegion);
-      mBeaconManager.stopRangingBeaconsInRegion(beaconRegion);
-    } catch (RemoteException e) {
-      e.printStackTrace();
+    for(Region region : mTrackedRegions) {
+      try {
+        mBeaconManager.stopMonitoringBeaconsInRegion(region);
+        mBeaconManager.stopRangingBeaconsInRegion(region);
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void initRegions() {
+    if(mTrackedRegions.size() > 0) {
+      stop();
+    }
+    List<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(mContext);
+    for(LoginEntry entry : loginEntries) {
+      Region beaconRegion = new Region(REGION_ALIAS, Identifier.parse(entry.uuid), null, null);
+      mTrackedRegions.add(beaconRegion);
+      try {
+        mBeaconManager.startMonitoringBeaconsInRegion(beaconRegion);
+      } catch (RemoteException e) {
+        Log.e(TAG, "Remote exception: " + e.getMessage());
+      }
+
+      try {
+        mBeaconManager.startRangingBeaconsInRegion(beaconRegion);
+      } catch (RemoteException e) {
+        Log.e(TAG, "Remote exception: " + e.getMessage());
+      }
     }
   }
 
   @Override
   public void didEnterRegion(Region region) {
-    Log.i(TAG, "I just entered the minprog region.");
+    Log.i(TAG, "didEnterRegion");
+    LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
+    Log.i(TAG, "Submitting location for uuid = " + loginEntry.uuid +  ", " + loginEntry.courseName);
+    int major = region.getId2() == null ? 0 : region.getId2().toInt();
+    int minor = region.getId3() == null ? 0 : region.getId3().toInt();
+    ApiClient.submitLocation(loginEntry, major, minor, submitCallback);
   }
 
   @Override
   public void didExitRegion(Region region) {
-    Log.i(TAG, "didExitRegion: submitting...");
-    ApiClient.submitGone(mUserToken, new Callback<JsonElement>() {
-      @Override
-      public void success(JsonElement jsonElement, Response response) {
-        Log.d(TAG, "Submit didExitRegion: success");
-      }
+      Log.i(TAG, "didExitRegion: submitting...");
+      LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
 
-      @Override
-      public void failure(RetrofitError error) {
+      ApiClient.submitGone(loginEntry, new Callback<JsonElement>() {
+        @Override
+        public void success(JsonElement jsonElement, Response response) {
+          Log.d(TAG, "submitGone: success");
+        }
 
-      }
-    });
+        @Override
+        public void failure(RetrofitError error) {
+          Log.d(TAG, "submitGone failure: " + error.getMessage());
+        }
+      });
   }
 
   @Override
@@ -122,27 +136,21 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
       }
 
       List<Beacon> detectedBeacons = getSortedBeaconList(beacons);
-      Log.i(TAG, "I just detected " + detectedBeacons.size() + " beacons!");
+      Log.i(TAG, "I just detected " + detectedBeacons.size() + " beacon(s)!");
 
       if (mBeaconListener != null) {
         Log.i(TAG, "Sending onBeaconRanged to listener");
         mBeaconListener.onBeaconsRanged(getSortedBeaconList(mRecentBeacons.values()));
       }
 
-      Log.d(TAG, "Submitting location...");
-      Beacon mostNearbyBeacon = detectedBeacons.get(0);
-      ApiClient.submitLocation(mUserToken, mostNearbyBeacon.getId2().toInt(), mostNearbyBeacon.getId3().toInt(),
-          new Callback<JsonElement>() {
-            @Override
-            public void success(JsonElement jsonElement, Response response) {
-              Log.d(TAG, "Location submitted.");
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-              Log.d(TAG, "Error submitting location: " + error.getMessage());
-            }
-          });
+      LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
+      Log.d(TAG, "Submitting location, uuid = " + loginEntry.uuid + ", " + loginEntry.courseName);
+      Beacon mostNearbyBeacon = detectedBeacons.get(0);
+
+      int major = region.getId2() == null ? 0 : mostNearbyBeacon.getId2().toInt();
+      int minor = region.getId3() == null ? 0 : mostNearbyBeacon.getId3().toInt();
+      ApiClient.submitLocation(loginEntry, major, minor, submitCallback);
     }
   }
 
@@ -167,4 +175,17 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   public interface BeaconListener {
     void onBeaconsRanged(List<Beacon> detectedBeacons);
   }
+
+  private Callback<JsonElement> submitCallback = new Callback<JsonElement>() {
+    @Override
+    public void success(JsonElement jsonElement, Response response) {
+      Log.d(TAG, "Location submitted.");
+    }
+
+    @Override
+    public void failure(RetrofitError error) {
+      Log.d(TAG, "Error submitting location: " + error.getMessage());
+    }
+  };
+
 }

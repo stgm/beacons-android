@@ -15,8 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import nl.uva.beacons.LoginEntry;
+import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.CourseListAdapter;
@@ -41,6 +45,8 @@ public class SelectCourseFragment extends BaseFragment implements AdapterView.On
 
     View v = inflater.inflate(R.layout.fragment_select_course, container, false);
     final ListView courseList = (ListView) v.findViewById(R.id.course_list_view);
+    courseList.setEmptyView(v.findViewById(R.id.courses_empty_view));
+
     mAdapter = new CourseListAdapter(getActivity());
     courseList.setAdapter(mAdapter);
     courseList.setOnItemClickListener(this);
@@ -49,7 +55,12 @@ public class SelectCourseFragment extends BaseFragment implements AdapterView.On
       @Override
       public void onSuccess(Map<String, String> coursesMap, Response response) {
         Log.d(TAG, "onSuccess: " + coursesMap);
-        coursesMap.entrySet();
+
+        List<LoginEntry> currentLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
+        /* Remove/filter the courses that we are already logged in to  */
+        for (LoginEntry loginEntry : currentLoginEntries) {
+          coursesMap.remove(loginEntry.courseName);
+        }
         mAdapter.clear();
         mAdapter.addAll(coursesMap.entrySet());
       }

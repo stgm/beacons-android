@@ -12,21 +12,24 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import nl.uva.beacons.BeaconsApplication;
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.SettingsActivity;
+import nl.uva.beacons.api.ApiClient;
 
 /**
  * Created by sander on 11/18/14.
  */
-public class LoginListAdapter extends ArrayAdapter<LoginManager.CourseLoginEntry> {
-  private List<LoginManager.CourseLoginEntry> mEntries;
+public class LoginListAdapter extends ArrayAdapter<LoginEntry> {
+  private List<LoginEntry> mEntries;
   private static final String TAG = LoginListAdapter.class.getSimpleName();
   private SettingsActivity mActivity;
 
   private LayoutInflater mLayoutInflater;
 
-  public LoginListAdapter(Context context, List<LoginManager.CourseLoginEntry> objects, SettingsActivity settingsActivity) {
+  public LoginListAdapter(Context context, List<LoginEntry> objects, SettingsActivity settingsActivity) {
     super(context, 0, objects);
     mActivity = settingsActivity;
     mEntries = objects;
@@ -53,7 +56,7 @@ public class LoginListAdapter extends ArrayAdapter<LoginManager.CourseLoginEntry
       buttonLogout = (TextView)convertView.getTag(R.id.course_log_out_button);
     }
 
-    LoginManager.CourseLoginEntry entry = getItem(position);
+    LoginEntry entry = getItem(position);
     loginCourseName.setText(entry.courseName);
     loginCourseUrl.setText(entry.url);
 
@@ -62,14 +65,13 @@ public class LoginListAdapter extends ArrayAdapter<LoginManager.CourseLoginEntry
       public void onClick(View view) {
         Log.d(TAG, "onClick logout " + position);
         showConfirmationDialog(getItem(position), position);
-
       }
     });
 
     return  convertView;
   }
 
-  private void showConfirmationDialog(LoginManager.CourseLoginEntry entry, final int position) {
+  private void showConfirmationDialog(final LoginEntry entry, final int position) {
     new AlertDialog.Builder(getContext()).setTitle("Bevestiging")
         .setMessage("Weet je zeker dat je je voor " + entry.courseName + " " + "wil afmelden?").setNegativeButton("Nee", new DialogInterface.OnClickListener() {
       @Override
@@ -79,10 +81,15 @@ public class LoginListAdapter extends ArrayAdapter<LoginManager.CourseLoginEntry
     }).setPositiveButton("Ja", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
+        LoginManager.removeCourseLogin(getContext(), entry.uuid);
         mEntries.remove(position);
         notifyDataSetChanged();
-        if(mEntries.size() == 0) {
+        if (mEntries.size() == 0) {
           mActivity.logOut();
+        } else {
+          /* Re-initialize the api client */
+          ApiClient.init(mActivity);
+          ((BeaconsApplication) mActivity.getApplication()).getBeaconTracker().initRegions();
         }
       }
     }).create().show();

@@ -23,18 +23,17 @@ import nl.uva.beacons.tracking.BeaconTracker;
  */
 public class BeaconListFragment extends BaseFragment implements BeaconTracker.BeaconListener {
   private BeaconListAdapter mAdapter;
-  private ListView mBeaconList;
 
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_beacon_list, container, false);
 
-    mBeaconList = (ListView) v.findViewById(R.id.fragment_beacons_list_view);
-    mBeaconList.setEmptyView(v.findViewById(R.id.beacons_empty_view));
+    ListView beaconList = (ListView) v.findViewById(R.id.fragment_beacons_list_view);
+    beaconList.setEmptyView(v.findViewById(R.id.beacons_empty_view));
 
     mAdapter = new BeaconListAdapter(getActivity());
-    mBeaconList.setAdapter(mAdapter);
+    beaconList.setAdapter(mAdapter);
     return v;
   }
 

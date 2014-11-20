@@ -42,7 +42,7 @@ public abstract class CancelableCallback<T> implements Callback<T> {
   @Override
   public void failure(RetrofitError error) {
     if (isOk()) {
-      Log.d(TAG, "Error: " + error + ", url: " + error.getUrl());
+      Log.d(TAG, "Error: " + error.getMessage() + ", url: " + error.getUrl());
       onFailure(error);
     }
   }

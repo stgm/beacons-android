@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.SettingsActivity;
@@ -128,7 +129,7 @@ public class NavigationDrawerFragment extends Fragment {
     View header = mInflater.inflate(R.layout.list_header_navigation, mDrawerListView, false);
     TextView role = (TextView) header.findViewById(R.id.list_header_login_role);
 
-    ArrayList<LoginManager.CourseLoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
+    ArrayList<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
 
     if (loginEntries.size() > 0) {
       role.setText("Ingelogd als " + loginEntries.get(0).userRole);

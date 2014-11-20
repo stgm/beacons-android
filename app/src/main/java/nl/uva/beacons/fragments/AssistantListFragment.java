@@ -49,13 +49,10 @@ public class AssistantListFragment extends BaseFragment implements SwipeRefreshL
   }
 
   private void loadStudents() {
-    String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
-    ApiClient.getAssistantList(userToken,
-        new CancelableCallback<List<Map<String, String>>>(this) {
+    ApiClient.getAssistantList(new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> assistantList, Response response) {
             Log.d(TAG, "onSuccess: " + assistantList.toString());
-            mAdapter.clear();
             mAdapter.addAll(assistantList);
             mSwipeRefreshLayout.setRefreshing(false);
           }
@@ -70,6 +67,7 @@ public class AssistantListFragment extends BaseFragment implements SwipeRefreshL
 
   @Override
   public void onRefresh() {
+    mAdapter.clear();
     loadStudents();
   }
 

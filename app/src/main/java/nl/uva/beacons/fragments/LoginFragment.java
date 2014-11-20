@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.Map;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.BaseActivity;
@@ -38,7 +39,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
   private static final String TAG = LoginFragment.class.getSimpleName();
   private EditText mPinInput;
   private Button mLoginButton;
-  private LoginManager.CourseLoginEntry mLoginEntry = new LoginManager.CourseLoginEntry();
+  private LoginEntry mLoginEntry = new LoginEntry();
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -57,7 +58,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       if (savedInstanceState.getSerializable("LOGIN") != null) {
-        mLoginEntry = (LoginManager.CourseLoginEntry) savedInstanceState.getSerializable("LOGIN");
+        mLoginEntry = (LoginEntry) savedInstanceState.getSerializable("LOGIN");
       }
     }
 
@@ -160,7 +161,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             Log.d(TAG, "Saving response token: " + userIdToken);
             Log.d(TAG, "Saving response beacon UUID: " + beaconUuid);
             mLoginEntry.userToken = userIdToken;
-            mLoginEntry.uuid = beaconUuid;
+            mLoginEntry.uuid = beaconUuid.toLowerCase();
 
             ApiClient.identifyUser(mLoginEntry.url, userIdToken, identifyCallback);
           } else {

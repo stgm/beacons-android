@@ -49,13 +49,10 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
   }
 
   private void loadStudents() {
-    String userToken = LoginManager.getCurrentEntry(getActivity()).userToken;
-    ApiClient.getStudentList(userToken,
-        new CancelableCallback<List<Map<String, String>>>(this) {
+    ApiClient.getStudentList(new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> studentList, Response response) {
             Log.d(TAG, "onSuccess: " + studentList.toString());
-            mAdapter.clear();
             mAdapter.addAll(studentList);
             mSwipeRefreshLayout.setRefreshing(false);
           }
@@ -70,6 +67,7 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
 
   @Override
   public void onRefresh() {
+    mAdapter.clear();
     loadStudents();
   }
 

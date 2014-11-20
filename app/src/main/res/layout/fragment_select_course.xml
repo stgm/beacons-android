@@ -20,6 +20,27 @@
         android:id="@+id/course_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        </ListView>
+    </ListView>
+
+
+    <LinearLayout
+        android:id="@+id/courses_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:indeterminate="true"
+            android:layout_marginBottom="10dp"
+            style="@style/Widget.AppCompat.ProgressBar"/>
+        <TextView
+            android:gravity="center"
+            android:text="Bezig met laden van vakken&#8230;"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </LinearLayout>

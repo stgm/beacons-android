@@ -70,6 +70,7 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
 
     /* Re-initialize the api client for the new URL */
     ApiClient.init(this);
+    ((BeaconsApplication) getApplication()).getBeaconTracker().initRegions();
     replaceFragment(new LoginManagementFragment());
   }
 
