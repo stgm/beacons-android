@@ -68,9 +68,12 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
   public void onLoginSuccess(boolean startUp) {
     getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-    /* Re-initialize the api client for the new URL */
+    /* Re-initialize the api client for the new URL
+     * Refresh the beacon tracker
+     */
     ApiClient.init(this);
-    ((BeaconsApplication) getApplication()).getBeaconTracker().initRegions();
+    ((BeaconsApplication) getApplication()).getBeaconTracker().stop();
+    ((BeaconsApplication) getApplication()).getBeaconTracker().start();
     replaceFragment(new LoginManagementFragment());
   }
 

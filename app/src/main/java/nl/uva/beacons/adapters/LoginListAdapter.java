@@ -89,7 +89,8 @@ public class LoginListAdapter extends ArrayAdapter<LoginEntry> {
         } else {
           /* Re-initialize the api client */
           ApiClient.init(mActivity);
-          ((BeaconsApplication) mActivity.getApplication()).getBeaconTracker().initRegions();
+          ((BeaconsApplication) mActivity.getApplication()).getBeaconTracker().stop();
+          ((BeaconsApplication) mActivity.getApplication()).getBeaconTracker().start();
         }
       }
     }).create().show();
