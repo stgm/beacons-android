@@ -61,25 +61,6 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
     }
 
     final Map<String, String> studentInfo = getItem(position);
-    helpIcon.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        helpIcon.setBackgroundResource(R.drawable.circle);
-        helpIcon.refreshDrawableState();
-        ApiClient.clearHelp(studentInfo.get(BeaconApi.ATTR_STUDENT_ID), new CancelableCallback<JsonElement>() {
-          @Override
-          public void onSuccess(JsonElement jsonElement, Response response) {
-            Log.d(TAG, "Cleared help at position + " + position + ", studentid = " + studentInfo.get(BeaconApi.ATTR_STUDENT_ID));
-          }
-
-          @Override
-          public void onFailure(RetrofitError error) {
-            Log.d(TAG, "failure: " + error.getMessage());
-          }
-        });
-      }
-    });
-
     title.setText(studentInfo.get(BeaconApi.ATTR_NAME));
     subTitle.setText("Major " + studentInfo.get(BeaconApi.ATTR_LOC_A) + ", Minor "
         + studentInfo.get(BeaconApi.ATTR_LOC_B) + ", help: " + studentInfo.get(BeaconApi.ATTR_HELP));

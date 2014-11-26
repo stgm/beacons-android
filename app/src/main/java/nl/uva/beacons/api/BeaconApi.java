@@ -22,6 +22,7 @@ public interface BeaconApi {
   static final String ATTR_LOC_B = "locb";
   static final String ATTR_HELP = "help";
   static final String ATTR_UPDATED = "updated";
+  static final String ATTR_QUESTION = "help_question";
   static final String ATTR_STUDENT_ID = "id";
   static final String FIELD_TOKEN = "token";
 
