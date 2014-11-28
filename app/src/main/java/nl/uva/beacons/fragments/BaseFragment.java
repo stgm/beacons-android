@@ -1,10 +1,12 @@
 package nl.uva.beacons.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
+
+import nl.uva.beacons.R;
+import nl.uva.beacons.activities.BaseActivity;
 
 
 /**
@@ -19,26 +21,28 @@ public abstract class BaseFragment extends Fragment {
   protected abstract int getHomeButtonMode();
 
   @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    setHasOptionsMenu(true);
-    final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-
-    if(actionBar != null) {
-      actionBar.setTitle(getActionBarTitle());
-      switch (getHomeButtonMode()) {
-        case HOME_BUTTON_BACK:
-          Log.d(TAG, "HOME_BUTTON_BACK");
-          actionBar.setDisplayShowHomeEnabled(true);
-          actionBar.setDisplayHomeAsUpEnabled(true);
-          break;
-        case HOME_BUTTON_DRAWER:
-          Log.d(TAG, "HOME_BUTTON_DRAWER");
-          break;
-        default:
-          break;
-      }
-    }
+  public void onStart() {
+    super.onStart();
+    BaseActivity baseActivity = (BaseActivity) getActivity();
+    baseActivity.setActionBarConfig(getHomeButtonMode(), getActionBarTitle());
   }
 
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    setHasOptionsMenu(true);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
+    Log.d(TAG, "ids: " + R.id.home + ", " + R.id.homeAsUp);
+    if(item.getItemId() == R.id.home) {
+      Log.d(TAG, "R.id.home!");
+    }
+    if(getHomeButtonMode() == HOME_BUTTON_BACK) {
+      getFragmentManager().popBackStack();
+    }
+    return super.onOptionsItemSelected(item);
+  }
 }

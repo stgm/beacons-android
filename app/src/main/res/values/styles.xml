@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/material_primary_indigo</item>
         <item name="colorPrimaryDark">@color/material_dark_indigo</item>
         <item name="colorAccent">@color/material_light_indigo</item>
+
     </style>
 
 </resources>

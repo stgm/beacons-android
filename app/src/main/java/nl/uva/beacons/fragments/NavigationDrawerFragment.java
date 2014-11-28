@@ -44,8 +44,7 @@ public class NavigationDrawerFragment extends Fragment {
   public static final int PAGE_ASSISTANT_LIST = 1;
   public static final int PAGE_STUDENT_LIST = 2;
   public static final int PAGE_HELP = 3;
-  public static final int PAGE_QUESTIONS = 4;
-  public static final int PAGE_SCAN_BEACONS = 5;
+  public static final int PAGE_SCAN_BEACONS = 4;
 
   /**
    * Remember the position of the selected item.
@@ -168,7 +167,6 @@ public class NavigationDrawerFragment extends Fragment {
             getString(R.string.title_section_assistents_list),
             getString(R.string.title_section_students_list),
             getString(R.string.title_section_help),
-            getString(R.string.title_section_questions),
             getString(R.string.title_section_scan_beacons)
         }));
     mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -246,11 +244,11 @@ public class NavigationDrawerFragment extends Fragment {
     if (mDrawerListView != null) {
       mDrawerListView.setItemChecked(position, true);
     }
-    if (mDrawerLayout != null) {
-      mDrawerLayout.closeDrawer(mFragmentContainerView);
-    }
     if (mCallbacks != null) {
       mCallbacks.onNavigationDrawerItemSelected(position);
+    }
+    if (mDrawerLayout != null) {
+      mDrawerLayout.closeDrawer(mFragmentContainerView);
     }
   }
 
@@ -270,6 +268,10 @@ public class NavigationDrawerFragment extends Fragment {
     } else {
       drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
+  }
+
+  public ActionBarDrawerToggle getDrawerToggle() {
+    return mDrawerToggle;
   }
 
   @Override

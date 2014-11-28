@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarDrawerToggle;
 
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
@@ -32,7 +33,6 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
-    //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     if(getIntent() != null && getIntent().getBooleanExtra(KEY_MANAGE_LOGIN, false)) {
       replaceFragment(new LoginManagementFragment());
@@ -80,5 +80,10 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
   @Override
   public void onLoginFailure() {
 
+  }
+
+  @Override
+  public ActionBarDrawerToggle getDrawerToggle() {
+    return null;
   }
 }

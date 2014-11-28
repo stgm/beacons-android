@@ -3,15 +3,27 @@ package nl.uva.beacons.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 
 import nl.uva.beacons.R;
 
 /**
  * Created by sander on 11/18/14.
  */
-public class BaseActivity extends ActionBarActivity {
-  public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+public abstract class BaseActivity extends ActionBarActivity {
+  private static final String TAG = BaseActivity.class.getSimpleName();
+
+  public static final int HOME_BUTTON_BACK = 1;
+  public static final int HOME_BUTTON_DRAWER = 2;
+
+  public abstract ActionBarDrawerToggle getDrawerToggle();
+
+
+
+  public void replaceFragment(Fragment fragment, boolean addToBackStack, int transactionAnimation) {
     FragmentManager fragmentManager = getFragmentManager();
 
     String fragmentClassNameAsTag = fragment.getClass().getName();
@@ -20,7 +32,7 @@ public class BaseActivity extends ActionBarActivity {
       /* This fragment is already active, do nothing */
       return;
     }
-    FragmentTransaction ft = fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+    FragmentTransaction ft = fragmentManager.beginTransaction().setTransition(transactionAnimation);
     if(addToBackStack) {
       ft = ft.addToBackStack(null);
     }
@@ -30,4 +42,37 @@ public class BaseActivity extends ActionBarActivity {
   public void replaceFragment(Fragment fragment) {
     replaceFragment(fragment, false);
   }
+
+  public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+    replaceFragment(fragment, addToBackStack, FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+  }
+
+  public void setActionBarConfig(final int mode, String title) {
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setTitle(title);
+    ActionBarDrawerToggle toggle = getDrawerToggle();
+
+    switch (mode) {
+      case HOME_BUTTON_BACK:
+        Log.d(TAG, "HOME_BUTTON_BACK");
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(toggle != null) {
+          toggle.setDrawerIndicatorEnabled(false);
+        }
+        break;
+      case HOME_BUTTON_DRAWER:
+        Log.d(TAG, "HOME_BUTTON_DRAWER");
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(toggle != null) {
+          Log.d(TAG, "Set drawer indicator enabled true");
+          toggle.setDrawerIndicatorEnabled(true);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
 }

@@ -67,6 +67,6 @@ public class BeaconListFragment extends BaseFragment implements BeaconTracker.Be
 
   @Override
   protected int getHomeButtonMode() {
-    return 0;
+    return BaseFragment.HOME_BUTTON_DRAWER;
   }
 }

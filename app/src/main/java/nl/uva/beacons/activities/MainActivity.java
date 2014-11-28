@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,9 +86,9 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     }
   }
 
-  public void setDrawerBackButton(boolean enabled) {
-    getSupportActionBar().setHomeButtonEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
+  @Override
+  public ActionBarDrawerToggle getDrawerToggle() {
+    return mNavigationDrawerFragment.getDrawerToggle();
   }
 
   @Override
@@ -136,14 +138,9 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         case NavigationDrawerFragment.PAGE_SCAN_BEACONS:
           replaceFragment(new BeaconListFragment());
           break;
-        case NavigationDrawerFragment.PAGE_QUESTIONS:
-          replaceFragment(new StudentDetailFragment());
-          break;
       }
     }
   }
-
-
 
   public void showLogin() {
     getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)

@@ -2,6 +2,7 @@ package nl.uva.beacons.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,7 +85,7 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
 
   @Override
   protected int getHomeButtonMode() {
-    return 0;
+    return BaseFragment.HOME_BUTTON_DRAWER;
   }
 
   @Override
@@ -92,7 +93,8 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
 
     Map<String, String> clickedStudent = mAdapter.getItem(position);
     if(Boolean.parseBoolean(clickedStudent.get(BeaconApi.ATTR_HELP))) {
-      ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(new HashMap<String, String>(clickedStudent)), true);
+      ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(new HashMap<String, String>(clickedStudent)),
+          true, android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
   }
 }

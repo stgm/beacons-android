@@ -63,7 +63,7 @@ public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
     final Map<String, String> studentInfo = getItem(position);
     title.setText(studentInfo.get(BeaconApi.ATTR_NAME));
     subTitle.setText("Major " + studentInfo.get(BeaconApi.ATTR_LOC_A) + ", Minor "
-        + studentInfo.get(BeaconApi.ATTR_LOC_B) + ", help: " + studentInfo.get(BeaconApi.ATTR_HELP));
+        + studentInfo.get(BeaconApi.ATTR_LOC_B));
 
     boolean needsHelp = Boolean.parseBoolean(studentInfo.get(BeaconApi.ATTR_HELP));
     int helpRes = needsHelp ? R.drawable.circle_dark : R.drawable.circle;

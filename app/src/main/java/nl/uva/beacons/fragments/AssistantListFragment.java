@@ -12,7 +12,6 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.Map;
 
-import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.AssistantListAdapter;
 import nl.uva.beacons.api.ApiClient;
@@ -43,12 +42,12 @@ public class AssistantListFragment extends BaseFragment implements SwipeRefreshL
     mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
     mSwipeRefreshLayout.setOnRefreshListener(this);
     mSwipeRefreshLayout.setColorSchemeResources(R.color.material_dark_indigo, R.color.material_primary_indigo, R.color.material_light_indigo);
-    loadStudents();
+    loadAssistants();
 
     return v;
   }
 
-  private void loadStudents() {
+  private void loadAssistants() {
     ApiClient.getAssistantList(new CancelableCallback<List<Map<String, String>>>(this) {
           @Override
           public void onSuccess(List<Map<String, String>> assistantList, Response response) {
@@ -68,7 +67,7 @@ public class AssistantListFragment extends BaseFragment implements SwipeRefreshL
   @Override
   public void onRefresh() {
     mAdapter.clear();
-    loadStudents();
+    loadAssistants();
   }
 
   @Override
@@ -78,6 +77,6 @@ public class AssistantListFragment extends BaseFragment implements SwipeRefreshL
 
   @Override
   protected int getHomeButtonMode() {
-    return 0;
+    return BaseFragment.HOME_BUTTON_DRAWER;
   }
 }
