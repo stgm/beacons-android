@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
       onLoginSuccess(false);
     } else {
       Log.d(TAG, "Not logged in");
-      mNavigationDrawerFragment.setDrawerEnabled(drawerLayout, false);
+      mNavigationDrawerFragment.setDrawerEnabled(false, drawerLayout);
       if (shouldRestoreFragments) {
         replaceFragment(new SelectCourseFragment());
       }
@@ -89,6 +89,11 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
   @Override
   public ActionBarDrawerToggle getDrawerToggle() {
     return mNavigationDrawerFragment.getDrawerToggle();
+  }
+
+  @Override
+  public NavigationDrawerFragment getNavigationDrawerFragment() {
+    return mNavigationDrawerFragment;
   }
 
   @Override

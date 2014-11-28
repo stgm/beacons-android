@@ -174,7 +174,7 @@ public class NavigationDrawerFragment extends Fragment {
     mFragmentContainerView = getActivity().findViewById(fragmentId);
     mDrawerLayout = drawerLayout;
 
-    setDrawerEnabled(drawerLayout, true);
+    setDrawerEnabled(true);
 
     // set a custom shadow that overlays the main content when the drawer opens
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -262,7 +262,15 @@ public class NavigationDrawerFragment extends Fragment {
     }
   }
 
-  public void setDrawerEnabled(DrawerLayout drawerLayout, boolean enabled) {
+  public void setDrawerEnabled(boolean enabled) {
+    setDrawerEnabled(enabled, mDrawerLayout);
+  }
+
+  public void setDrawerEnabled(boolean enabled, DrawerLayout drawerLayout) {
+    if(drawerLayout == null) {
+      return;
+    }
+
     if (enabled) {
       drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     } else {
@@ -285,7 +293,7 @@ public class NavigationDrawerFragment extends Fragment {
     if (mDrawerLayout == null) {
       return false;
     }
-    return mDrawerLayout.getDrawerLockMode(Gravity.START) == DrawerLayout.LOCK_MODE_LOCKED_CLOSED ||
+    return 
         mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }
 

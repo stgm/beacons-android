@@ -3,12 +3,14 @@ package nl.uva.beacons.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 
 import nl.uva.beacons.R;
+import nl.uva.beacons.fragments.NavigationDrawerFragment;
 
 /**
  * Created by sander on 11/18/14.
@@ -20,8 +22,7 @@ public abstract class BaseActivity extends ActionBarActivity {
   public static final int HOME_BUTTON_DRAWER = 2;
 
   public abstract ActionBarDrawerToggle getDrawerToggle();
-
-
+  public abstract NavigationDrawerFragment getNavigationDrawerFragment();
 
   public void replaceFragment(Fragment fragment, boolean addToBackStack, int transactionAnimation) {
     FragmentManager fragmentManager = getFragmentManager();
@@ -51,6 +52,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setTitle(title);
     ActionBarDrawerToggle toggle = getDrawerToggle();
+    NavigationDrawerFragment navigationDrawerFragment = getNavigationDrawerFragment();
 
     switch (mode) {
       case HOME_BUTTON_BACK:
@@ -60,6 +62,9 @@ public abstract class BaseActivity extends ActionBarActivity {
         if(toggle != null) {
           toggle.setDrawerIndicatorEnabled(false);
         }
+        if(navigationDrawerFragment != null) {
+          navigationDrawerFragment.setDrawerEnabled(false);
+        }
         break;
       case HOME_BUTTON_DRAWER:
         Log.d(TAG, "HOME_BUTTON_DRAWER");
@@ -68,6 +73,9 @@ public abstract class BaseActivity extends ActionBarActivity {
         if(toggle != null) {
           Log.d(TAG, "Set drawer indicator enabled true");
           toggle.setDrawerIndicatorEnabled(true);
+        }
+        if(navigationDrawerFragment != null) {
+          navigationDrawerFragment.setDrawerEnabled(true);
         }
         break;
       default:

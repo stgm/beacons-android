@@ -12,6 +12,7 @@ import nl.uva.beacons.R;
 import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.LoginManagementFragment;
+import nl.uva.beacons.fragments.NavigationDrawerFragment;
 import nl.uva.beacons.fragments.SelectCourseFragment;
 import nl.uva.beacons.fragments.SettingsFragment;
 
@@ -84,6 +85,11 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
 
   @Override
   public ActionBarDrawerToggle getDrawerToggle() {
+    return null;
+  }
+
+  @Override
+  public NavigationDrawerFragment getNavigationDrawerFragment() {
     return null;
   }
 }

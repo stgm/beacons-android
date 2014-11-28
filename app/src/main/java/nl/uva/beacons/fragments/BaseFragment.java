@@ -42,7 +42,8 @@ public abstract class BaseFragment extends Fragment {
     }
     if(getHomeButtonMode() == HOME_BUTTON_BACK) {
       getFragmentManager().popBackStack();
+      return true;
     }
-    return super.onOptionsItemSelected(item);
+    return false;
   }
 }
