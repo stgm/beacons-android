@@ -16,6 +16,8 @@ import nl.uva.beacons.api.BeaconApi;
  * Created by sander on 11/8/14.
  */
 public class AssistantListAdapter extends ArrayAdapter<Map<String, String>> {
+    /* TODO: Merge duplicate assistant entries */
+
   private LayoutInflater mInflater;
 
   public AssistantListAdapter(Context context) {
@@ -43,7 +45,7 @@ public class AssistantListAdapter extends ArrayAdapter<Map<String, String>> {
     Map<String, String> assistantInfo = getItem(position);
     title.setText(assistantInfo.get(BeaconApi.ATTR_NAME));
     subTitle.setText("Major " + assistantInfo.get(BeaconApi.ATTR_LOC_A) + ", Minor "
-        + assistantInfo.get(BeaconApi.ATTR_LOC_B) + ", help: " + assistantInfo.get(BeaconApi.ATTR_HELP));
+        + assistantInfo.get(BeaconApi.ATTR_LOC_B));
     return convertView;
   }
 

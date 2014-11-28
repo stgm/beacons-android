@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonElement;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -26,7 +27,10 @@ import retrofit.client.Response;
  * Created by sander on 11/8/14.
  */
 public class StudentListAdapter extends ArrayAdapter<Map<String, String>> {
+  /* TODO: Merge duplicate student entries */
+
   private static final String TAG = StudentListAdapter.class.getSimpleName();
+
   private LayoutInflater mInflater;
 
   public StudentListAdapter(Context context) {

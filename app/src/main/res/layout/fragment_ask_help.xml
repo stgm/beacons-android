@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vraag om hulp bij vak"
+        android:text="Kies vak"
         android:layout_marginBottom="5dp"/>
     <Spinner
         android:id="@+id/help_course_spinner"

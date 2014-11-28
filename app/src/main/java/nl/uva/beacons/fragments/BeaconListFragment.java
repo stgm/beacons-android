@@ -1,6 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
-import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.BeaconListAdapter;
 import nl.uva.beacons.tracking.BeaconTracker;
 
