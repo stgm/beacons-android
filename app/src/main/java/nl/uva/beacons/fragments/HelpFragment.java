@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.google.gson.JsonElement;
 
@@ -44,12 +42,12 @@ public class HelpFragment extends BaseFragment {
 
     mAdapter = new HelpCourseListAdapter(getActivity());
 
-    mSpinner = (Spinner)v.findViewById(R.id.help_course_spinner);
+    mSpinner = (Spinner) v.findViewById(R.id.help_course_spinner);
     mSpinner.setAdapter(mAdapter);
     mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "Selected: " + ((LoginEntry)mSpinner.getSelectedItem()).courseName);
+        Log.d(TAG, "Selected: " + ((LoginEntry) mSpinner.getSelectedItem()).courseName);
       }
 
       @Override
@@ -61,10 +59,10 @@ public class HelpFragment extends BaseFragment {
     helpButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Log.d(TAG, "Asking for help, course: " + ((LoginEntry)mSpinner.getSelectedItem()).courseName);
+        Log.d(TAG, "Asking for help, course: " + ((LoginEntry) mSpinner.getSelectedItem()).courseName);
         helpButton.setEnabled(false);
         String message = editText.getText().toString();
-        ApiClient.askHelp((LoginEntry)mSpinner.getSelectedItem(), true, message, new Callback<JsonElement>() {
+        ApiClient.askHelp((LoginEntry) mSpinner.getSelectedItem(), true, message, new Callback<JsonElement>() {
           @Override
           public void success(JsonElement jsonElement, Response response) {
             Log.d(TAG, "Asked help!");

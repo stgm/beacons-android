@@ -58,7 +58,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   }
 
   public void stop() {
-    for(Region region : mTrackedRegions) {
+    for (Region region : mTrackedRegions) {
       try {
         mBeaconManager.stopMonitoringBeaconsInRegion(region);
         mBeaconManager.stopRangingBeaconsInRegion(region);
@@ -69,11 +69,11 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   }
 
   public void initRegions() {
-    if(mTrackedRegions.size() > 0) {
+    if (mTrackedRegions.size() > 0) {
       stop();
     }
     List<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(mContext);
-    for(LoginEntry entry : loginEntries) {
+    for (LoginEntry entry : loginEntries) {
       Region beaconRegion = new Region(REGION_ALIAS, Identifier.parse(entry.uuid), null, null);
       mTrackedRegions.add(beaconRegion);
       try {
@@ -94,7 +94,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
   public void didEnterRegion(Region region) {
     Log.i(TAG, "didEnterRegion");
     LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
-    Log.i(TAG, "Submitting location for uuid = " + loginEntry.uuid +  ", " + loginEntry.courseName);
+    Log.i(TAG, "Submitting location for uuid = " + loginEntry.uuid + ", " + loginEntry.courseName);
     int major = region.getId2() == null ? 0 : region.getId2().toInt();
     int minor = region.getId3() == null ? 0 : region.getId3().toInt();
     ApiClient.submitLocation(loginEntry, major, minor, submitCallback);
@@ -102,20 +102,20 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
 
   @Override
   public void didExitRegion(Region region) {
-      Log.i(TAG, "didExitRegion: submitting...");
-      LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
+    Log.i(TAG, "didExitRegion: submitting...");
+    LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
 
-      ApiClient.submitGone(loginEntry, new Callback<JsonElement>() {
-        @Override
-        public void success(JsonElement jsonElement, Response response) {
-          Log.d(TAG, "submitGone: success");
-        }
+    ApiClient.submitGone(loginEntry, new Callback<JsonElement>() {
+      @Override
+      public void success(JsonElement jsonElement, Response response) {
+        Log.d(TAG, "submitGone: success");
+      }
 
-        @Override
-        public void failure(RetrofitError error) {
-          Log.d(TAG, "submitGone failure: " + error.getMessage());
-        }
-      });
+      @Override
+      public void failure(RetrofitError error) {
+        Log.d(TAG, "submitGone failure: " + error.getMessage());
+      }
+    });
   }
 
   @Override

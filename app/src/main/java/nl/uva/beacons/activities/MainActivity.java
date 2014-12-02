@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,13 +22,11 @@ import android.widget.Toast;
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.fragments.AssistantListFragment;
 import nl.uva.beacons.fragments.BeaconListFragment;
 import nl.uva.beacons.fragments.HelpFragment;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
-import nl.uva.beacons.fragments.StudentDetailFragment;
 import nl.uva.beacons.fragments.SelectCourseFragment;
 import nl.uva.beacons.fragments.StudentListFragment;
 
@@ -51,7 +48,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    mApp = (BeaconsApplication)getApplication();
+    mApp = (BeaconsApplication) getApplication();
     mNavigationDrawerFragment = (NavigationDrawerFragment)
         getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -77,7 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
       return;
     }
 
-    if(mApp.shouldRequestBluetooth()) {
+    if (mApp.shouldRequestBluetooth()) {
       Log.d(TAG, "Should request bluetooth!");
       BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
       if (mBluetoothAdapter != null) {
@@ -191,8 +188,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     /* Set up the beacon manager */
-    ApiClient.init(this);
-    ((BeaconsApplication)getApplication()).startTracking();
+    ((BeaconsApplication) getApplication()).startTracking();
 
     mNavigationDrawerFragment.setUp(
         R.id.navigation_drawer,

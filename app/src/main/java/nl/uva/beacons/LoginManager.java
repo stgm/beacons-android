@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import nl.uva.beacons.api.ApiClient;
 
 /**
  * Created by sander on 11/15/14.
@@ -52,9 +53,10 @@ public class LoginManager {
     return courseEntries;
   }
 
-  public static void removeCourseLogin(Context context, String uuid) {
+  public static void removeCourseLogin(Context context, LoginEntry login) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     Set<String> loginUuids = getLoginUuids(context);
+    String uuid = login.uuid;
     loginUuids.remove(uuid);
     SharedPreferences.Editor edit = sp.edit();
     edit.remove(KEY_UUID_SET);
@@ -67,6 +69,8 @@ public class LoginManager {
     }
     edit.putStringSet(KEY_UUID_SET, loginUuids);
     edit.apply();
+
+    ApiClient.removeApiForLogin(login);
   }
 
   public static LoginEntry getEntryForUuid(Context context, String uuid) {
@@ -81,21 +85,23 @@ public class LoginManager {
     return courseLoginEntry;
   }
 
-  public static void addLoginEntry(Context context, LoginEntry courseLoginEntry) {
+  public static void addLoginEntry(Context context, LoginEntry login) {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
     SharedPreferences.Editor editor = sp.edit();
     Set<String> loginUuids = getLoginUuids(context);
     Log.d(TAG, "addLoginEntry, old size: " + loginUuids.size());
     Log.d(TAG, loginUuids.toString());
 
-    Log.d(TAG, "adding uuid: " + courseLoginEntry.uuid  + ", url: " + courseLoginEntry.url);
-    loginUuids.add(courseLoginEntry.uuid);
-    editor.putString(KEY_UUID_TO_URL + courseLoginEntry.uuid, courseLoginEntry.url);
-    editor.putString(KEY_UUID_TO_TOKEN + courseLoginEntry.uuid, courseLoginEntry.userToken);
-    editor.putString(KEY_UUID_TO_NAME + courseLoginEntry.uuid, courseLoginEntry.courseName);
-    editor.putString(KEY_UUID_TO_ROLE + courseLoginEntry.uuid, courseLoginEntry.userRole);
+    Log.d(TAG, "adding uuid: " + login.uuid + ", url: " + login.url);
+    loginUuids.add(login.uuid);
+    editor.putString(KEY_UUID_TO_URL + login.uuid, login.url);
+    editor.putString(KEY_UUID_TO_TOKEN + login.uuid, login.userToken);
+    editor.putString(KEY_UUID_TO_NAME + login.uuid, login.courseName);
+    editor.putString(KEY_UUID_TO_ROLE + login.uuid, login.userRole);
     editor.putStringSet(KEY_UUID_SET, loginUuids);
     editor.apply();
+
+    ApiClient.addApiForLogin(login);
   }
 
   /* Return set of (Beacon) UUIDs, one UUID for each course that the user is logged in to.

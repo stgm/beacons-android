@@ -2,7 +2,6 @@ package nl.uva.beacons.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.StudentListAdapter;
@@ -56,19 +54,19 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
 
   private void loadStudents() {
     ApiClient.getStudentList(new CancelableCallback<List<Map<String, String>>>(this) {
-          @Override
-          public void onSuccess(List<Map<String, String>> studentList, Response response) {
-            Log.d(TAG, "onSuccess: " + studentList.toString());
-            mAdapter.addAll(studentList);
-            mSwipeRefreshLayout.setRefreshing(false);
-          }
+      @Override
+      public void onSuccess(List<Map<String, String>> studentList, Response response) {
+        Log.d(TAG, "onSuccess: " + studentList.toString());
+        mAdapter.addAll(studentList);
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
 
-          @Override
-          public void onFailure(RetrofitError error) {
-            Log.d(TAG, "onFailure: " + error.getMessage());
-            mSwipeRefreshLayout.setRefreshing(false);
-          }
-        });
+      @Override
+      public void onFailure(RetrofitError error) {
+        Log.d(TAG, "onFailure: " + error.getMessage());
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
+    });
   }
 
   @Override
@@ -92,7 +90,7 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     Map<String, String> clickedStudent = mAdapter.getItem(position);
-    if(Boolean.parseBoolean(clickedStudent.get(BeaconApi.ATTR_HELP))) {
+    if (Boolean.parseBoolean(clickedStudent.get(BeaconApi.ATTR_HELP))) {
       ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(new HashMap<String, String>(clickedStudent)),
           true, android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }

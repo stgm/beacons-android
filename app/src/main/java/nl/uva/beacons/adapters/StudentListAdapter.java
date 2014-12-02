@@ -1,27 +1,17 @@
 package nl.uva.beacons.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.gson.JsonElement;
-
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApi;
-import nl.uva.beacons.api.ApiClient;
-import nl.uva.beacons.api.CancelableCallback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by sander on 11/8/14.

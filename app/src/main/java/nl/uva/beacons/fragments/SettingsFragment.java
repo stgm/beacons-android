@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.BaseActivity;
-import nl.uva.beacons.activities.MainActivity;
 
 /**
  * Created by sander on 11/7/14.
@@ -34,7 +33,7 @@ public class SettingsFragment extends PreferenceFragment {
     findPreference(getString(R.string.pref_title_log_out)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
-        ((BaseActivity)getActivity()).replaceFragment(new LoginManagementFragment(), true);
+        ((BaseActivity) getActivity()).replaceFragment(new LoginManagementFragment(), true);
         return true;
       }
     });
@@ -42,8 +41,8 @@ public class SettingsFragment extends PreferenceFragment {
     findPreference(getString(R.string.pref_title_scan_interval)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
       @Override
       public boolean onPreferenceChange(Preference preference, Object o) {
-        BeaconsApplication app = (BeaconsApplication)getActivity().getApplication();
-        String value = (String)o;
+        BeaconsApplication app = (BeaconsApplication) getActivity().getApplication();
+        String value = (String) o;
         app.setScanPeriod(Long.parseLong(value));
         return true;
       }
@@ -77,9 +76,9 @@ public class SettingsFragment extends PreferenceFragment {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-      Log.d(TAG, "onOptionsItemSelected");
-      getActivity().onBackPressed();
-      return true;
+    Log.d(TAG, "onOptionsItemSelected");
+    getActivity().onBackPressed();
+    return true;
   }
 
 }

@@ -1,6 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,12 +16,10 @@ import android.widget.ListView;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.CourseListAdapter;
 import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;

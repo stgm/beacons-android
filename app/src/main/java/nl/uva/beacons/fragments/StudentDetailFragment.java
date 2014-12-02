@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.google.gson.JsonElement;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.ApiClient;
@@ -40,10 +39,10 @@ public class StudentDetailFragment extends BaseFragment {
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_student_detail, container, false);
 
-    final HashMap<String, String> map = (HashMap<String, String>)getArguments().getSerializable(KEY_STUDENT_INFO);
-    TextView studentName  = (TextView)v.findViewById(R.id.student_detail_name);
-    TextView studentQuestion = (TextView)v.findViewById(R.id.student_detail_question);
-    final Button confirmHelpButton = (Button)v.findViewById(R.id.button_confirm_help);
+    final HashMap<String, String> map = (HashMap<String, String>) getArguments().getSerializable(KEY_STUDENT_INFO);
+    TextView studentName = (TextView) v.findViewById(R.id.student_detail_name);
+    TextView studentQuestion = (TextView) v.findViewById(R.id.student_detail_question);
+    final Button confirmHelpButton = (Button) v.findViewById(R.id.button_confirm_help);
 
     studentName.setText(map.get(BeaconApi.ATTR_NAME));
     studentQuestion.setText(map.get(BeaconApi.ATTR_QUESTION));

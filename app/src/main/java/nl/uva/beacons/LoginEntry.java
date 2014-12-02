@@ -14,7 +14,7 @@ public class LoginEntry implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    return uuid.equals(((LoginEntry)o).uuid);
+    return uuid.equals(((LoginEntry) o).uuid);
   }
 
   @Override

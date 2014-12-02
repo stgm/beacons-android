@@ -3,7 +3,6 @@ package nl.uva.beacons.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +21,7 @@ public abstract class BaseActivity extends ActionBarActivity {
   public static final int HOME_BUTTON_DRAWER = 2;
 
   public abstract ActionBarDrawerToggle getDrawerToggle();
+
   public abstract NavigationDrawerFragment getNavigationDrawerFragment();
 
   public void replaceFragment(Fragment fragment, boolean addToBackStack, int transactionAnimation) {
@@ -34,7 +34,7 @@ public abstract class BaseActivity extends ActionBarActivity {
       return;
     }
     FragmentTransaction ft = fragmentManager.beginTransaction().setTransition(transactionAnimation);
-    if(addToBackStack) {
+    if (addToBackStack) {
       ft = ft.addToBackStack(null);
     }
     ft.replace(R.id.container, fragment, fragmentClassNameAsTag).commit();
@@ -59,10 +59,10 @@ public abstract class BaseActivity extends ActionBarActivity {
         Log.d(TAG, "HOME_BUTTON_BACK");
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(toggle != null) {
+        if (toggle != null) {
           toggle.setDrawerIndicatorEnabled(false);
         }
-        if(navigationDrawerFragment != null) {
+        if (navigationDrawerFragment != null) {
           navigationDrawerFragment.setDrawerEnabled(false);
         }
         break;
@@ -70,11 +70,11 @@ public abstract class BaseActivity extends ActionBarActivity {
         Log.d(TAG, "HOME_BUTTON_DRAWER");
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(toggle != null) {
+        if (toggle != null) {
           Log.d(TAG, "Set drawer indicator enabled true");
           toggle.setDrawerIndicatorEnabled(true);
         }
-        if(navigationDrawerFragment != null) {
+        if (navigationDrawerFragment != null) {
           navigationDrawerFragment.setDrawerEnabled(true);
         }
         break;

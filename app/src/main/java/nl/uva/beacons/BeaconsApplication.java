@@ -1,7 +1,6 @@
 package nl.uva.beacons;
 
 import android.app.Application;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
@@ -9,15 +8,8 @@ import android.util.Log;
 
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.Identifier;
-import org.altbeacon.beacon.Region;
-import org.altbeacon.beacon.startup.BootstrapNotifier;
-import org.altbeacon.beacon.startup.RegionBootstrap;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import nl.uva.beacons.activities.MainActivity;
+import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
@@ -33,6 +25,7 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
   @Override
   public void onCreate() {
     super.onCreate();
+    ApiClient.initEndpoints(this);
     mBeaconManager = BeaconManager.getInstanceForApplication(this);
     mBeaconManager.getBeaconParsers().add(BeaconTracker.IBEACON_PARSER);
   }
@@ -56,7 +49,7 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
   }
 
   public void startTracking() {
-    if(!mBeaconManager.isBound(this)) {
+    if (!mBeaconManager.isBound(this)) {
       mBeaconManager.bind(this);
     } else {
       mBeaconTracker.start();
@@ -64,7 +57,7 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
   }
 
   public void stopTracking() {
-    if(mBeaconTracker != null) {
+    if (mBeaconTracker != null) {
       mBeaconTracker.stop();
     }
   }
@@ -75,7 +68,7 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
 
   @Override
   public void onBeaconServiceConnect() {
-    if(!mStarted) {
+    if (!mStarted) {
       mStarted = true;
       initDefaultSettings();
       mBeaconTracker = new BeaconTracker(mBeaconManager, this);
@@ -84,7 +77,7 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
   }
 
   public boolean shouldRequestBluetooth() {
-    if(mShouldRequestBluetooth) {
+    if (mShouldRequestBluetooth) {
       mShouldRequestBluetooth = false;
       return true;
     } else {

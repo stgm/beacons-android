@@ -1,7 +1,5 @@
 package nl.uva.beacons.fragments;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,14 +15,17 @@ import java.util.ArrayList;
 import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.activities.SettingsActivity;
 import nl.uva.beacons.adapters.LoginListAdapter;
 
 /**
  * Created by sander on 11/14/14.
  */
-public class LoginManagementFragment extends BaseFragment {
+public class LoginManagementFragment extends BaseFragment implements LoginListAdapter.OnLoginRemovedListener {
+  private static final String TAG = LoginManagementFragment.class.getSimpleName();
+  private TextView mTextRole;
+  private TextView mTextNumberCourses;
+  private LoginListAdapter mAdapter;
 
   @Nullable
   @Override
@@ -32,24 +33,31 @@ public class LoginManagementFragment extends BaseFragment {
     View v = inflater.inflate(R.layout.fragment_login_management, container, false);
 
     ListView listView = (ListView) v.findViewById(R.id.manage_login_entry_list);
-    ArrayList<LoginEntry> courseLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
-    TextView textRole = (TextView)v.findViewById(R.id.login_management_role);
-    TextView textNumberCourses = (TextView)v.findViewById(R.id.login_management_number_courses);
-    textNumberCourses.setText("Momenteel ingelogd bij " + courseLoginEntries.size() + " vakken");
-    if(courseLoginEntries.size() > 0) {
-      textRole.setText("Huidige functie: " + courseLoginEntries.get(0).userRole);
-    }
+    mTextRole = (TextView) v.findViewById(R.id.login_management_role);
+    mTextNumberCourses = (TextView) v.findViewById(R.id.login_management_number_courses);
 
-    LoginListAdapter adapter = new LoginListAdapter(getActivity(), courseLoginEntries, ((SettingsActivity)getActivity()));
-    listView.setAdapter(adapter);
+    ArrayList<LoginEntry> courseLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
+    mAdapter = new LoginListAdapter(getActivity(), courseLoginEntries, ((SettingsActivity) getActivity()), this);
+
+    listView.setAdapter(mAdapter);
+    setLoginText(courseLoginEntries);
 
     v.findViewById(R.id.button_add_new_login).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        ((SettingsActivity)getActivity()).replaceFragment(new SelectCourseFragment(), true);
+        ((SettingsActivity) getActivity()).replaceFragment(new SelectCourseFragment(), true);
       }
     });
     return v;
+  }
+
+  private void setLoginText(ArrayList<LoginEntry> courseLoginEntries) {
+    int numCourses = courseLoginEntries.size();
+    String courses = numCourses == 1 ? " vak" : " vakken";
+    mTextNumberCourses.setText("Momenteel ingelogd bij " + courseLoginEntries.size() + courses);
+    if (courseLoginEntries.size() > 0) {
+      mTextRole.setText("Huidige functie: " + courseLoginEntries.get(0).userRole);
+    }
   }
 
   @Override
@@ -73,5 +81,11 @@ public class LoginManagementFragment extends BaseFragment {
   @Override
   protected int getHomeButtonMode() {
     return BaseFragment.HOME_BUTTON_BACK;
+  }
+
+  @Override
+  public void onLoginRemoved() {
+    Log.d(TAG, "onLoginRemoved");
+    setLoginText(mAdapter.getLoginEntries());
   }
 }

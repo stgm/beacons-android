@@ -1,7 +1,6 @@
 package nl.uva.beacons.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,9 +23,7 @@ import java.util.Map;
 import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import nl.uva.beacons.R;
-import nl.uva.beacons.activities.BaseActivity;
 import nl.uva.beacons.api.ApiClient;
-import nl.uva.beacons.api.BeaconApi;
 import nl.uva.beacons.api.CancelableCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -115,7 +112,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
       Log.d(TAG, "Registering user, pin: " + pin);
       mLoginButton.setEnabled(false);
       mLoginButton.setText(R.string.log_in_busy);
-      ApiClient.init(getActivity());
 
       final CancelableCallback<Map<String, String>> identifyCallback = new CancelableCallback<Map<String, String>>(this) {
         @Override
@@ -131,12 +127,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             /* All data received. Finally add login entry */
             // TEMP - FOR TESTING PURPOSES
             // TODO
-            if(!mLoginEntry.url.equals("https://prog2.mprog.nl/")) {
+            if (!mLoginEntry.url.equals("https://prog2.mprog.nl/")) {
               mLoginEntry.uuid += "blabla";
             }
 
             LoginManager.addLoginEntry(getActivity(), mLoginEntry);
-            ((LoginListener)getActivity()).onLoginSuccess(true);
+            ((LoginListener) getActivity()).onLoginSuccess(true);
           } else {
             handleLoginFailure();
           }
@@ -175,7 +171,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
           handleLoginFailure();
         }
       };
-      ApiClient.init(getActivity());
       ApiClient.registerUser(mLoginEntry.url, pin, registerCallback);
 
     } else {
@@ -186,11 +181,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
   private void handleLoginFailure() {
     mLoginButton.setEnabled(true);
     mLoginButton.setText(R.string.log_in);
-    ((LoginListener)getActivity()).onLoginFailure();
+    ((LoginListener) getActivity()).onLoginFailure();
   }
 
   public interface LoginListener {
     void onLoginSuccess(boolean startUp);
+
     void onLoginFailure();
   }
 

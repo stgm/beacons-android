@@ -9,12 +9,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
-import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.LoginManagementFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
 import nl.uva.beacons.fragments.SelectCourseFragment;
 import nl.uva.beacons.fragments.SettingsFragment;
+import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
  * Created by sander on 11/8/14.
@@ -35,16 +35,16 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
 
-    if(getIntent() != null && getIntent().getBooleanExtra(KEY_MANAGE_LOGIN, false)) {
+    if (getIntent() != null && getIntent().getBooleanExtra(KEY_MANAGE_LOGIN, false)) {
       replaceFragment(new LoginManagementFragment());
-    } else if(savedInstanceState == null) {
+    } else if (savedInstanceState == null) {
       replaceFragment(new SettingsFragment());
     }
   }
 
   @Override
   public void onBackPressed() {
-    if(getFragmentManager().getBackStackEntryCount() > 0) {
+    if (getFragmentManager().getBackStackEntryCount() > 0) {
       getFragmentManager().popBackStack();
     } else {
       super.onBackPressed();
@@ -52,8 +52,10 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
   }
 
   public void logOut() {
-    ((BeaconsApplication)getApplication()).stopTracking();
+    ((BeaconsApplication) getApplication()).stopTracking();
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+    /* Clear all */
     sp.edit().clear().apply();
     setResult(RESULT_LOG_OUT);
     finish();
@@ -69,12 +71,10 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
   public void onLoginSuccess(boolean startUp) {
     getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-    /* Re-initialize the api client for the new URL
-     * Refresh the beacon tracker
-     */
-    ApiClient.init(this);
-    ((BeaconsApplication) getApplication()).getBeaconTracker().stop();
-    ((BeaconsApplication) getApplication()).getBeaconTracker().start();
+    /* Refresh the beacon tracker */
+    BeaconTracker beaconTracker = ((BeaconsApplication) getApplication()).getBeaconTracker();
+    beaconTracker.stop();
+    beaconTracker.start();
     replaceFragment(new LoginManagementFragment());
   }
 

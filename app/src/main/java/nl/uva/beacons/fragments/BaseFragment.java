@@ -18,6 +18,7 @@ public abstract class BaseFragment extends Fragment {
   public static final int HOME_BUTTON_DRAWER = 2;
 
   protected abstract String getActionBarTitle();
+
   protected abstract int getHomeButtonMode();
 
   @Override
@@ -37,10 +38,10 @@ public abstract class BaseFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
     Log.d(TAG, "ids: " + R.id.home + ", " + R.id.homeAsUp);
-    if(item.getItemId() == R.id.home) {
+    if (item.getItemId() == R.id.home) {
       Log.d(TAG, "R.id.home!");
     }
-    if(getHomeButtonMode() == HOME_BUTTON_BACK) {
+    if (getHomeButtonMode() == HOME_BUTTON_BACK) {
       getFragmentManager().popBackStack();
       return true;
     }
