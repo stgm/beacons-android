@@ -31,6 +31,7 @@ import retrofit.client.Response;
  */
 public class HelpFragment extends BaseFragment {
   private Spinner mSpinner;
+  private HelpCourseListAdapter mAdapter;
   private static final String TAG = HelpFragment.class.getSimpleName();
 
   @Nullable
@@ -41,12 +42,10 @@ public class HelpFragment extends BaseFragment {
     final EditText editText = (EditText) v.findViewById(R.id.input_ask_help_text);
     final Button helpButton = (Button) v.findViewById(R.id.button_ask_help);
 
-    /* Todo spinner options */
-    final List<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
-    final HelpCourseListAdapter courseListAdapter = new HelpCourseListAdapter(getActivity(), loginEntries);
+    mAdapter = new HelpCourseListAdapter(getActivity());
 
     mSpinner = (Spinner)v.findViewById(R.id.help_course_spinner);
-    mSpinner.setAdapter(courseListAdapter);
+    mSpinner.setAdapter(mAdapter);
     mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -81,6 +80,16 @@ public class HelpFragment extends BaseFragment {
       }
     });
     return v;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    /* Refresh login entries */
+    List<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
+    mAdapter.clear();
+    mAdapter.addAll(loginEntries);
   }
 
   @Override

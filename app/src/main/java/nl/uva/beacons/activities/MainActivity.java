@@ -39,6 +39,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
   private static final int REQUEST_ENABLE_BT = 1234;
   private static final String TAG = MainActivity.class.getSimpleName();
   private boolean shouldRestoreFragments = true;
+  private BeaconsApplication mApp;
 
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    mApp = (BeaconsApplication)getApplication();
     mNavigationDrawerFragment = (NavigationDrawerFragment)
         getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -75,13 +77,16 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
       return;
     }
 
-    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    if (mBluetoothAdapter != null) {
-      if (!mBluetoothAdapter.isEnabled()) {
-        /* Bluetooth is not enabled
-         * Ask user to enable bluetooth
-         */
-        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+    if(mApp.shouldRequestBluetooth()) {
+      Log.d(TAG, "Should request bluetooth!");
+      BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+      if (mBluetoothAdapter != null) {
+        if (!mBluetoothAdapter.isEnabled()) {
+          /* Bluetooth is not enabled
+           * Ask user to enable bluetooth
+           */
+          startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+        }
       }
     }
   }
@@ -99,7 +104,6 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
   @Override
   protected void onStart() {
     super.onStart();
-    checkBluetoothSupport();
   }
 
   @Override
@@ -197,6 +201,8 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     if (firstStart || shouldRestoreFragments) {
       Log.d(TAG, "shouldRestoreFragments: " + shouldRestoreFragments);
       onNavigationDrawerItemSelected(NavigationDrawerFragment.PAGE_ASSISTANT_LIST);
+
+      checkBluetoothSupport();
     }
   }
 

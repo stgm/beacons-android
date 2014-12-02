@@ -27,6 +27,7 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
   private static final String TAG = BeaconsApplication.class.getSimpleName();
   private BeaconManager mBeaconManager = BeaconManager.getInstanceForApplication(this);
   private BeaconTracker mBeaconTracker;
+  private boolean mShouldRequestBluetooth = true;
   private boolean mStarted = false;
 
   @Override
@@ -80,6 +81,15 @@ public class BeaconsApplication extends Application implements BeaconConsumer {
       mBeaconTracker = new BeaconTracker(mBeaconManager, this);
     }
     mBeaconTracker.start();
+  }
+
+  public boolean shouldRequestBluetooth() {
+    if(mShouldRequestBluetooth) {
+      mShouldRequestBluetooth = false;
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

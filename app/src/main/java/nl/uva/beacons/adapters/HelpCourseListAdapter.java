@@ -18,8 +18,8 @@ import nl.uva.beacons.R;
 public class HelpCourseListAdapter extends ArrayAdapter<LoginEntry> {
   private LayoutInflater mLayoutInflater;
 
-  public HelpCourseListAdapter(Context context, List<LoginEntry> objects) {
-    super(context, 0, objects);
+  public HelpCourseListAdapter(Context context) {
+    super(context, 0);
     mLayoutInflater = LayoutInflater.from(context);
   }
 

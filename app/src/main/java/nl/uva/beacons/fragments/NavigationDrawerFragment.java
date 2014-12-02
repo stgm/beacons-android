@@ -293,7 +293,7 @@ public class NavigationDrawerFragment extends Fragment {
     if (mDrawerLayout == null) {
       return false;
     }
-    return 
+    return
         mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }
 
