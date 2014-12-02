@@ -127,9 +127,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             /* All data received. Finally add login entry */
             // TEMP - FOR TESTING PURPOSES
             // TODO
-            if (!mLoginEntry.url.equals("https://prog2.mprog.nl/")) {
-              mLoginEntry.uuid += "blabla";
-            }
+            //if (!mLoginEntry.url.equals("https://prog2.mprog.nl/")) {
+            //  mLoginEntry.uuid += "blabla";
+            //}
 
             LoginManager.addLoginEntry(getActivity(), mLoginEntry);
             ((LoginListener) getActivity()).onLoginSuccess(true);

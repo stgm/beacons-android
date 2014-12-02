@@ -37,27 +37,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4607e40c-4ae5-4723-aa20-d54c05b22eba" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/api/ApiClient.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/api/ApiClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/AssistantListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/AssistantListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/BaseActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/BaseActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/BaseFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/BaseFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/tracking/BeaconTracker.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/tracking/BeaconTracker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/BeaconsApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/BeaconsApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/HelpCourseListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/HelpCourseListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/HelpFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/HelpFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginEntry.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginEntry.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/BeaconListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/BeaconListAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/LoginListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/LoginListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginManagementFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginManagementFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/NavigationDrawerFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/NavigationDrawerFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SelectCourseFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SelectCourseFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/SettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/SettingsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SettingsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SettingsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/StudentDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/StudentDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/StudentListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/StudentListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/StudentListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/StudentListFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="gradle.iws" />
@@ -81,18 +63,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NavigationDrawerFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/NavigationDrawerFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4392" max-vertical-offset="5094">
-              <caret line="292" column="19" selection-start-line="292" selection-start-column="19" selection-end-line="292" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SelectCourseFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SelectCourseFragment.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,12 +78,43 @@
       <file leaf-file-name="LoginFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2553" max-vertical-offset="3042">
-              <caret line="187" column="9" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="1298" max-vertical-offset="3042">
+              <caret line="111" column="29" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
+              <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BeaconListFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/BeaconListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
+              <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BeaconListAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/BeaconListAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="972">
+              <caret line="32" column="57" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list_item_beacon.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.34110788" vertical-offset="162" max-vertical-offset="1026">
+              <caret line="22" column="58" selection-start-line="22" selection-start-column="58" selection-end-line="22" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -122,30 +123,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="666" max-vertical-offset="1242">
               <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginManagementFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginManagementFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.969697" vertical-offset="538" max-vertical-offset="1620">
-              <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="93" max-vertical-offset="2106">
-              <caret line="29" column="57" selection-start-line="29" selection-start-column="57" selection-end-line="29" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
@@ -181,11 +158,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApiClient.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ApiClient.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/api/ApiClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72611463" vertical-offset="486" max-vertical-offset="1728">
-              <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="1728">
+              <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -1169,7 +1146,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/BeaconServiceWorkAround.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/BeaconServiceFixed.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/OverviewFragment.java" />
@@ -1186,7 +1162,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_login_management.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_login_entry.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_select_course.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/CourseListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginEntry.java" />
@@ -1211,7 +1186,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/HelpCourseListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/HelpFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SelectCourseFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/BeaconsApplication.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/LoginManager.java" />
@@ -1220,6 +1194,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/activities/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/tracking/BeaconTracker.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/api/ApiClient.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/BeaconListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml" />
       </list>
     </option>
   </component>
@@ -1297,6 +1274,10 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="beacons" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1357,6 +1338,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="beacons-android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="beacons" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adapters" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1609,7 +1612,11 @@
       <created>1417541400069</created>
       <updated>1417541400069</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Refactoring, improved (multiple) login handling.">
+      <created>1417555283048</created>
+      <updated>1417555283048</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1626,10 +1633,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3604278" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2818792" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13926941" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2599319" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4362416" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15995526" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26417112" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1645,7 +1653,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3604278" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1706,7 +1713,8 @@
     <MESSAGE value="Aanpassing voor testen van mergen" />
     <MESSAGE value="Fix backstack / back button bug" />
     <MESSAGE value="Bluetooth check nu maar 1x bij opstarten. Refresh login entries bij weergeven help fragment." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bluetooth check nu maar 1x bij opstarten. Refresh login entries bij weergeven help fragment." />
+    <MESSAGE value="Refactoring, improved (multiple) login handling." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring, improved (multiple) login handling." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1757,16 +1765,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="1152">
           <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.4375" vertical-offset="162" max-vertical-offset="900">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1929,24 +1927,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/BeaconListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="21" max-vertical-offset="882">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/StudentListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1422">
           <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/BeaconListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="183" max-vertical-offset="1242">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -2115,16 +2099,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2553" max-vertical-offset="3042">
-          <caret line="187" column="9" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/SettingsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="666" max-vertical-offset="1242">
@@ -2155,10 +2129,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/api/ApiClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72611463" vertical-offset="486" max-vertical-offset="1728">
-          <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="1728">
+          <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/LoginFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1298" max-vertical-offset="3042">
+          <caret line="111" column="29" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/fragments/BeaconListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
+          <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/nl/uva/beacons/adapters/BeaconListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="972">
+          <caret line="32" column="57" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_beacon.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34110788" vertical-offset="162" max-vertical-offset="1026">
+          <caret line="22" column="58" selection-start-line="22" selection-start-column="58" selection-end-line="22" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>

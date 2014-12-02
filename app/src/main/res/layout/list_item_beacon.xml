@@ -19,19 +19,26 @@
             tools:text="Beacon title, major, minor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="4dp"
             android:textSize="@dimen/list_item_title_size"
             android:textColor="@color/material_dark_indigo"
            />
 
         <TextView
             android:id="@+id/beacon_subtitle"
-            tools:text="UUID, Last seen or other info"
+            tools:text="Major 0, Minor 0, RSSI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_item_subtitle_size"
             />
 
+        <TextView
+            android:id="@+id/beacon_uuid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            tools:text="550e8400-e29b-41d4-a716-446655440000"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <TextView
