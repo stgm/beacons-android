@@ -4,23 +4,37 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="?attr/listPreferredItemHeightLarge"
+              android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:paddingLeft="@dimen/list_item_horizontal_margin"
-              android:paddingRight="@dimen/list_item_horizontal_margin">
+              android:paddingRight="@dimen/list_item_horizontal_margin"
+              android:paddingBottom="4dp"
+              android:paddingTop="4dp">
 
     <LinearLayout android:orientation="vertical"
                   android:layout_width="0dp"
                   android:layout_weight="1"
-                  android:layout_height="?attr/listPreferredItemHeightLarge"
+                  android:layout_height="wrap_content"
                   android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/beacon_corresponding_course_title"
+            tools:text="Programmeren 2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="@dimen/list_item_title_size"
+            android:textColor="@color/material_dark_indigo"
+            />
+
         <TextView
             android:id="@+id/beacon_title"
-            tools:text="Beacon title, major, minor"
+            tools:text="Beacon title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textSize="@dimen/list_item_title_size"
+            android:textSize="14sp"
             android:textColor="@color/material_dark_indigo"
            />
 
@@ -29,7 +43,7 @@
             tools:text="Major 0, Minor 0, RSSI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/list_item_subtitle_size"
+            android:textSize="14sp"
             />
 
         <TextView

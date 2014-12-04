@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:gravity="center_horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="40dp"
-              android:layout_marginRight="@dimen/activity_horizontal_margin"
-              android:layout_marginLeft="@dimen/activity_horizontal_margin">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Kies vak"
-        android:layout_marginBottom="5dp"/>
-    <Spinner
-        android:id="@+id/help_course_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-     </Spinner>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:gravity="center_horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="40dp"
+                  android:layout_marginRight="@dimen/activity_horizontal_margin"
+                  android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
-    <EditText
-        android:id="@+id/input_ask_help_text"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="bottom"
-        android:maxLines="3"
-        android:hint="Type jouw vraag"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text="@string/choose_course"
+            android:layout_marginBottom="5dp"/>
+        <Spinner
+            android:id="@+id/help_course_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            >
+         </Spinner>
 
-    <Button
-        android:id="@+id/button_ask_help"
-        android:text="@string/title_section_help"
-        android:textColor="@color/material_dark_indigo"
-        android:layout_width="match_parent"
-        android:layout_margin="30dp"
-        android:layout_height="60dp"/>
-</LinearLayout>
+        <EditText
+            android:id="@+id/input_ask_help_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:maxLines="3"
+            android:hint="@string/type_your_question"/>
+
+        <Button
+            android:id="@+id/button_ask_help"
+            android:text="@string/title_section_help"
+            android:textColor="@color/material_dark_indigo"
+            android:layout_width="match_parent"
+            android:layout_margin="30dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+</ScrollView>

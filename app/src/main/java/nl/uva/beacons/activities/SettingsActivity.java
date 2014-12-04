@@ -6,8 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
+
+import java.awt.font.TextAttribute;
 
 import nl.uva.beacons.BeaconsApplication;
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.R;
 import nl.uva.beacons.fragments.LoginFragment;
 import nl.uva.beacons.fragments.LoginManagementFragment;
@@ -20,8 +24,9 @@ import nl.uva.beacons.tracking.BeaconTracker;
  * Created by sander on 11/8/14.
  */
 public class SettingsActivity extends BaseActivity implements SelectCourseFragment.CourseSelectedListener, LoginFragment.LoginListener {
-  public static final int RESULT_LOG_OUT = 321;
-  public static final String KEY_MANAGE_LOGIN = "key_manage_login";
+    private static final String TAG = SettingsActivity.class.getSimpleName();
+    public static final int RESULT_LOG_OUT = 321;
+    public static final String KEY_MANAGE_LOGIN = "key_manage_login";
 
   /* Stored in SharedPreferences course that the user is logged in,
    * saved as key-value pairs:
@@ -30,66 +35,66 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
    * uuid+"url" => url
    */
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_settings);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
 
-    if (getIntent() != null && getIntent().getBooleanExtra(KEY_MANAGE_LOGIN, false)) {
-      replaceFragment(new LoginManagementFragment());
-    } else if (savedInstanceState == null) {
-      replaceFragment(new SettingsFragment());
+        if (getIntent() != null && getIntent().getBooleanExtra(KEY_MANAGE_LOGIN, false)) {
+            replaceFragment(new LoginManagementFragment());
+        } else if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+        }
     }
-  }
 
-  @Override
-  public void onBackPressed() {
-    if (getFragmentManager().getBackStackEntryCount() > 0) {
-      getFragmentManager().popBackStack();
-    } else {
-      super.onBackPressed();
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
-  }
 
-  public void logOut() {
-    ((BeaconsApplication) getApplication()).stopTracking();
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+    public void logOut() {
+        ((BeaconsApplication) getApplication()).stopTracking();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
     /* Clear all */
-    sp.edit().clear().apply();
-    setResult(RESULT_LOG_OUT);
-    finish();
-  }
+        sp.edit().clear().apply();
+        setResult(RESULT_LOG_OUT);
+        finish();
+    }
 
-  @Override
-  public void onCourseSelected() {
-    getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
-        .replace(R.id.container, new LoginFragment()).commit();
-  }
+    @Override
+    public void onCourseSelected() {
+        getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
+            .replace(R.id.container, new LoginFragment()).commit();
+    }
 
-  @Override
-  public void onLoginSuccess(boolean startUp) {
-    getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    @Override
+    public void onLoginSuccess(boolean startUp, LoginEntry loginEntry) {
+        Log.d(TAG, "onLoginSuccess: " + loginEntry.courseName);
+        getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-    /* Refresh the beacon tracker */
-    BeaconTracker beaconTracker = ((BeaconsApplication) getApplication()).getBeaconTracker();
-    beaconTracker.stop();
-    beaconTracker.start();
-    replaceFragment(new LoginManagementFragment());
-  }
+        /* Refresh the beacon tracker */
+        BeaconTracker beaconTracker = ((BeaconsApplication) getApplication()).getBeaconTracker();
+        beaconTracker.addRegionForLogin(loginEntry);
+        replaceFragment(new LoginManagementFragment());
+    }
 
-  @Override
-  public void onLoginFailure() {
+    @Override
+    public void onLoginFailure() {
 
-  }
+    }
 
-  @Override
-  public ActionBarDrawerToggle getDrawerToggle() {
-    return null;
-  }
+    @Override
+    public ActionBarDrawerToggle getDrawerToggle() {
+        return null;
+    }
 
-  @Override
-  public NavigationDrawerFragment getNavigationDrawerFragment() {
-    return null;
-  }
+    @Override
+    public NavigationDrawerFragment getNavigationDrawerFragment() {
+        return null;
+    }
 }

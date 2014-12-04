@@ -9,6 +9,6 @@ import retrofit.http.GET;
  * Created by sander on 11/11/14.
  */
 public interface MobileApi {
-  @GET("/sites.json")
-  void getCourses(Callback<Map<String, String>> callback);
+    @GET("/sites.json")
+    void getCourses(Callback<Map<String, String>> callback);
 }

@@ -24,6 +24,22 @@
     <string name="action_settings">Settings</string>
     <string name="select_course_title">Voor welk vak wil je inloggen?</string>
     <string name="intent_add_login">intent_add_login</string>
+    <string name="manage_logins">Beheer aanmeldingen</string>
+    <string name="currently_logged_in_at">Momenteel ingelogd bij</string>
+    <string name="current_role">Huidige functie</string>
+    <string name="error_wrong_pin">Inloggen mislukt, code is niet geldig</string>
+    <string name="error_network">Inloggen mislukt, netwerkfout</string>
+    <string name="course">vak</string>
+    <string name="courses">vakken</string>
+    <string name="type_your_question">Typ hier jouw vraag</string>
+    <string name="ask_for_help">Vraag om hulp</string>
+    <string name="new_login">Nieuwe aanmelding</string>
+    <string name="student_details">Student details</string>
+    <string name="question_of_student">Vraag van student</string>
+    <string name="confirm_help">Bevestig hulp</string>
+    <string name="choose_course">Kies vak</string>
+    <string name="asked_for_help">Om hulp gevraagd!</string>
+    <string name="beacon_list_item_not_logged_in">Geen aanmelding meer voor deze UUID</string>
 
     <!-- (Shared) Preferences -->
     <string name="pref_title_category_scanning">Beacons scannen</string>

@@ -1,58 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginRight="@dimen/activity_horizontal_margin"
-              android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    >
+    <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <TextView
-        android:id="@+id/student_detail_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="@dimen/list_item_title_size"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/material_dark_indigo"
-        tools:text="Student naam"/>
+    <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="@dimen/activity_horizontal_margin"
+          android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="2dp"
-        card_view:contentPadding="5dp"
-        card_view:cardBackgroundColor="@android:color/white">
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/student_detail_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/list_item_title_size"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/material_dark_indigo"
+            tools:text="Student naam"/>
 
-            <TextView
-                android:layout_marginBottom="2dp"
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="2dp"
+            card_view:contentPadding="5dp"
+            card_view:cardBackgroundColor="@android:color/white">
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="Vraag van student"
-                android:textColor="@color/material_primary_indigo"
-                />
-            <TextView
-                android:id="@+id/student_detail_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/list_item_subtitle_size"
-                tools:text="Student vraag"/>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+                android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/button_confirm_help"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bevestig hulp"/>
-</LinearLayout>
+                <TextView
+                    android:layout_marginBottom="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/question_of_student"
+                    android:textColor="@color/material_primary_indigo"
+                    />
+                <TextView
+                    android:id="@+id/student_detail_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/list_item_subtitle_size"
+                    tools:text="Student vraag"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/button_confirm_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm_help"/>
+    </LinearLayout>
+</ScrollView>

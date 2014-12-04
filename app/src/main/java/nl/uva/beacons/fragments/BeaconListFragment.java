@@ -20,51 +20,59 @@ import nl.uva.beacons.tracking.BeaconTracker;
  * Created by sander on 11/8/14.
  */
 public class BeaconListFragment extends BaseFragment implements BeaconTracker.BeaconListener {
-  private BeaconListAdapter mAdapter;
+    private BeaconListAdapter mAdapter;
 
-  @Nullable
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.fragment_beacon_list, container, false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_beacon_list, container, false);
 
-    ListView beaconList = (ListView) v.findViewById(R.id.fragment_beacons_list_view);
-    beaconList.setEmptyView(v.findViewById(R.id.beacons_empty_view));
+        ListView beaconList = (ListView) v.findViewById(R.id.fragment_beacons_list_view);
+        beaconList.setEmptyView(v.findViewById(R.id.beacons_empty_view));
 
-    mAdapter = new BeaconListAdapter(getActivity());
-    beaconList.setAdapter(mAdapter);
-    return v;
-  }
+        mAdapter = new BeaconListAdapter(getActivity());
+        beaconList.setAdapter(mAdapter);
+        return v;
+    }
 
-  @Override
-  public void onStart() {
-    super.onStart();
-    ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(this);
-  }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.updateCourseMap(getActivity());
+    }
 
-  @Override
-  public void onStop() {
-    ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(null);
-    super.onStop();
-  }
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(this);
+    }
 
-  @Override
-  public void onBeaconsRanged(final List<Beacon> detectedBeacons) {
-    getActivity().runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        mAdapter.clear();
-        mAdapter.addAll(detectedBeacons);
-      }
-    });
-  }
+    @Override
+    public void onStop() {
+        ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(null);
+        super.onStop();
+    }
 
-  @Override
-  protected String getActionBarTitle() {
-    return getString(R.string.title_section_scan_beacons);
-  }
+    @Override
+    public void onBeaconsRanged(final List<Beacon> detectedBeacons) {
+        if (getActivity() != null && isAdded() && mAdapter != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.clear();
+                    mAdapter.addAll(detectedBeacons);
+                }
+            });
+        }
+    }
 
-  @Override
-  protected int getHomeButtonMode() {
-    return BaseFragment.HOME_BUTTON_DRAWER;
-  }
+    @Override
+    protected String getActionBarTitle() {
+        return getString(R.string.title_section_scan_beacons);
+    }
+
+    @Override
+    protected int getHomeButtonMode() {
+        return BaseFragment.HOME_BUTTON_DRAWER;
+    }
 }

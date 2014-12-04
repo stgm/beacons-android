@@ -41,6 +41,6 @@
         android:layout_marginRight="@dimen/list_item_horizontal_margin"
         android:textSize="@dimen/abc_text_size_body_2_material"
         android:textColor="@color/material_primary_indigo"
-        android:text="Nieuwe aanmelding"/>
+        android:text="@string/new_login"/>
 
 </LinearLayout>

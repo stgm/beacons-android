@@ -14,32 +14,32 @@ import nl.uva.beacons.R;
  * Created by sander on 11/26/14.
  */
 public class HelpCourseListAdapter extends ArrayAdapter<LoginEntry> {
-  private LayoutInflater mLayoutInflater;
+    private LayoutInflater mLayoutInflater;
 
-  public HelpCourseListAdapter(Context context) {
-    super(context, 0);
-    mLayoutInflater = LayoutInflater.from(context);
-  }
-
-  @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    TextView title;
-
-    if (convertView == null) {
-      convertView = mLayoutInflater.inflate(R.layout.list_item_course_help, parent, false);
-      title = (TextView) convertView.findViewById(R.id.course_help_title);
-      convertView.setTag(R.id.course_help_title, title);
-    } else {
-      title = (TextView) convertView.getTag(R.id.course_help_title);
+    public HelpCourseListAdapter(Context context) {
+        super(context, 0);
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
-    LoginEntry loginEntry = getItem(position);
-    title.setText(loginEntry.courseName);
-    return convertView;
-  }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        TextView title;
 
-  @Override
-  public View getDropDownView(int position, View convertView, ViewGroup parent) {
-    return getView(position, convertView, parent);
-  }
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.list_item_course_help, parent, false);
+            title = (TextView) convertView.findViewById(R.id.course_help_title);
+            convertView.setTag(R.id.course_help_title, title);
+        } else {
+            title = (TextView) convertView.getTag(R.id.course_help_title);
+        }
+
+        LoginEntry loginEntry = getItem(position);
+        title.setText(loginEntry.courseName);
+        return convertView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return getView(position, convertView, parent);
+    }
 }

@@ -23,60 +23,60 @@ import retrofit.client.Response;
  * Created by sander on 11/7/14.
  */
 public class AssistantListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-  private static final String TAG = AssistantListFragment.class.getSimpleName();
-  private SwipeRefreshLayout mSwipeRefreshLayout;
-  private AssistantListAdapter mAdapter;
+    private static final String TAG = AssistantListFragment.class.getSimpleName();
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private AssistantListAdapter mAdapter;
 
-  @Nullable
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setHasOptionsMenu(true);
-    View v = inflater.inflate(R.layout.fragment_assistant_list, container, false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        View v = inflater.inflate(R.layout.fragment_assistant_list, container, false);
 
-    ListView assistantListView = (ListView) v.findViewById(R.id.fragment_assistant_list_view);
-    assistantListView.setEmptyView(v.findViewById(R.id.assistants_empty_view));
+        ListView assistantListView = (ListView) v.findViewById(R.id.fragment_assistant_list_view);
+        assistantListView.setEmptyView(v.findViewById(R.id.assistants_empty_view));
 
-    mAdapter = new AssistantListAdapter(getActivity());
-    assistantListView.setAdapter(mAdapter);
+        mAdapter = new AssistantListAdapter(getActivity());
+        assistantListView.setAdapter(mAdapter);
 
-    mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
-    mSwipeRefreshLayout.setOnRefreshListener(this);
-    mSwipeRefreshLayout.setColorSchemeResources(R.color.material_dark_indigo, R.color.material_primary_indigo, R.color.material_light_indigo);
-    loadAssistants();
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.material_dark_indigo, R.color.material_primary_indigo, R.color.material_light_indigo);
+        loadAssistants();
 
-    return v;
-  }
+        return v;
+    }
 
-  private void loadAssistants() {
-    ApiClient.getAssistantList(new CancelableCallback<List<Map<String, String>>>(this) {
-      @Override
-      public void onSuccess(List<Map<String, String>> assistantList, Response response) {
-        Log.d(TAG, "onSuccess: " + assistantList.toString());
-        mAdapter.addAll(assistantList);
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
+    private void loadAssistants() {
+        ApiClient.getAssistantList(new CancelableCallback<List<Map<String, String>>>(this) {
+            @Override
+            public void onSuccess(List<Map<String, String>> assistantList, Response response) {
+                Log.d(TAG, "onSuccess: " + assistantList.toString());
+                mAdapter.addAll(assistantList);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
 
-      @Override
-      public void onFailure(RetrofitError error) {
-        Log.d(TAG, "onFailure: " + error.getMessage());
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
-    });
-  }
+            @Override
+            public void onFailure(RetrofitError error) {
+                Log.d(TAG, "onFailure: " + error.getMessage());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
-  @Override
-  public void onRefresh() {
-    mAdapter.clear();
-    loadAssistants();
-  }
+    @Override
+    public void onRefresh() {
+        mAdapter.clear();
+        loadAssistants();
+    }
 
-  @Override
-  protected String getActionBarTitle() {
-    return getString(R.string.title_section_assistents_list);
-  }
+    @Override
+    protected String getActionBarTitle() {
+        return getString(R.string.title_section_assistents_list);
+    }
 
-  @Override
-  protected int getHomeButtonMode() {
-    return BaseFragment.HOME_BUTTON_DRAWER;
-  }
+    @Override
+    protected int getHomeButtonMode() {
+        return BaseFragment.HOME_BUTTON_DRAWER;
+    }
 }
