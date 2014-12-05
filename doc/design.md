@@ -16,54 +16,63 @@ For general information about the features and goals of this app, read the [READ
 ### Code design
 Note: this may change at any time during development.
 * Activities
+  * `BaseActivity` 
   * `MainActivity`  
   * `SettingsActivity`  
 * Fragments
+  * `BaseFragment`  
   * `AssistantListFragment`
   * `StudentListFragment`
+  * `StudentDetailFragment`
   * `BeaconListFragment`
   * `HelpFragment`
   * `SelectCourseFragment`
   * `LoginFragment`
-  * `LoginManagerFragment`
+  * `LoginManagementFragment`
   * `NavigationDrawerFragment`
 * Adapters
   * `AssistantListAdapter`
   * `StudentListAdapter`
   * `BeaconListAdapter`
   * `CourseListAdapter`
+  * `HelpCourseListAdapter`
+  * `LoginListAdapter`
+* Api
+  * `ApiClient`
+  * `CancelableCallback`
+  * `BeaconApi`
+  * `LoginApi`
+  * `MobileApi`
 * Other classes
   * `BeaconTracker`
-  * `BeaconApi`
-  * `BeaconApiClient`
-  * `CancelableCallback`
   * `LoginManager`
-  * `BeaconApplication`
+  * `LoginEntry`
+  * `BeaconsApplication`
 
 ### UI
 Select course  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_add_course.png" alt"Login" width="300px">  
 
-Enter corresponding pairing code  
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_pairing_code.png" alt"Login" width="300px"> 
+Enter corresponding pairing code    
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_pairing_code.png" alt"Login" width="300px">
 
-Navigation menu  
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_navigation.png" alt"Navigation menu/drawer" width="300px">  
+Navigation menu    
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_navigation.png" alt"Navigation menu/drawer" width="300px">
 
-Scan beacons  
+Scan beacons    
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_beacons.png" alt"Scan beacons" width="300px">  
 
-Student list
+Student list  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_student_list.png" alt"Student list" width="300px">  
 
-Student details screen
+Student details screen  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_student_detail.png" alt"Student detail" width="300px">  
 
-Ask help 
+Ask help   
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_ask_help.png" alt"Student detail" width="300px">  
 
-Ask help 
+Ask help   
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_login_management.png" alt"Student detail" width="300px">  
 
-Settings  
+Settings    
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_settings.png" alt"Settings" width="300px">  
