@@ -56,7 +56,7 @@ public class SettingsFragment extends PreferenceFragment {
         ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Instellingen");
+        actionBar.setTitle(getString(R.string.title_settings));
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

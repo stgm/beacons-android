@@ -31,14 +31,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        Log.d(TAG, "onCreateOptionsMenu");
         BaseActivity baseActivity = (BaseActivity) getActivity();
         baseActivity.setActionBarConfig(getHomeButtonMode(), getActionBarTitle());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
         if (getHomeButtonMode() == HOME_BUTTON_BACK) {
             getActivity().onBackPressed();
             return true;

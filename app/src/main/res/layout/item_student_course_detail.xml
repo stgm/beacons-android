@@ -6,6 +6,7 @@
               android:layout_height="wrap_content"
               android:padding="8dp"
               android:gravity="center">
+
     <TextView
         android:id="@+id/detail_course_title"
         android:layout_width="match_parent"

@@ -54,6 +54,7 @@ public class LoginManager {
     }
 
     public static void removeCourseLogin(Context context, LoginEntry login) {
+        Log.d(TAG, "Removing course: " + login.courseName);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> loginUuids = getLoginUuids(context);
         String uuid = login.uuid;
@@ -89,10 +90,8 @@ public class LoginManager {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         Set<String> loginUuids = getLoginUuids(context);
-        Log.d(TAG, "addLoginEntry, old size: " + loginUuids.size());
-        Log.d(TAG, loginUuids.toString());
 
-        Log.d(TAG, "adding uuid: " + login.uuid + ", url: " + login.url);
+        Log.d(TAG, "Adding course, uuid: " + login.uuid + ", url: " + login.url);
         loginUuids.add(login.uuid);
         editor.putString(KEY_UUID_TO_URL + login.uuid, login.url);
         editor.putString(KEY_UUID_TO_TOKEN + login.uuid, login.userToken);

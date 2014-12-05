@@ -30,7 +30,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         String fragmentClassNameAsTag = fragment.getClass().getName();
         Fragment f = fragmentManager.findFragmentByTag(fragmentClassNameAsTag);
         if (f != null && f.isVisible()) {
-      /* This fragment is already active, do nothing */
+            /* This fragment is already active, do nothing */
             Log.d(TAG, "Fragment already added");
             return;
         }
@@ -57,7 +57,6 @@ public abstract class BaseActivity extends ActionBarActivity {
 
         switch (mode) {
             case HOME_BUTTON_BACK:
-                Log.d(TAG, "HOME_BUTTON_BACK");
                 actionBar.setHomeButtonEnabled(true);
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 if (toggle != null) {
@@ -68,11 +67,9 @@ public abstract class BaseActivity extends ActionBarActivity {
                 }
                 break;
             case HOME_BUTTON_DRAWER:
-                Log.d(TAG, "HOME_BUTTON_DRAWER");
                 actionBar.setHomeButtonEnabled(true);
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 if (toggle != null) {
-                    Log.d(TAG, "Set drawer indicator enabled true");
                     toggle.setDrawerIndicatorEnabled(true);
                 }
                 if (navigationDrawerFragment != null) {

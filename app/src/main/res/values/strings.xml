@@ -3,7 +3,7 @@
 
     <string name="app_name">Beacons</string>
 
-    <!-- Navigation drawer -->
+    <!-- Navigation -->
     <string name="title_section_help">Vraag om hulp</string>
     <string name="title_section_students_list">Studentenlijst</string>
     <string name="title_section_assistents_list">Assistentenlijst</string>
@@ -11,6 +11,7 @@
     <string name="title_section_scan_beacons">Beacons in omgeving</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_settings">Instellingen</string>
 
     <!-- General -->
     <string name="log_in_title">Inloggen met pairing code</string>

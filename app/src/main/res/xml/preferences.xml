@@ -6,7 +6,7 @@
         android:entries="@array/preferences_scan_interval"
         android:entryValues="@array/preferences_scan_interval_values"
         android:defaultValue="5000"
-        android:dialogTitle="@string/pref_title_scan_interval" />
+        android:dialogTitle="@string/pref_title_scan_interval"/>
 
     <Preference
         android:key="@string/pref_title_log_out"

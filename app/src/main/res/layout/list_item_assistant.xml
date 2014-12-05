@@ -10,6 +10,7 @@
               android:paddingBottom="10dp"
               android:paddingLeft="@dimen/list_item_horizontal_margin"
               android:paddingRight="@dimen/list_item_horizontal_margin">
+
     <ImageView
         android:id="@+id/assistant_image"
         android:src="@drawable/person_placeholder"
@@ -20,11 +21,13 @@
         android:layout_height="50dp"
         android:layout_marginRight="15dp"/>
 
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="0dp"
-                  android:layout_weight="1"
-                  android:layout_height="wrap_content"
-                  android:gravity="center_vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
         <TextView
             android:id="@+id/assistant_name"
             tools:text="Assistant name"

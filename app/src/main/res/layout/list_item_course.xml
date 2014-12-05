@@ -10,22 +10,23 @@
     android:paddingLeft="@dimen/list_item_horizontal_margin"
     android:paddingRight="@dimen/list_item_horizontal_margin"
     >
-        <TextView
-            android:id="@+id/course_name"
-            tools:text="Course name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:textSize="@dimen/list_item_title_size"
-            android:textColor="@color/material_dark_indigo"
-            />
 
-        <TextView
-            android:id="@+id/course_details"
-            tools:text="http://apps.mprog.nl/"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/list_item_subtitle_size"
-            />
+    <TextView
+        android:id="@+id/course_name"
+        tools:text="Course name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textSize="@dimen/list_item_title_size"
+        android:textColor="@color/material_dark_indigo"
+        />
+
+    <TextView
+        android:id="@+id/course_details"
+        tools:text="http://apps.mprog.nl/"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/list_item_subtitle_size"
+        />
 
 </LinearLayout>

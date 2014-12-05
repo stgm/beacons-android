@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.JsonElement;
@@ -23,7 +22,6 @@ import java.util.Map;
 
 import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.R;
-import nl.uva.beacons.adapters.HelpCourseListAdapter;
 import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.BeaconApi;
 import nl.uva.beacons.api.CancelableCallback;
@@ -52,34 +50,34 @@ public class StudentDetailFragment extends BaseFragment {
         TextView studentName = (TextView) v.findViewById(R.id.student_detail_name);
         TextView studentQuestion = (TextView) v.findViewById(R.id.student_detail_question);
         CardView cardQuestionView = (CardView) v.findViewById(R.id.card_view);
-        LinearLayout coursesView = (LinearLayout)v.findViewById(R.id.student_detail_courses);
+        LinearLayout coursesView = (LinearLayout) v.findViewById(R.id.student_detail_courses);
         coursesView.removeAllViews();
 
         ArrayList<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> studentInfo
             = (ArrayList<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>>) getArguments().getSerializable(KEY_STUDENT_INFO);
 
         Time time = new Time();
-        for(AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> entry : studentInfo) {
+        for (AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> entry : studentInfo) {
             View subView = inflater.inflate(R.layout.item_student_course_detail, coursesView, false);
 
             time.parse3339(entry.getValue().get(BeaconApi.ATTR_UPDATED));
             time.switchTimezone(Time.getCurrentTimezone());
-            ((TextView)subView.findViewById(R.id.detail_course_title)).setText(entry.getKey().courseName);
-            ((TextView)subView.findViewById(R.id.detail_course_last_updated)).setText(time.format("%c"));
+            ((TextView) subView.findViewById(R.id.detail_course_title)).setText(entry.getKey().courseName);
+            ((TextView) subView.findViewById(R.id.detail_course_last_updated)).setText(time.format("%c"));
             coursesView.addView(subView);
         }
 
         final Button confirmHelpButton = (Button) v.findViewById(R.id.button_confirm_help);
 
         String questionText = null;
-        for(AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> map : studentInfo) {
+        for (AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> map : studentInfo) {
             String q = map.getValue().get(BeaconApi.ATTR_QUESTION);
-            if(q != null && !q.isEmpty()) {
+            if (q != null && !q.isEmpty()) {
                 questionText = q;
                 break;
             }
         }
-        if(questionText != null) {
+        if (questionText != null) {
             studentQuestion.setText(questionText);
         } else {
             cardQuestionView.setVisibility(View.GONE);

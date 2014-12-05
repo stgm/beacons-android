@@ -8,8 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 
-import java.awt.font.TextAttribute;
-
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.R;

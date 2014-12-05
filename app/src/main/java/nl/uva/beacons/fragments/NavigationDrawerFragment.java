@@ -247,7 +247,7 @@ public class NavigationDrawerFragment extends Fragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(mCallbacks != null) {
+                    if (mCallbacks != null) {
                         mCallbacks.onNavigationDrawerItemSelected(position);
                     }
                 }

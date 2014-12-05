@@ -81,7 +81,7 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
         fakeLoginEntry.userRole = "fake";
         fakeLoginEntry.userToken = "token!";
         ArrayList<Map<String, String>> fakeMap = new ArrayList<>();
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put(BeaconApi.ATTR_QUESTION, "My question " + i);
             hashMap.put(BeaconApi.ATTR_UPDATED, new Time().format3339(true));

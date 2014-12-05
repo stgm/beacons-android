@@ -174,7 +174,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
             for (Beacon beacon : beacons) {
                 String uuid = beacon.getId1().toString().toLowerCase();
                 HashMap<String, Beacon> beaconsWithUuid = mRecentBeacons.get(uuid);
-                if(beaconsWithUuid == null) {
+                if (beaconsWithUuid == null) {
                     HashMap<String, Beacon> newMap = new HashMap<>();
                     newMap.put(beacon.getBluetoothAddress(), beacon);
                     mRecentBeacons.put(uuid, newMap);

@@ -72,7 +72,7 @@ public class BeaconListAdapter extends ArrayAdapter<Beacon> {
         estimatedDistance.setText(String.format("%.1f", b.getDistance()) + "m");
         uuid.setText(b.getId1().toString());
         LoginEntry loginEntry = mMap.get(b.getId1().toString());
-        if(loginEntry != null) {
+        if (loginEntry != null) {
             courseTitle.setText(loginEntry.courseName);
         } else {
             courseTitle.setText(getContext().getString(R.string.beacon_list_item_not_logged_in));

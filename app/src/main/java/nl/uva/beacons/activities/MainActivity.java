@@ -162,8 +162,6 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Options item clicked");
-
         if (item.getItemId() == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivityForResult(intent, 0);
@@ -184,10 +182,6 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
     @Override
     public void onLoginSuccess(boolean firstStart, LoginEntry entry) {
-        Log.d(TAG, "onLoginSuccess");
-        Log.d(TAG, "firstStart = " + firstStart);
-        Log.d(TAG, "shouldRestoreFragments = " + shouldRestoreFragments);
-
         if (shouldRestoreFragments) {
             getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
@@ -200,10 +194,9 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
             (DrawerLayout) findViewById(R.id.drawer_layout));
 
         if (firstStart || shouldRestoreFragments) {
-            Log.d(TAG, "shouldRestoreFragments: " + shouldRestoreFragments);
             onNavigationDrawerItemSelected(NavigationDrawerFragment.PAGE_ASSISTANT_LIST);
 
-      /* Set up the beacon manager */
+            /* Set up the beacon manager */
             ((BeaconsApplication) getApplication()).startTracking();
 
             checkBluetoothSupport();

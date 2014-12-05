@@ -86,7 +86,7 @@ public class HelpFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-    /* Refresh login entries */
+        /* Refresh login entries */
         List<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(getActivity());
         mAdapter.clear();
         mAdapter.addAll(loginEntries);

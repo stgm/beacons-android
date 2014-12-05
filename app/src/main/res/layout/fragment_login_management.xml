@@ -11,6 +11,7 @@
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
         <TextView
             android:id="@+id/login_management_number_courses"
             android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:textSize="@dimen/list_item_title_size"
             android:layout_marginBottom="4dp"
             tools:text="Ingelogd bij X vakken"/>
+
         <TextView
             android:id="@+id/login_management_role"
             android:layout_width="match_parent"
@@ -25,6 +27,7 @@
             android:textSize="@dimen/list_item_title_size"
             tools:text="Rol: student"/>
     </LinearLayout>
+
     <ListView
         android:id="@+id/manage_login_entry_list"
         android:layout_width="match_parent"

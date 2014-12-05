@@ -123,13 +123,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     if (userRole != null && !userRole.isEmpty()) {
                         mLoginEntry.userRole = userRole;
 
-            /* All data received. Finally add login entry */
-                        // TEMP - FOR TESTING PURPOSES
-                        // TODO
-                        //if (!mLoginEntry.url.equals("https://prog2.mprog.nl/")) {
-                        //  mLoginEntry.uuid += "blabla";
-                        //}
-
                         LoginManager.addLoginEntry(getActivity(), mLoginEntry);
                         ((LoginListener) getActivity()).onLoginSuccess(true, mLoginEntry);
                     } else {
@@ -171,9 +164,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 }
             };
             ApiClient.registerUser(mLoginEntry.url, pin, registerCallback);
-
-        } else {
-            // Show input validation error
         }
     }
 

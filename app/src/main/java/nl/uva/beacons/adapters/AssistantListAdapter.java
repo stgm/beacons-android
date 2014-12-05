@@ -1,7 +1,6 @@
 package nl.uva.beacons.adapters;
 
 import android.content.Context;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -47,7 +45,7 @@ public class AssistantListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEn
             convertView = mInflater.inflate(R.layout.list_item_assistant, parent, false);
             title = (TextView) convertView.findViewById(R.id.assistant_name);
             subTitle = (TextView) convertView.findViewById(R.id.assistant_details);
-            numberOfCoursesText = (TextView)convertView.findViewById(R.id.assistant_courses_number);
+            numberOfCoursesText = (TextView) convertView.findViewById(R.id.assistant_courses_number);
 
             convertView.setTag(R.id.assistant_name, title);
             convertView.setTag(R.id.assistant_details, subTitle);
@@ -56,7 +54,7 @@ public class AssistantListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEn
         } else {
             title = (TextView) convertView.getTag(R.id.assistant_name);
             subTitle = (TextView) convertView.getTag(R.id.assistant_details);
-            numberOfCoursesText = (TextView)convertView.getTag(R.id.assistant_courses_number);
+            numberOfCoursesText = (TextView) convertView.getTag(R.id.assistant_courses_number);
         }
 
         List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> assistantInfo = getItem(position);
@@ -66,8 +64,8 @@ public class AssistantListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEn
 
         String coursesText = "";
         int i = 0;
-        for(AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> entry : assistantInfo) {
-            if(i == 0) {
+        for (AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> entry : assistantInfo) {
+            if (i == 0) {
                 coursesText += entry.getKey().courseName;
             } else {
                 coursesText += ", " + entry.getKey().courseName;
@@ -92,7 +90,7 @@ public class AssistantListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEn
 
         /* Rebuild the hash index after sorting */
         mHashToIndexMap.clear();
-        for(int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
             String hash = getItem(i).get(0).getValue().get(BeaconApi.ATTR_ID);
             mHashToIndexMap.put(hash, i);
         }

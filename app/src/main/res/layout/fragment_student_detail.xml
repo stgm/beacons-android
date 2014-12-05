@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <ScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -8,11 +8,11 @@
     android:background="@android:color/white">
 
     <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/activity_horizontal_margin"
-          android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/student_detail_name"
@@ -34,6 +34,7 @@
             card_view:cardElevation="2dp"
             card_view:contentPadding="5dp"
             card_view:cardBackgroundColor="@android:color/white">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -47,6 +48,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/material_primary_indigo"
                     />
+
                 <TextView
                     android:id="@+id/student_detail_question"
                     android:layout_width="match_parent"

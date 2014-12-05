@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -69,8 +68,8 @@ public class StudentListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEntr
 
         String coursesText = "";
         int i = 0;
-        for(AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> entry : studentInfo) {
-            if(i == 0) {
+        for (AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> entry : studentInfo) {
+            if (i == 0) {
                 coursesText += entry.getKey().courseName;
             } else {
                 coursesText += ", " + entry.getKey().courseName;
@@ -111,12 +110,13 @@ public class StudentListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEntr
 
         /* Rebuild the hash index after sorting */
         mHashToIndexMap.clear();
-        for(int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
             String hash = getItem(i).get(0).getValue().get(BeaconApi.ATTR_ID);
             mHashToIndexMap.put(hash, i);
         }
         setNotifyOnChange(true);
     }
+
     public synchronized void addAndMerge(AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>> apiResult) {
         Log.d(TAG, "addAndMerge");
         List<Map<String, String>> receivedStudents = apiResult.getValue();
