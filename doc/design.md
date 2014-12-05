@@ -71,7 +71,7 @@ Student details screen
 Ask help   
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_ask_help.png" alt"Student detail" width="300px">  
 
-Ask help   
+Login Management, multiple account support
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_login_management.png" alt"Student detail" width="300px">  
 
 Settings    
