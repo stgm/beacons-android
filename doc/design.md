@@ -42,16 +42,28 @@ Note: this may change at any time during development.
 
 ### UI
 Select course  
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_select_course.png" alt"Login" width="300px">  
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_add_course.png" alt"Login" width="300px">  
 
 Enter corresponding pairing code  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_pairing_code.png" alt"Login" width="300px"> 
 
 Navigation menu  
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_nav_drawer.png" alt"Navigation menu/drawer" width="300px">  
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_navigation.png" alt"Navigation menu/drawer" width="300px">  
 
 Scan beacons  
-<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_scan_beacons.png" alt"Scan beacons" width="300px">  
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_beacons.png" alt"Scan beacons" width="300px">  
+
+Student list
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_student_list.png" alt"Student list" width="300px">  
+
+Student details screen
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_student_detail.png" alt"Student detail" width="300px">  
+
+Ask help 
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_ask_help.png" alt"Student detail" width="300px">  
+
+Ask help 
+<img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_login_management.png" alt"Student detail" width="300px">  
 
 Settings  
 <img src="https://github.com/sander-m/beacons-android/blob/master/doc/screenshots/screenshot_settings.png" alt"Settings" width="300px">  
