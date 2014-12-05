@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +105,7 @@ public class StudentListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEntr
     @Override
     public void sort(Comparator<? super List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>>> comparator) {
         setNotifyOnChange(false);
+
         super.sort(comparator);
         int count = getCount();
 
@@ -133,6 +136,9 @@ public class StudentListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEntr
                 List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> studentListItem = getItem(index);
                 studentListItem.add(new AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>(apiResult.getKey(), student));
                 Log.d(TAG, "MERGED, student, name: " + student.get(BeaconApi.ATTR_NAME) + ", with: " + studentListItem.get(0).getValue().get(BeaconApi.ATTR_NAME));
+
+                /* Sort the login entries by latest updated time */
+                Collections.sort(studentListItem, TIME_COMPARATOR);
             }
         }
 
@@ -146,6 +152,7 @@ public class StudentListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEntr
         @Override
         public int compare(List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> lhs,
                            List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> rhs) {
+
             boolean lhsNeedsHelp = studentNeedsHelp(lhs);
             boolean rhsNeedsHelp = studentNeedsHelp(rhs);
 
@@ -154,20 +161,28 @@ public class StudentListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEntr
             } else if (!lhsNeedsHelp && rhsNeedsHelp) {
                 return 1;
             } else {
-                String updatedTimeLeft = lhs.get(0).getValue().get(BeaconApi.ATTR_UPDATED);
-                String updatedTimeRight = rhs.get(0).getValue().get(BeaconApi.ATTR_UPDATED);
-                if (updatedTimeLeft == null || updatedTimeRight == null ||
-                    updatedTimeLeft.equals("null") || updatedTimeLeft.equals("null")) {
-                    return 0;
-                }
-
-                Time lhsDate = new Time();
-                lhsDate.parse3339(updatedTimeLeft);
-                Time rhsDate = new Time();
-                rhsDate.parse3339(updatedTimeRight);
-
-                return Time.compare(rhsDate, lhsDate);
+                return TIME_COMPARATOR.compare(lhs.get(0), rhs.get(0));
             }
+        }
+    };
+
+    public static final Comparator<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> TIME_COMPARATOR
+        = new Comparator<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>>() {
+        @Override
+        public int compare(AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> lhs, AbstractMap.SimpleEntry<LoginEntry, Map<String, String>> rhs) {
+            String updatedTimeLeft = lhs.getValue().get(BeaconApi.ATTR_UPDATED);
+            String updatedTimeRight = rhs.getValue().get(BeaconApi.ATTR_UPDATED);
+            if (updatedTimeLeft == null || updatedTimeRight == null ||
+                updatedTimeLeft.equals("null") || updatedTimeLeft.equals("null")) {
+                return 0;
+            }
+
+            Time lhsDate = new Time();
+            lhsDate.parse3339(updatedTimeLeft);
+            Time rhsDate = new Time();
+            rhsDate.parse3339(updatedTimeRight);
+
+            return Time.compare(rhsDate, lhsDate);
         }
     };
 

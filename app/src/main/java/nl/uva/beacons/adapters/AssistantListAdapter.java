@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +118,9 @@ public class AssistantListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEn
                 List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> assistantListItem = getItem(index);
                 assistantListItem.add(new AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>(apiResult.getKey(), assistant));
                 Log.d(TAG, "MERGED, assistant, name: " + assistant.get(BeaconApi.ATTR_NAME) + ", with: " + assistantListItem.get(0).getValue().get(BeaconApi.ATTR_NAME));
+
+                /* Sort the login entries by latest updated time */
+                Collections.sort(assistantListItem, StudentListAdapter.TIME_COMPARATOR);
             }
         }
         sort(mComparator);
@@ -129,19 +133,7 @@ public class AssistantListAdapter extends ArrayAdapter<List<AbstractMap.SimpleEn
         @Override
         public int compare(List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> lhs,
                            List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> rhs) {
-            String updatedTimeLeft = lhs.get(0).getValue().get(BeaconApi.ATTR_UPDATED);
-            String updatedTimeRight = rhs.get(0).getValue().get(BeaconApi.ATTR_UPDATED);
-            if (updatedTimeLeft == null || updatedTimeRight == null ||
-                updatedTimeLeft.equals("null") || updatedTimeLeft.equals("null")) {
-                return 0;
-            }
-
-            Time lhsDate = new Time();
-            lhsDate.parse3339(updatedTimeLeft);
-            Time rhsDate = new Time();
-            rhsDate.parse3339(updatedTimeRight);
-
-            return Time.compare(rhsDate, lhsDate);
+            return StudentListAdapter.TIME_COMPARATOR.compare(lhs.get(0), rhs.get(0));
         }
 
     };

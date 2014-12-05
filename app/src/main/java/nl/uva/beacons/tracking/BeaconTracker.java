@@ -194,9 +194,10 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
             LoginEntry loginEntry = LoginManager.getEntryForUuid(mContext, region.getId1().toString());
             Log.d(TAG, "Submitting location, uuid = " + loginEntry.uuid + ", " + loginEntry.courseName);
             Beacon mostNearbyBeacon = detectedBeacons.get(0);
+            int major = mostNearbyBeacon.getId2() != null ? mostNearbyBeacon.getId2().toInt() : region.getId2().toInt();
+            int minor = mostNearbyBeacon.getId3() != null ? mostNearbyBeacon.getId3().toInt() : region.getId3().toInt();
 
-            int major = region.getId2() == null ? 0 : mostNearbyBeacon.getId2().toInt();
-            int minor = region.getId3() == null ? 0 : mostNearbyBeacon.getId3().toInt();
+            Log.d(TAG, "Sending major, minor: " + major + ", " + minor);
             ApiClient.submitLocation(loginEntry, major, minor, submitCallback);
         }
     }
