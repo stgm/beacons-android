@@ -38,7 +38,7 @@ public class BeaconListFragment extends BaseFragment implements BeaconTracker.Be
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.updateCourseMap(getActivity());
+        mAdapter.updateCourses(getActivity());
     }
 
     @Override

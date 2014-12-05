@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.AssistantListAdapter;
 import nl.uva.beacons.api.ApiClient;
@@ -48,11 +50,11 @@ public class AssistantListFragment extends BaseFragment implements SwipeRefreshL
     }
 
     private void loadAssistants() {
-        ApiClient.getAssistantList(new CancelableCallback<List<Map<String, String>>>(this) {
+        ApiClient.getAssistantList(new CancelableCallback<AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>>(this) {
             @Override
-            public void onSuccess(List<Map<String, String>> assistantList, Response response) {
+            public void onSuccess(AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>> assistantList, Response response) {
                 Log.d(TAG, "onSuccess: " + assistantList.toString());
-                mAdapter.addAll(assistantList);
+                mAdapter.addAndMerge(assistantList);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
 

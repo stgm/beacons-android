@@ -40,6 +40,7 @@
     <string name="choose_course">Kies vak</string>
     <string name="asked_for_help">Om hulp gevraagd!</string>
     <string name="beacon_list_item_not_logged_in">Geen aanmelding meer voor deze UUID</string>
+    <string name="present_at">Aanwezig gemeld bij</string>
 
     <!-- (Shared) Preferences -->
     <string name="pref_title_category_scanning">Beacons scannen</string>

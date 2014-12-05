@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.R;
 
@@ -15,6 +17,11 @@ import nl.uva.beacons.R;
  */
 public class HelpCourseListAdapter extends ArrayAdapter<LoginEntry> {
     private LayoutInflater mLayoutInflater;
+
+    public HelpCourseListAdapter(Context context, List<LoginEntry> objects) {
+        super(context, 0, objects);
+        mLayoutInflater = LayoutInflater.from(context);
+    }
 
     public HelpCourseListAdapter(Context context) {
         super(context, 0);

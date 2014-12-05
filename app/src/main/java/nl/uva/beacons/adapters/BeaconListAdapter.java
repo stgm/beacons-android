@@ -28,7 +28,7 @@ public class BeaconListAdapter extends ArrayAdapter<Beacon> {
         mInflater = LayoutInflater.from(context);
     }
 
-    public void updateCourseMap(Context context) {
+    public void updateCourses(Context context) {
         mMap.clear();
         ArrayList<LoginEntry> loginEntries = LoginManager.getCourseLoginEntries(context);
         for (LoginEntry entry : loginEntries) {

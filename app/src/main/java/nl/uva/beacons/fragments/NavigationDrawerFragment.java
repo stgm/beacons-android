@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -234,18 +235,26 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
+    private void selectItem(final int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
-        if (mCallbacks != null && !mFromSavedInstanceState) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
-        } else {
-            mFromSavedInstanceState = false;
-        }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+        if (mCallbacks != null && !mFromSavedInstanceState) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(mCallbacks != null) {
+                        mCallbacks.onNavigationDrawerItemSelected(position);
+                    }
+                }
+            }, 200);
+
+        } else {
+            mFromSavedInstanceState = false;
         }
     }
 

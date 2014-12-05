@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.MainActivity;
 import nl.uva.beacons.adapters.StudentListAdapter;
@@ -49,16 +53,15 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.material_dark_indigo, R.color.material_primary_indigo, R.color.material_light_indigo);
         loadStudents();
-
         return v;
     }
 
     private void loadStudents() {
-        ApiClient.getStudentList(new CancelableCallback<List<Map<String, String>>>(this) {
+        ApiClient.getStudentList(new CancelableCallback<AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>>(this) {
             @Override
-            public void onSuccess(List<Map<String, String>> studentList, Response response) {
+            public void onSuccess(AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>> studentList, Response response) {
                 Log.d(TAG, "onSuccess: " + studentList.toString());
-                mAdapter.addAll(studentList);
+                mAdapter.addAndMerge(studentList);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
 
@@ -68,6 +71,32 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    private void loadTestData() {
+        LoginEntry fakeLoginEntry = new LoginEntry();
+        fakeLoginEntry.courseName = "Blablabla";
+        fakeLoginEntry.uuid = "uuid ";
+        fakeLoginEntry.url = "http://....";
+        fakeLoginEntry.userRole = "fake";
+        fakeLoginEntry.userToken = "token!";
+        ArrayList<Map<String, String>> fakeMap = new ArrayList<>();
+        for(int i = 0; i < 100; i++) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put(BeaconApi.ATTR_QUESTION, "My question " + i);
+            hashMap.put(BeaconApi.ATTR_UPDATED, new Time().format3339(true));
+            hashMap.put(BeaconApi.ATTR_ID, "blabla" + i);
+            hashMap.put(BeaconApi.ATTR_NAME, "Name " + i);
+            hashMap.put(BeaconApi.ATTR_HELP, i % 2 == 0 ? "true" : "false");
+            hashMap.put(BeaconApi.ATTR_LOC_A, "0");
+            hashMap.put(BeaconApi.ATTR_LOC_B, "" + i);
+            fakeMap.add(hashMap);
+        }
+        AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>> fakeData
+            = new AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>(fakeLoginEntry, fakeMap);
+
+        mAdapter.addAndMerge(fakeData);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -88,9 +117,9 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Map<String, String> clickedStudent = mAdapter.getItem(position);
-        if (Boolean.parseBoolean(clickedStudent.get(BeaconApi.ATTR_HELP))) {
-            ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(new HashMap<String, String>(clickedStudent)),
+        List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> clickedStudent = mAdapter.getItem(position);
+        if (mAdapter.studentNeedsHelp(clickedStudent)) {
+            ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(clickedStudent),
                 true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         }
     }

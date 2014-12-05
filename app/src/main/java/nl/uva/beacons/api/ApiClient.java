@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.JsonElement;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,9 @@ import nl.uva.beacons.LoginEntry;
 import nl.uva.beacons.LoginManager;
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.client.OkClient;
+import retrofit.client.Response;
 
 /**
  * Created by sander on 11/6/14.
@@ -52,15 +55,42 @@ public class ApiClient {
         return apiBuilder.setEndpoint(endPointUrl).build().create(BeaconApi.class);
     }
 
-    public static void getStudentList(Callback<List<Map<String, String>>> callback) {
-        for (Map.Entry<LoginEntry, BeaconApi> api : BEACON_APIS.entrySet()) {
-            api.getValue().getStudentList(api.getKey().userToken, callback);
+    public static void getStudentList(final Callback<AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>> callback) {
+        for (final Map.Entry<LoginEntry, BeaconApi> api : BEACON_APIS.entrySet()) {
+            api.getValue().getStudentList(api.getKey().userToken, new Callback<List<Map<String, String>>>() {
+                @Override
+                public void success(List<Map<String, String>> maps, Response response) {
+                    /* Save corresponding source (login-entry) for each result */
+                    AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>> markedResult =
+                        new AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>(api.getKey(), maps);
+
+                    callback.success(markedResult, response);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    callback.failure(error);
+                }
+            });
         }
     }
 
-    public static void getAssistantList(Callback<List<Map<String, String>>> callback) {
-        for (Map.Entry<LoginEntry, BeaconApi> api : BEACON_APIS.entrySet()) {
-            api.getValue().getAssistantList(api.getKey().userToken, callback);
+    public static void getAssistantList(final Callback<AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>> callback) {
+        for (final Map.Entry<LoginEntry, BeaconApi> api : BEACON_APIS.entrySet()) {
+            api.getValue().getAssistantList(api.getKey().userToken, new Callback<List<Map<String, String>>>() {
+                @Override
+                public void success(List<Map<String, String>> maps, Response response) {
+                   /* Save corresponding source (login-entry) for each result */
+                    AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>> markedResult =
+                        new AbstractMap.SimpleEntry<LoginEntry, List<Map<String, String>>>(api.getKey(), maps);
+                    callback.success(markedResult, response);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    callback.failure(error);
+                }
+            });
         }
     }
 

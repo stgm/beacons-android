@@ -43,8 +43,8 @@
                     android:layout_marginBottom="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
                     android:text="@string/question_of_student"
+                    android:textSize="16sp"
                     android:textColor="@color/material_primary_indigo"
                     />
                 <TextView
@@ -60,6 +60,21 @@
             android:id="@+id/button_confirm_help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/confirm_help"/>
+            android:text="@string/confirm_help"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_margin="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/material_primary_indigo"
+            android:text="@string/present_at"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/student_detail_courses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </ScrollView>

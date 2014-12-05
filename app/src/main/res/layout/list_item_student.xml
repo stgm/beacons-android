@@ -4,8 +4,10 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="?attr/listPreferredItemHeightLarge"
+              android:layout_height="wrap_content"
               android:gravity="center_vertical"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp"
               android:paddingLeft="@dimen/list_item_horizontal_margin"
               android:paddingRight="@dimen/list_item_horizontal_margin">
     <ImageView
@@ -21,7 +23,7 @@
     <LinearLayout android:orientation="vertical"
                   android:layout_width="0dp"
                   android:layout_weight="1"
-                  android:layout_height="?attr/listPreferredItemHeightLarge"
+                  android:layout_height="wrap_content"
                   android:gravity="center_vertical">
         <TextView
             android:id="@+id/student_name"
@@ -39,6 +41,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_item_subtitle_size"
+            />
+
+        <TextView
+            android:id="@+id/student_courses_number"
+            tools:text="Aanwezig gemeld bij 2 vakken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="13sp"
             />
 
     </LinearLayout>
