@@ -1,5 +1,6 @@
 package nl.uva.beacons.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,13 +15,21 @@ import java.util.List;
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.BeaconListAdapter;
+import nl.uva.beacons.interfaces.BeaconListener;
 import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
  * Created by sander on 11/8/14.
  */
-public class BeaconListFragment extends BaseFragment implements BeaconTracker.BeaconListener {
+public class BeaconListFragment extends BaseFragment implements BeaconListener {
     private BeaconListAdapter mAdapter;
+    private BeaconTracker mBeaconTracker;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mBeaconTracker = ((BeaconsApplication) activity.getApplication()).getBeaconTracker();
+    }
 
     @Nullable
     @Override
@@ -44,12 +53,14 @@ public class BeaconListFragment extends BaseFragment implements BeaconTracker.Be
     @Override
     public void onStart() {
         super.onStart();
-        ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(this);
+        /* Set listener to receive beacon list */
+        mBeaconTracker.subscribe(this);
     }
 
     @Override
     public void onStop() {
-        ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker().setBeaconListener(null);
+        /* The fragment lifecycle is stopping, we need to notify the beacontracker */
+        mBeaconTracker.unsubscribe();
         super.onStop();
     }
 

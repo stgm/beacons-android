@@ -1,4 +1,4 @@
-package nl.uva.beacons.fragments;
+package nl.uva.beacons.fragments.login;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import java.util.Map;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.interfaces.LoginListener;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;
+import nl.uva.beacons.fragments.BaseFragment;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -176,12 +178,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             Toast.makeText(getActivity(), getString(R.string.error_wrong_pin), Toast.LENGTH_SHORT).show();
         }
         ((LoginListener) getActivity()).onLoginFailure();
-    }
-
-    public interface LoginListener {
-        void onLoginSuccess(boolean startUp, LoginEntry loginEntry);
-
-        void onLoginFailure();
     }
 
 }

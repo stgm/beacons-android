@@ -29,8 +29,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.SettingsActivity;
 

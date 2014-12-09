@@ -21,8 +21,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.interfaces.BeaconListener;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.api.ApiClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -213,15 +214,15 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
         return beacons;
     }
 
-    public void setBeaconListener(BeaconListener beaconListener) {
+    public void subscribe(BeaconListener beaconListener) {
         mBeaconListener = beaconListener;
         if (mBeaconListener != null && mRecentBeacons.size() > 0) {
             mBeaconListener.onBeaconsRanged(getSortedBeaconList(getRecentBeacons()));
         }
     }
 
-    public interface BeaconListener {
-        void onBeaconsRanged(List<Beacon> detectedBeacons);
+    public void unsubscribe() {
+        mBeaconListener = null;
     }
 
     private Callback<JsonElement> submitCallback = new Callback<JsonElement>() {

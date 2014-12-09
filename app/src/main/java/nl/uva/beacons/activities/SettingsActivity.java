@@ -9,19 +9,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 
 import nl.uva.beacons.BeaconsApplication;
-import nl.uva.beacons.LoginEntry;
+import nl.uva.beacons.interfaces.LoginListener;
+import nl.uva.beacons.login.LoginEntry;
 import nl.uva.beacons.R;
-import nl.uva.beacons.fragments.LoginFragment;
-import nl.uva.beacons.fragments.LoginManagementFragment;
+import nl.uva.beacons.fragments.login.LoginFragment;
+import nl.uva.beacons.fragments.login.LoginManagementFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
-import nl.uva.beacons.fragments.SelectCourseFragment;
+import nl.uva.beacons.fragments.login.SelectCourseFragment;
 import nl.uva.beacons.fragments.SettingsFragment;
 import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
  * Created by sander on 11/8/14.
  */
-public class SettingsActivity extends BaseActivity implements SelectCourseFragment.CourseSelectedListener, LoginFragment.LoginListener {
+public class SettingsActivity extends BaseActivity implements SelectCourseFragment.CourseSelectedListener, LoginListener {
     private static final String TAG = SettingsActivity.class.getSimpleName();
     public static final int RESULT_LOG_OUT = 321;
     public static final String KEY_MANAGE_LOGIN = "key_manage_login";

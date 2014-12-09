@@ -2,6 +2,7 @@
 <resources>
     <string-array name="preferences_scan_interval">
         <item>1 sec</item>
+        <item>2 sec</item>
         <item>5 sec</item>
         <item>10 sec</item>
         <item>20 sec</item>
@@ -11,6 +12,7 @@
 
     <string-array name="preferences_scan_interval_values">
         <item>1000</item>
+        <item>2000</item>
         <item>5000</item>
         <item>10000</item>
         <item>20000</item>
@@ -18,13 +20,4 @@
         <item>300000</item>
     </string-array>
 
-    <string-array name="spinner_course_names">
-        <item>Programmeren 2</item>
-        <item>App Studio</item>
-    </string-array>
-
-    <string-array name="spinner_course_url_values">
-        <item>@string/url_prog2_mprog</item>
-        <item>@string/url_apps_mprog</item>
-    </string-array>
 </resources>

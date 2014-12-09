@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.BaseActivity;
+import nl.uva.beacons.fragments.login.LoginManagementFragment;
 
 /**
  * Created by sander on 11/7/14.

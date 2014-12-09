@@ -1,4 +1,4 @@
-package nl.uva.beacons;
+package nl.uva.beacons.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;

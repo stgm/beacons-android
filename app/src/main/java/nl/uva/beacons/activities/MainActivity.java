@@ -20,19 +20,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import nl.uva.beacons.BeaconsApplication;
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.interfaces.LoginListener;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.fragments.AssistantListFragment;
 import nl.uva.beacons.fragments.BeaconListFragment;
 import nl.uva.beacons.fragments.HelpFragment;
-import nl.uva.beacons.fragments.LoginFragment;
+import nl.uva.beacons.fragments.login.LoginFragment;
 import nl.uva.beacons.fragments.NavigationDrawerFragment;
-import nl.uva.beacons.fragments.SelectCourseFragment;
+import nl.uva.beacons.fragments.login.SelectCourseFragment;
 import nl.uva.beacons.fragments.StudentListFragment;
 
 public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-    LoginFragment.LoginListener, SelectCourseFragment.CourseSelectedListener {
+    LoginListener, SelectCourseFragment.CourseSelectedListener {
 
     private static final int REQUEST_ENABLE_BT = 1234;
     private static final String TAG = MainActivity.class.getSimpleName();

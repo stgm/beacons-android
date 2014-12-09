@@ -1,5 +1,7 @@
-package nl.uva.beacons.fragments;
+package nl.uva.beacons.fragments.login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,16 +13,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.BeaconsApplication;
+import nl.uva.beacons.interfaces.OnLoginClickListener;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.SettingsActivity;
 import nl.uva.beacons.adapters.LoginListAdapter;
+import nl.uva.beacons.fragments.BaseFragment;
+import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
  * Created by sander on 11/14/14.
  */
-public class LoginManagementFragment extends BaseFragment implements LoginListAdapter.OnLoginRemovedListener {
+public class LoginManagementFragment extends BaseFragment implements OnLoginClickListener {
     private static final String TAG = LoginManagementFragment.class.getSimpleName();
     private TextView mTextRole;
     private TextView mTextNumberCourses;
@@ -36,7 +42,7 @@ public class LoginManagementFragment extends BaseFragment implements LoginListAd
         mTextNumberCourses = (TextView) v.findViewById(R.id.login_management_number_courses);
 
         ArrayList<LoginEntry> courseLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
-        mAdapter = new LoginListAdapter(getActivity(), courseLoginEntries, ((SettingsActivity) getActivity()), this);
+        mAdapter = new LoginListAdapter(getActivity(), courseLoginEntries, this);
 
         listView.setAdapter(mAdapter);
         setLoginText(courseLoginEntries);
@@ -81,8 +87,34 @@ public class LoginManagementFragment extends BaseFragment implements LoginListAd
         return BaseFragment.HOME_BUTTON_BACK;
     }
 
+    /* Called when the user is trying to log out for a course */
     @Override
-    public void onLoginRemoved() {
-        setLoginText(mAdapter.getLoginEntries());
+    public void onLoginRemoveClicked(final LoginEntry entry, final int position) {
+        new AlertDialog.Builder(getActivity()).setTitle("Bevestiging")
+            .setMessage("Weet je zeker dat je je voor " + entry.courseName + " " + "wil afmelden?")
+            .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            }).setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                LoginManager.removeCourseLogin(getActivity(), entry);
+                mAdapter.getLoginEntries().remove(position);
+                mAdapter.notifyDataSetChanged();
+
+                if (mAdapter.getLoginEntries().size() == 0) {
+                    /* User is not logged in at any course now, return to login screen */
+                    ((SettingsActivity) getActivity()).logOut();
+                } else {
+                    /* Remove region of this login from the beacontracker */
+                    BeaconTracker beaconTracker = ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker();
+                    beaconTracker.removeRegionForLogin(entry);
+                    setLoginText(mAdapter.getLoginEntries());
+                }
+            }
+        }).create().show();
     }
+
 }

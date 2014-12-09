@@ -12,8 +12,8 @@ import org.altbeacon.beacon.Beacon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.R;
 
 /**

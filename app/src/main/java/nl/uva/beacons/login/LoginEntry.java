@@ -1,4 +1,4 @@
-package nl.uva.beacons;
+package nl.uva.beacons.login;
 
 import java.io.Serializable;
 

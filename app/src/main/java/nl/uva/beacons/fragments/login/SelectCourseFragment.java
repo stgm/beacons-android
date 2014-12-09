@@ -1,4 +1,4 @@
-package nl.uva.beacons.fragments;
+package nl.uva.beacons.fragments.login;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,12 +17,13 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.Map;
 
-import nl.uva.beacons.LoginEntry;
-import nl.uva.beacons.LoginManager;
+import nl.uva.beacons.login.LoginEntry;
+import nl.uva.beacons.login.LoginManager;
 import nl.uva.beacons.R;
 import nl.uva.beacons.adapters.CourseListAdapter;
 import nl.uva.beacons.api.ApiClient;
 import nl.uva.beacons.api.CancelableCallback;
+import nl.uva.beacons.fragments.BaseFragment;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -54,7 +55,7 @@ public class SelectCourseFragment extends BaseFragment implements AdapterView.On
                 Log.d(TAG, "onSuccess: " + coursesMap);
 
                 List<LoginEntry> currentLoginEntries = LoginManager.getCourseLoginEntries(getActivity());
-        /* Remove/filter the courses that we are already logged in to  */
+                /* Remove/filter the courses that we are already logged in to  */
                 for (LoginEntry loginEntry : currentLoginEntries) {
                     coursesMap.remove(loginEntry.courseName);
                 }

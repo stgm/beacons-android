@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nl.uva.beacons.LoginEntry;
+import nl.uva.beacons.login.LoginEntry;
 import nl.uva.beacons.R;
 
 /**

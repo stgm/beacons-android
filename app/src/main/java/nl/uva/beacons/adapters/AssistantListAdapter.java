@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.uva.beacons.LoginEntry;
+import nl.uva.beacons.login.LoginEntry;
 import nl.uva.beacons.R;
 import nl.uva.beacons.api.BeaconApi;
 
