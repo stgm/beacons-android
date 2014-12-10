@@ -109,8 +109,7 @@ public class LoginManagementFragment extends BaseFragment implements OnLoginClic
                     ((SettingsActivity) getActivity()).logOut();
                 } else {
                     /* Remove region of this login from the beacontracker */
-                    BeaconTracker beaconTracker = ((BeaconsApplication) getActivity().getApplication()).getBeaconTracker();
-                    beaconTracker.removeRegionForLogin(entry);
+                    BeaconTracker.getInstance().removeRegionForLogin(entry);
                     setLoginText(mAdapter.getLoginEntries());
                 }
             }

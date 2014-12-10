@@ -73,6 +73,7 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
         });
     }
 
+    /* Only for testing purposes. This method loads 100 dummy student items in the ListView */
     private void loadTestData() {
         LoginEntry fakeLoginEntry = new LoginEntry();
         fakeLoginEntry.courseName = "Blablabla";
@@ -118,9 +119,7 @@ public class StudentListFragment extends BaseFragment implements SwipeRefreshLay
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         List<AbstractMap.SimpleEntry<LoginEntry, Map<String, String>>> clickedStudent = mAdapter.getItem(position);
-        if (mAdapter.studentNeedsHelp(clickedStudent)) {
-            ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(clickedStudent),
-                true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        }
+        ((MainActivity) getActivity()).replaceFragment(StudentDetailFragment.newInstance(clickedStudent),
+            true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 }

@@ -95,11 +95,6 @@ public class ApiClient {
     }
 
     public static void submitLocation(LoginEntry loginEntry, int major, int minor, Callback<JsonElement> callback) {
-    /* TEMP, ping all registered courses, only for testing purposes
-    for (Map.Entry<LoginEntry, BeaconApi> api : BEACON_APIS.entrySet()) {
-      api.getValue().submitLocation(api.getKey().userToken, major, minor, callback);
-    }
-    */
         BEACON_APIS.get(loginEntry).submitLocation(loginEntry.userToken, major, minor, callback);
     }
 

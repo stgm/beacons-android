@@ -17,6 +17,7 @@ import nl.uva.beacons.BeaconsApplication;
 import nl.uva.beacons.R;
 import nl.uva.beacons.activities.BaseActivity;
 import nl.uva.beacons.fragments.login.LoginManagementFragment;
+import nl.uva.beacons.tracking.BeaconTracker;
 
 /**
  * Created by sander on 11/7/14.
@@ -44,11 +45,10 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 BeaconsApplication app = (BeaconsApplication) getActivity().getApplication();
                 String value = (String) o;
-                app.setScanPeriod(Long.parseLong(value));
+                BeaconTracker.getInstance().setScanPeriod(Long.parseLong(value));
                 return true;
             }
         });
-
     }
 
     @Override

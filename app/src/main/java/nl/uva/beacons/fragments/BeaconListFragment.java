@@ -23,12 +23,10 @@ import nl.uva.beacons.tracking.BeaconTracker;
  */
 public class BeaconListFragment extends BaseFragment implements BeaconListener {
     private BeaconListAdapter mAdapter;
-    private BeaconTracker mBeaconTracker;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mBeaconTracker = ((BeaconsApplication) activity.getApplication()).getBeaconTracker();
     }
 
     @Nullable
@@ -54,13 +52,13 @@ public class BeaconListFragment extends BaseFragment implements BeaconListener {
     public void onStart() {
         super.onStart();
         /* Set listener to receive beacon list */
-        mBeaconTracker.subscribe(this);
+        BeaconTracker.getInstance().subscribe(this);
     }
 
     @Override
     public void onStop() {
         /* The fragment lifecycle is stopping, we need to notify the beacontracker */
-        mBeaconTracker.unsubscribe();
+        BeaconTracker.getInstance().unsubscribe();
         super.onStop();
     }
 

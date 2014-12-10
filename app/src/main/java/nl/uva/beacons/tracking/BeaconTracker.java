@@ -1,7 +1,9 @@
 package nl.uva.beacons.tracking;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -21,6 +23,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import nl.uva.beacons.R;
 import nl.uva.beacons.interfaces.BeaconListener;
 import nl.uva.beacons.login.LoginEntry;
 import nl.uva.beacons.login.LoginManager;
@@ -31,8 +34,26 @@ import retrofit.client.Response;
 
 /**
  * Created by sander on 11/7/14.
+ * This class implements the functionality related to beacon scanning
+ * More information about the library that is used:
+ * - https://github.com/AltBeacon/android-beacon-library
+ * - http://altbeacon.github.io/android-beacon-library/index.html
+ * BeaconTracker is used as a singleton, as recommended in the library documentation.
  */
 public class BeaconTracker implements MonitorNotifier, RangeNotifier {
+
+    /* Singleton pattern */
+    private static BeaconTracker instance;
+
+    public static BeaconTracker getInstance() {
+        return instance;
+    }
+
+    /* Must be called before accessing the instance */
+    public static void init(BeaconManager beaconManager, Context context) {
+        instance = new BeaconTracker(beaconManager, context);
+    }
+
     private static final String TAG = BeaconTracker.class.getSimpleName();
     public static final String REGION_ALIAS = "minprog";
     public static final BeaconParser IBEACON_PARSER = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
@@ -46,13 +67,36 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
     private BeaconManager mBeaconManager;
     private BeaconListener mBeaconListener;
     private Context mContext;
+    private boolean mStarted = false;
 
-    public BeaconTracker(BeaconManager beaconManager, Context context) {
+    private BeaconTracker(BeaconManager beaconManager, Context context) {
         mBeaconManager = beaconManager;
         mContext = context;
+        mBeaconManager.getBeaconParsers().add(BeaconTracker.IBEACON_PARSER);
+        initDefaultSettings();
+        start();
+    }
+
+    private void initDefaultSettings() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        long scanPeriod = Long.parseLong(sp.getString(mContext.getString(R.string.pref_title_scan_interval), "5000"));
+        Log.d(TAG, "initDefaultSettings, scanPeriod = " + scanPeriod);
+        setScanPeriod(scanPeriod);
+    }
+
+    public void setScanPeriod(long period) {
+        Log.d(TAG, "Set scan period: " + period);
+        mBeaconManager.setBackgroundScanPeriod(period);
+        mBeaconManager.setForegroundScanPeriod(period);
+        try {
+            mBeaconManager.updateScanPeriods();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void start() {
+        mStarted = true;
         Log.d(TAG, "start...");
         mBeaconManager.getBeaconParsers().clear();
         mBeaconManager.getBeaconParsers().add(IBEACON_PARSER);
@@ -62,6 +106,7 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
     }
 
     public void stop() {
+        mStarted = false;
         Log.d(TAG, "stop...");
         Collection<Region> regions = mTrackedRegions.values();
         for (Region region : regions) {
@@ -74,6 +119,10 @@ public class BeaconTracker implements MonitorNotifier, RangeNotifier {
         }
         mTrackedRegions.clear();
         mRecentBeacons.clear();
+    }
+
+    public boolean isStarted() {
+        return mStarted;
     }
 
     public void removeRegionForLogin(LoginEntry loginEntry) {

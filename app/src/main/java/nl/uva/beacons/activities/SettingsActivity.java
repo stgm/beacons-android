@@ -56,10 +56,9 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
     }
 
     public void logOut() {
-        ((BeaconsApplication) getApplication()).stopTracking();
+        BeaconTracker.getInstance().stop();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-    /* Clear all */
+        /* Clear all */
         sp.edit().clear().apply();
         setResult(RESULT_LOG_OUT);
         finish();
@@ -77,8 +76,7 @@ public class SettingsActivity extends BaseActivity implements SelectCourseFragme
         getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         /* Refresh the beacon tracker */
-        BeaconTracker beaconTracker = ((BeaconsApplication) getApplication()).getBeaconTracker();
-        beaconTracker.addRegionForLogin(loginEntry);
+        BeaconTracker.getInstance().addRegionForLogin(loginEntry);
         replaceFragment(new LoginManagementFragment());
     }
 
